@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creación NRC — Educación Continua UDLA</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;font-size:14px;color:#222;background:#f2f2ee;min-height:100vh}
+.topbar{background:#1a1a2e;color:#fff;padding:12px 28px;display:flex;align-items:center;gap:14px}
+.topbar-title{font-size:16px;font-weight:700}
+.topbar-badge{font-size:12px;color:#bbb;background:#2a2a42;padding:2px 12px;border-radius:20px;margin-left:auto}
+.wrap{max-width:940px;margin:0 auto;padding:28px 16px}
+.steps{display:flex;align-items:center;margin-bottom:28px}
+.step-item{display:flex;align-items:center;gap:8px}
+.step-circle{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;border:2px solid #ccc;background:#fff;color:#aaa;transition:all .2s}
+.step-circle.active{background:#1a5fa8;border-color:#1a5fa8;color:#fff}
+.step-circle.done{background:#1d9e75;border-color:#1d9e75;color:#fff}
+.step-lbl{font-size:12px;color:#999;white-space:nowrap}
+.step-lbl.active{color:#1a5fa8;font-weight:700}
+.step-lbl.done{color:#1d9e75}
+.step-line{flex:1;height:2px;background:#ddd;margin:0 10px;min-width:20px}
+.step-line.done{background:#1d9e75}
+.card{background:#fff;border-radius:10px;border:1px solid #e0e0d8;padding:22px 26px;margin-bottom:16px}
+.card-hdr{font-size:15px;font-weight:700;color:#1a1a2e;padding-bottom:12px;border-bottom:1px solid #eee;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center}
+.row{display:grid;gap:12px;margin-bottom:14px}
+.r2{grid-template-columns:1fr 1fr}
+.r3{grid-template-columns:1fr 1fr 1fr}
+.r4{grid-template-columns:1fr 1fr 1fr 1fr}
+.r5{grid-template-columns:2fr 3fr 1fr 1fr 1fr}
+label{font-size:12px;font-weight:600;color:#555;display:block;margin-bottom:4px}
+input,select,textarea{width:100%;padding:8px 10px;border:1.5px solid #d5d5cc;border-radius:6px;font-size:13px;color:#222;background:#fff;transition:border .15s;outline:none}
+input:focus,select:focus,textarea:focus{border-color:#1a5fa8;background:#f8fbff}
+input[readonly]{background:#f0f4f0;color:#444;cursor:default;border-color:#d0d8d0}
+input.error,select.error{border-color:#e24b4a;background:#fff5f5}
+.hint{font-size:11px;color:#999;margin-top:3px}
+textarea{resize:vertical;min-height:56px}
+/* Autocomplete dropdown */
+.autocomplete-wrap{position:relative}
+.dropdown{position:absolute;top:100%;left:0;right:0;background:#fff;border:1.5px solid #1a5fa8;border-top:none;border-radius:0 0 6px 6px;z-index:100;max-height:220px;overflow-y:auto;box-shadow:0 4px 12px rgba(0,0,0,.12)}
+.dropdown-item{padding:9px 12px;cursor:pointer;font-size:13px;border-bottom:1px solid #f0f0e8;display:flex;gap:10px;align-items:baseline}
+.dropdown-item:last-child{border-bottom:none}
+.dropdown-item:hover,.dropdown-item.sel{background:#f0f6ff}
+.dropdown-cod{font-weight:700;color:#1a5fa8;min-width:80px;font-size:12px}
+.dropdown-nom{color:#333;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dropdown-empty{padding:10px 12px;font-size:12px;color:#aaa;font-style:italic}
+/* Botones */
+.btn{padding:9px 20px;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;border:none;transition:opacity .15s,transform .1s;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{opacity:.88}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:#1a5fa8;color:#fff}
+.btn-green{background:#1d9e75;color:#fff}
+.btn-outline{background:#fff;color:#444;border:1.5px solid #ccc}
+.btn-sm{padding:6px 14px;font-size:12px}
+.btn-del{background:#fff0f0;color:#c0392b;border:1.5px solid #f0c0c0;padding:5px 11px;border-radius:5px;font-size:12px;cursor:pointer;font-weight:600}
+.btn-del:hover{background:#ffe0e0}
+.btn-edit{background:#f0f4ff;color:#1a5fa8;border:1.5px solid #c0d0f0;padding:5px 11px;border-radius:5px;font-size:12px;cursor:pointer;font-weight:600}
+.btn-edit:hover{background:#dde8ff}
+.actions{display:flex;justify-content:space-between;align-items:center;margin-top:4px}
+/* Días chips */
+.dia-chips{display:flex;gap:5px;flex-wrap:wrap}
+.chip{padding:5px 11px;border-radius:20px;border:1.5px solid #d0d0c8;background:#fafaf6;font-size:12px;font-weight:600;cursor:pointer;color:#666;transition:all .12s;user-select:none}
+.chip.on{background:#1a5fa8;border-color:#1a5fa8;color:#fff}
+.chip:hover:not(.on){background:#eeeee8}
+/* Franjas */
+.franja-box{background:#f0f6ff;border:1.5px solid #c0d4f0;border-radius:8px;padding:14px 16px;margin-bottom:10px}
+.franja-row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-top:10px}
+.franja-row input[type=time]{width:110px}
+.bloques-chip{display:inline-flex;align-items:center;padding:3px 9px;background:#e0f4ec;color:#0f6e56;border-radius:4px;font-size:12px;font-weight:700;border:1px solid #a8dcc8}
+.bloques-none{font-size:12px;color:#d08000;font-style:italic}
+.bloques-preview{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+/* Tabla asignaturas */
+.asig-tbl{width:100%;border-collapse:collapse;font-size:13px}
+.asig-tbl th{text-align:left;padding:8px 10px;background:#f4f4f0;color:#666;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;border-bottom:1.5px solid #e0e0d8}
+.asig-tbl td{padding:9px 10px;border-bottom:1px solid #f0f0e8;vertical-align:middle}
+.asig-tbl tr:hover td{background:#fafaf6}
+.badge{padding:2px 9px;border-radius:10px;font-size:11px;font-weight:700;display:inline-block}
+.b-ok{background:#e0f4ec;color:#0f6e56}
+.b-warn{background:#fff3e0;color:#e65100}
+/* Asigs del catálogo */
+.cat-asig-list{margin-top:12px;border:1px solid #e0e8f0;border-radius:7px;overflow:hidden}
+.cat-asig-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-bottom:1px solid #eef2f8;background:#fff;cursor:pointer;transition:background .1s}
+.cat-asig-item:last-child{border-bottom:none}
+.cat-asig-item:hover{background:#f4f8ff}
+.cat-asig-item.checked{background:#f0faf6}
+.cat-asig-check{width:16px;height:16px;accent-color:#1d9e75;cursor:pointer;flex-shrink:0}
+.cat-asig-cod{font-weight:700;font-size:12px;color:#1a5fa8;min-width:72px}
+.cat-asig-nom{font-size:13px;color:#333}
+/* Stats */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.stat{background:#f4f4f0;border-radius:8px;padding:14px;text-align:center}
+.stat-n{font-size:26px;font-weight:700;color:#1a1a2e}
+.stat-l{font-size:11px;color:#888;margin-top:2px}
+.alert-warn{background:#fff8e1;border:1.5px solid #ffe082;color:#7c5700;padding:10px 14px;border-radius:7px;font-size:13px;margin-bottom:12px}
+/* Preview */
+.prev-wrap{overflow:auto;max-height:340px;border:1px solid #e0e0d8;border-radius:7px}
+.prev-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.prev-tbl th{position:sticky;top:0;background:#1a1a2e;color:#fff;padding:7px 10px;text-align:left;font-weight:600;white-space:nowrap;font-size:11px}
+.prev-tbl td{padding:6px 10px;border-bottom:1px solid #f0f0e8;white-space:nowrap}
+.prev-tbl tr:nth-child(even) td{background:#fafaf6}
+.prev-tbl tr:hover td{background:#f0f4ff}
+.mod-cell{font-weight:700;color:#1a5fa8;text-align:center!important}
+.panel{display:none}.panel.active{display:block}
+.empty{text-align:center;padding:40px 20px;color:#bbb}
+.form-asig-card{border:2px solid #1a5fa8!important}
+/* Nombre programa autocompletado */
+.nombre-autocomp{background:#f0faf6;border-color:#1d9e75;color:#0f6e56;font-weight:600}
+@media(max-width:640px){
+  .r3,.r4,.r5{grid-template-columns:1fr 1fr}
+  .r2{grid-template-columns:1fr}
+  .stat-grid{grid-template-columns:repeat(2,1fr)}
+  .step-lbl{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-title">Creación NRC — Educación Continua UDLA</div>
+  <div class="topbar-badge" id="badge-periodo">Período 202610</div>
+</div>
+
+<div class="wrap">
+
+  <div class="steps">
+    <div class="step-item"><div class="step-circle active" id="sc1">1</div><div class="step-lbl active" id="sl1">Datos generales</div></div>
+    <div class="step-line" id="ln1"></div>
+    <div class="step-item"><div class="step-circle" id="sc2">2</div><div class="step-lbl" id="sl2">Asignaturas y horarios</div></div>
+    <div class="step-line" id="ln2"></div>
+    <div class="step-item"><div class="step-circle" id="sc3">3</div><div class="step-lbl" id="sl3">Revisar y exportar</div></div>
+  </div>
+
+  <!-- PASO 1 -->
+  <div class="panel active" id="panel1">
+    <div class="card">
+      <div class="card-hdr">Datos del programa</div>
+      <div class="row r3">
+        <div>
+          <label>Período *</label>
+          <input id="p-periodo" type="text" value="202610" maxlength="6" placeholder="ej: 202610">
+        </div>
+        <div>
+          <label>Tipo de programa *</label>
+          <select id="p-tipo">
+            <option>Diplomado</option><option>Postítulo</option><option>Magíster</option><option>Otro</option>
+          </select>
+        </div>
+        <div>
+          <label>Responsable (coordinador) *</label>
+          <input id="p-responsable" type="text" placeholder="ej: Fernanda Miranda">
+        </div>
+      </div>
+      <div class="row r2">
+        <div>
+          <label>Código programa *</label>
+          <div class="autocomplete-wrap">
+            <input id="p-codigo" type="text" placeholder="ej: ECV7563 — escribe para buscar" autocomplete="off"
+              oninput="onCodigoInput()" onkeydown="onCodigoKey(event)" style="text-transform:uppercase">
+            <div class="dropdown" id="cod-dropdown" style="display:none"></div>
+          </div>
+        </div>
+        <div>
+          <label>Nombre del programa</label>
+          <input id="p-nombre" type="text" placeholder="Se completa al ingresar el código" readonly>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div></div>
+      <button class="btn btn-primary" onclick="irA(2)">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- PASO 2 -->
+  <div class="panel" id="panel2">
+    <div class="card">
+      <div class="card-hdr">
+        Asignaturas del programa
+        <button class="btn btn-primary btn-sm" onclick="abrirForm(null)">+ Agregar asignatura</button>
+      </div>
+      <div id="tbl-empty" class="empty">
+        <div style="font-size:36px;margin-bottom:8px">📋</div>
+        <div>Sin asignaturas todavía.<br>Usa <strong>+ Agregar asignatura</strong> para comenzar.</div>
+      </div>
+      <div id="tbl-wrap" style="display:none">
+        <table class="asig-tbl">
+          <thead><tr><th>#</th><th>Sigla</th><th>Nombre asignatura</th><th>F. inicio</th><th>F. término</th><th>Semanas</th><th>Bloques</th><th>Acciones</th></tr></thead>
+          <tbody id="asig-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- FORM ASIG -->
+    <div class="card" id="form-asig" style="display:none">
+      <div class="card-hdr" style="color:#1a5fa8">
+        <span id="form-titulo">Nueva asignatura</span>
+      </div>
+
+      <!-- Si hay asigs en catálogo, mostrar selector -->
+      <div id="cat-asig-section" style="display:none;margin-bottom:18px">
+        <label style="margin-bottom:8px;font-size:13px">Asignaturas del catálogo para este programa — selecciona las que van en esta oferta:</label>
+        <div class="cat-asig-list" id="cat-asig-list"></div>
+        <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
+          <button class="btn btn-outline btn-sm" onclick="selTodas()">Seleccionar todas</button>
+          <button class="btn btn-outline btn-sm" onclick="deselTodas()">Deseleccionar todas</button>
+          <span style="font-size:12px;color:#888;margin-left:8px" id="cat-sel-count"></span>
+        </div>
+        <div style="margin-top:14px;border-top:1px solid #eee;padding-top:14px">
+          <div style="font-size:13px;font-weight:600;color:#555;margin-bottom:10px">O ingresa una asignatura manualmente:</div>
+        </div>
+      </div>
+
+      <div class="row r5">
+        <div>
+          <label>Sigla *</label>
+          <input id="fa-sigla" type="text" placeholder="ej: DIP3577" style="text-transform:uppercase">
+        </div>
+        <div>
+          <label>Nombre asignatura *</label>
+          <input id="fa-nombre" type="text" placeholder="ej: BASES DE LA DIVERSIFICACIÓN" style="text-transform:uppercase">
+        </div>
+        <div>
+          <label>Fecha inicio *</label>
+          <input id="fa-ini" type="date" onchange="calcSemanas()">
+        </div>
+        <div>
+          <label>Fecha término *</label>
+          <input id="fa-fin" type="date" onchange="calcSemanas()">
+        </div>
+        <div>
+          <label>Semanas</label>
+          <input id="fa-semanas" type="number" min="1" max="104" placeholder="auto">
+          <div class="hint">Calculado automáticamente</div>
+        </div>
+      </div>
+
+      <!-- FRANJAS -->
+      <div style="background:#f0f6ff;border:1.5px solid #c0d4f0;border-radius:8px;padding:16px;margin-bottom:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <div style="font-size:13px;font-weight:700;color:#1a5fa8">Franjas horarias</div>
+          <button class="btn btn-outline btn-sm" onclick="addFranja()" style="border-color:#1a5fa8;color:#1a5fa8">+ Agregar franja</button>
+        </div>
+        <p style="font-size:12px;color:#555;margin-bottom:12px">Elige los días y el rango horario. Los bloques UDLA se asignan automáticamente.</p>
+        <div id="franjas-cont"></div>
+        <div id="bloques-res" style="margin-top:10px"></div>
+      </div>
+
+      <div>
+        <label>Observaciones</label>
+        <textarea id="fa-obs" placeholder="ej: Clases viernes 17:30 a 20:30 hrs y sábados de 09:30 a 12:30 pm"></textarea>
+        <div class="hint">Este texto aparece en la columna Observaciones de cada fila generada para esta asignatura.</div>
+      </div>
+
+      <div class="actions" style="margin-top:16px">
+        <button class="btn btn-outline" onclick="cancelarForm()">Cancelar</button>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-green" id="btn-guardar-cat" onclick="guardarDesdecat_real()" style="display:none">Agregar seleccionadas del catálogo</button>
+          <button class="btn btn-green" onclick="guardarAsig()">Guardar asignatura individual</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-outline" onclick="irA(1)">← Volver</button>
+      <button class="btn btn-primary" onclick="irA(3)">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- PASO 3 -->
+  <div class="panel" id="panel3">
+    <div class="card">
+      <div class="card-hdr">Resumen</div>
+      <div class="stat-grid" id="stat-grid"></div>
+      <div id="alerta-warn"></div>
+      <div id="resumen-det" style="font-size:13px;color:#555;padding-top:4px"></div>
+    </div>
+    <div class="card">
+      <div class="card-hdr">Vista previa de filas</div>
+      <p style="font-size:12px;color:#888;margin-bottom:12px">Una fila por cada bloque horario — igual que el formato original.</p>
+      <div class="prev-wrap"><table class="prev-tbl" id="prev-tbl"></table></div>
+    </div>
+    <div class="actions">
+      <button class="btn btn-outline" onclick="irA(2)">← Volver</button>
+      <button class="btn btn-green" onclick="exportar()" style="font-size:14px;padding:12px 30px">⬇ Descargar Excel</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const CATALOGO = {"ECV7320": {"nombre": "Diplomado En Motricidad Infantil", "asigs": [{"cod": "DIP1877", "nom": "INFANCIA Y EDUCACIÓN EN EL CHI"}, {"cod": "DIP1887", "nom": "BASES PEDAG.MOTRICIDAD INFANTI"}, {"cod": "DIP1897", "nom": "DES. DE LA MOTRICIDAD INFANTIL"}, {"cod": "DIP1907", "nom": "EVAL. PARA EL APRENDIZAJE INFA"}]}, "ECV7365": {"nombre": "Diplomado En Alfabetización Inicial Y Didáctica Para La Primera Infancia", "asigs": [{"cod": "DIP3837", "nom": "ALFABETIZACIÓN INICIAL EN PRIM"}, {"cod": "DIP3847", "nom": "DIDÁCTICA DE LA LECTURA"}, {"cod": "DIP3857", "nom": "DIDÁCTICA DE LA ESCRITURA"}, {"cod": "DIP3867", "nom": "EVAL. DE LA LECTURA Y ESCRIT."}]}, "ECV7378": {"nombre": "Diplomado En Ciberseguridad Y Gestión", "asigs": [{"cod": "DIP450", "nom": "FUND. INFRAES. Y MARCO LEG."}, {"cod": "DIP451", "nom": "CIBERSEGURIDAD Y NEGOCIOS"}, {"cod": "DIP452", "nom": "GEST. DE RIESG, ANÁLISIS, CON"}, {"cod": "DIP453", "nom": "CONT. DEL NEG. PLAN DE REC."}, {"cod": "DIP454", "nom": "CIB. EN PLATAFORM. DIG."}, {"cod": "DIP455", "nom": "TEND. EN LA IND. Y GEST."}]}, "ECV7348": {"nombre": "Diplomado En Necesidades Educativas Especiales Y Contextos Inclusivos", "asigs": [{"cod": "DIP3057", "nom": "NORMATIVA DE EDUC ESPECIAL"}, {"cod": "DIP3067", "nom": "ATENCIÓN DE LA DIVERSIDAD"}, {"cod": "DIP3077", "nom": "DIAG. Y ESTRATEGIAS DE INTERV."}, {"cod": "DIP3087", "nom": "GESTIÓN DE LA DIVERSIDAD"}]}, "ECV7405": {"nombre": "Postítulo En Discapacidad Intelectual Y Educación Inclusiva", "asigs": [{"cod": "DIP4897", "nom": "FUND. DE LA DISC. INTELECTUAL"}, {"cod": "DIP4907", "nom": "EVAL. Y DIAG. DE LA DISC. INT."}, {"cod": "DIP4917", "nom": "NEUROC. Y DESARR. DE HAB. COGN"}, {"cod": "DIP4927", "nom": "DISC. E INCLUSIÓN EDUCAT."}, {"cod": "DIP4937", "nom": "APREND. PARA TODOS, PRINC. DID"}, {"cod": "DIP4947", "nom": "DID. DE LA LECTOE. Y DISC. INT"}, {"cod": "DIP4957", "nom": "DIDÁCT. DE LA MAT. Y DISC. INT"}, {"cod": "DIP4967", "nom": "INSER. SOCIAL Y LAB. EN LA DIS"}, {"cod": "DIP4977", "nom": "PROYECTO SOCIOEDUCATIVO FINAL"}]}, "EOL7256": {"nombre": "Diplomado En Infecciones Asociadas A La Atención En Salud", "asigs": [{"cod": "DIP5977", "nom": "APLIC. DE NORMAS DE SUPERV."}, {"cod": "ENF0117", "nom": "MEDIDAS DE PRV. Y CONTROL IAAS"}, {"cod": "ENF0127", "nom": "GENERALIDADES DE LAS IAAS"}, {"cod": "ENF0137", "nom": "VIGILANCIA EPIDEMIOLÓGICA"}, {"cod": "DIP5977", "nom": "APLIC. DE NORMAS DE SUPERV."}, {"cod": "ENF0117", "nom": "MEDIDAS DE PRV. Y CONTROL IAAS"}, {"cod": "ENF0127", "nom": "GENERALIDADES DE LAS IAAS"}, {"cod": "ENF0137", "nom": "VIGILANCIA EPIDEMIOLÓGICA"}]}, "ECV7433": {"nombre": "Diplomado En Trastorno Del Espectro Autista Y Discapacidad Intelectual En El Curso De La Vida", "asigs": [{"cod": "DIP6507", "nom": "MOD. DE CALID. DE VIDA, INCLUS"}, {"cod": "DIP6517", "nom": "CARACT. DE LOS DESAF. DEL NEUR"}, {"cod": "DIP6527", "nom": "SIST. Y MÉTOD. DE EVAL. DE LOS"}, {"cod": "DIP6537", "nom": "ABORD. TERAP. Y SISTEM. DE APO"}, {"cod": "DIP6547", "nom": "SEMINARIO METOD. DE PROP."}]}, "EPR4358": {"nombre": "Diplomado En Salud Mental: Abordaje Interdisciplinario  Y Gestión Clínica", "asigs": [{"cod": "DIP3457", "nom": "POL. PÚB. Y SERV. DE SALUD MEN"}, {"cod": "DIP3467", "nom": "GEST. CLÍNICA Y COMUNIT. EN SA"}, {"cod": "DIP3477", "nom": "DET. SOCIALES Y CONDICIONANTES"}, {"cod": "DIP3489", "nom": "HERR. DE INTERVEN. CLÍNICA"}]}, "ESC8356": {"nombre": "Diplomado En Gerontogeriatría Interdisciplinaria", "asigs": [{"cod": "DIP3337", "nom": "GENER. DEL PROC. DE ENVEJ."}, {"cod": "DIP3347", "nom": "ENVEJ. BIOLÓGICO NORMAL"}, {"cod": "DIP3357", "nom": "PRIN. PAT. Y SIND. GERIAT."}, {"cod": "DIP3367", "nom": "ENF. FAM. Y SOC. EN EL AD. MAY"}, {"cod": "DIP337", "nom": "APR. PARA UN TRAB. MULTID."}]}, "ECV7306": {"nombre": "Diplomado En Derecho Del Trabajo Y Sistema De Relaciones Laborales En La Empresa", "asigs": [{"cod": "DIP1307", "nom": "REGULACIÓN JURÍDICA EN LA EMP."}, {"cod": "DIP1317", "nom": "CONTRATO INDIVIDUAL DEL TRAB."}, {"cod": "DIP1327", "nom": "SEGUR. SOCIAL Y DERECHO DE LA"}, {"cod": "DIP1337", "nom": "ORGAN. SINDICALES Y NEG. COLEC"}, {"cod": "DIP1347", "nom": "INSOLV.DE LA EMP. Y SUS EFEC."}]}, "ECV7325": {"nombre": "Diplomado En Derecho Administrativo Y Función Pública", "asigs": [{"cod": "DIP2077", "nom": "BASES Y PPÍOS. SIST. D. ADMIN."}, {"cod": "DIP2087", "nom": "LA ORG. ADM. DEL ESTADO"}, {"cod": "DIP2097", "nom": "ACT. JURÍDICAS DE LA ADM."}, {"cod": "DIP2107", "nom": "FUNC. PÚB. PROB. Y TRANS."}, {"cod": "DIP2117", "nom": "SISTEMA CONTRATO LABORAL PÚBL."}, {"cod": "DIP2127", "nom": "SEG. SOCIAL EN LA FUNC. PÚB."}, {"cod": "DIP2137", "nom": "TER. RELACIÓN. LAB. FUN. PÚB."}, {"cod": "DIP2147", "nom": "D. ADMIN. SANCIONATORIO LAB."}, {"cod": "DIP2157", "nom": "RES. LAB. DEL ESTADO EN SUBC."}]}, "ECV7273": {"nombre": "Diplomado En Gestión Y Planificación Tributaria", "asigs": [{"cod": "DIP0017", "nom": "CÓDIGO TRIBUTARIO E IVA"}, {"cod": "DIP0027", "nom": "IMPUESTO A LA RENTA EMPRESARIA"}, {"cod": "DIP0037", "nom": "IMPUESTO A LA RENTA PERSONAS"}, {"cod": "DIP0047", "nom": "GESTIÓN Y PLANIFICACIÓN TRIBUT"}, {"cod": "DIP5777", "nom": "IMPUESTO AL VALOR AGREGADO"}, {"cod": "DIP5787", "nom": "REGISTROS DE IMPUTACIÓN"}, {"cod": "DIP5797", "nom": "TRIBUTACIÓN INTERNACIONAL"}]}, "ECV7347": {"nombre": "Diplomado En Medicina Interna De Caninos", "asigs": [{"cod": "DIP3017", "nom": "MEDICINA INTERNA 1"}, {"cod": "DIP3027", "nom": "MEDICINA INTERNA 2"}, {"cod": "DIP3037", "nom": "MEDICINA INTERNA 3"}, {"cod": "DIP3047", "nom": "MEDICINA INTERNA 4"}]}, "ECV7398": {"nombre": "Diplomado En Salud Familiar Y Comunitario", "asigs": [{"cod": "DIP4807", "nom": "BASES CONCEPTUALES DE ATEN"}, {"cod": "DIP4817", "nom": "PROMOCIÓN DE LA SALUD FAMILIAR"}, {"cod": "DIP4827", "nom": "MO. DE AT. CON ENFO. EN LAS F."}, {"cod": "DIP4837", "nom": "DESAFÍOS PARA LA ATENCIÓN DE S"}]}, "ECV7432": {"nombre": "Diplomado En Nutrición Deportiva Y Fitness", "asigs": [{"cod": "DIP6447", "nom": "BASES MORFOFIS. DEL ENTRENAMI."}, {"cod": "DIP6457", "nom": "PLANIF. DEL ENTRENAM. DEPORT."}, {"cod": "DIP6467", "nom": "VALOR. NUTRUC. Y COMP. CORP."}, {"cod": "DIP6477", "nom": "REQUER. NUTRIC. DE DEPORTE"}, {"cod": "DIP6487", "nom": "SUPLEMENTACIÓN DEPORTIVA"}, {"cod": "DIP6497", "nom": "INTEGRADO FINAL"}]}, "ECV7453": {"nombre": "Diplomado En Gestión De Personas Y Cambio Organizacional", "asigs": [{"cod": "DIP2207", "nom": "DIAG.Y EVAL. DEL CAMB. ORGANIZ"}, {"cod": "DIP2217", "nom": "ASP.LEGAL. Y JURÍD. EN LA GES."}, {"cod": "DIP2227", "nom": "RECLUTAMIENTO Y SELECCIÓN"}, {"cod": "DIP2237", "nom": "CAPACITACIÓN Y EVAL. DESEMPEÑO"}, {"cod": "DIP2247", "nom": "COACHING, LIDERAZGO, NEG. Y RE"}, {"cod": "DIP2257", "nom": "EST.INTERVENCIÓN EN ORGANIZA."}]}, "ECV7377": {"nombre": "Diplomado En Competencias Digitales Para La Docencia", "asigs": [{"cod": "DIP4467", "nom": "ENTOR. VIRT. DE APREND. Y CREA"}, {"cod": "DIP4477", "nom": "ESTRAT. DID. PARA LA CREAT. E"}, {"cod": "DIP4487", "nom": "COMPET. DIGITALES PARA LA DOC."}, {"cod": "DIP5707", "nom": "INV.- ACCIÓN Y REF. PARA EL"}, {"cod": "DIP6167", "nom": "ANÁLISIS Y REDIS. DE PRÁC. PED"}]}, "ECV7404": {"nombre": "Diplomado En Orientación Educacional, Vocacional Y Familiar", "asigs": [{"cod": "DIP4847", "nom": "INTROD. A LA ORIENT. EDUCACIO."}, {"cod": "DIP4857", "nom": "ESTRAT. DE ORIENT. EDUCAC."}, {"cod": "DIP4867", "nom": "ORIENTACIÓN VOCACIONAL"}, {"cod": "DIP4877", "nom": "ORIENTACIÓN FAMILIAR"}, {"cod": "DIP4887", "nom": "DIS. METODOL. DE PLAN DE ORIEN"}]}, "ECV7425": {"nombre": "Diplomado En Evaluación Y Diseño De Instrumentos Para El Contexto Escolar", "asigs": [{"cod": "DIP5927", "nom": "MOD. Y PROC. DE EVAL. EN EL AU"}, {"cod": "DIP5937", "nom": "PROC. DE EVAL.: DISEÑ. DE INST"}, {"cod": "DIP5947", "nom": "DISEÑ. DE INSTR. DE OBSERV"}, {"cod": "DIP5957", "nom": "RETROALIMENTACIÓN EN EL AULA"}, {"cod": "DIP5967", "nom": "ANÁLIS. DE LA INF. PARA LA TOM"}]}, "ECV7337": {"nombre": "Diplomado En Bioestadística", "asigs": [{"cod": "DIP2587", "nom": "INT. A LA ESTAD. Y ANALIS."}, {"cod": "DIP2597", "nom": "PROB. E INFER. ESTADÍSTICA"}, {"cod": "DIP2607", "nom": "MODELOS DE REGRESIÓN LINEAL"}, {"cod": "DIP2617", "nom": "TEST PAREMÉTRICOS Y NO PAREM."}]}, "ECV7338": {"nombre": "Diplomado En Data Science", "asigs": [{"cod": "DIP2627", "nom": "INTRODUCCIÓN AL DATA SCIENCE"}, {"cod": "DIP2667", "nom": "MACHINE LEARNING I"}, {"cod": "DIP2677", "nom": "MACHINE LEARNING II"}, {"cod": "DIP3387", "nom": "PROGRAMACIÓN PARA DATA SCIENCE"}, {"cod": "DIP3397", "nom": "APLIC DE LA INTELIGENCIA ARTIF"}]}, "EPR9434": {"nombre": "Diplomado En Psicología Aplicada A La Actividad Física Y El Deporte", "asigs": [{"cod": "DIP6559", "nom": "BASES DE LA PSICOLOGIA DEPORTI"}, {"cod": "DIP6569", "nom": "PSICOLOGÍA DEPOR. PRES. Y FUT"}, {"cod": "DIP6579", "nom": "CS. DEL DEP. APLIC. A LA PSIC."}, {"cod": "DIP6589", "nom": "ÁREAS DE APLI. DE LA PSICO. DE"}, {"cod": "DIP6599", "nom": "INTERV. EN LA PSICOL. DEPORTIV"}]}, "ECV7278": {"nombre": "Diplomado Bim En Integración Del Diseño, Coordinación Y Revisión Para Proyectos Aec", "asigs": [{"cod": "DIP0187", "nom": "TEORÍA Y BIM PARA ARQUITECTURA"}, {"cod": "DIP0197", "nom": "BIM PARA ESTRUCTURA"}, {"cod": "DIP0207", "nom": "BIM  PARA INSTALACIONES - MEP"}, {"cod": "DIP1507", "nom": "COORDINACIÓN Y PRODUCTIVIDAD"}]}, "ECV7349": {"nombre": "Diplomado En Diseño De Sistemas De Riego Y Fertirrigación", "asigs": [{"cod": "DIP3097", "nom": "RELACIÓN-SUELO-AGUA-PLANTA"}, {"cod": "DIP3107", "nom": "DISEÑO SIST.RIEGO PRESURIZADO"}, {"cod": "DIP3117", "nom": "PROG. DE RIEGO, TELEMETRIA Y T"}, {"cod": "DIP3127", "nom": "NUTRICIÓN Y FERTIIRIGACIÓN DE"}, {"cod": "DIP3137", "nom": "MANEJO Y MANTENCIÓN DE SIST.RI"}]}, "EME4392": {"nombre": "Diplomado En Anestesia Y Manejo De Dolor En Pequeños Animales", "asigs": [{"cod": "DIP5039", "nom": "BASES DE LA ANESTESIA GENERAL"}, {"cod": "DIP5049", "nom": "ESTRATEGIAS ANESTÉSICAS"}, {"cod": "DIP5057", "nom": "BASES DEL DOLOR"}, {"cod": "DIP5067", "nom": "ANESTESIA Y ANALGESIA REGIONAL"}]}, "ECV7327": {"nombre": "Diplomado En Peritaje Psicosocial En Materia Penal Y Familia", "asigs": [{"cod": "DIP2167", "nom": "CONTEXTO JUDICIAL Y LABOR PERI"}, {"cod": "DIP2177", "nom": "EVALUACIÓN PERICIAL PSICOLÓGIC"}, {"cod": "DIP2187", "nom": "ELABORACION Y ANÁLISIS DE INFO"}, {"cod": "DIP2197", "nom": "TRABAJO FINAL"}]}, "EME8454": {"nombre": "Diplomado En Imagenología De Animales Pequeños", "asigs": [{"cod": "DIP3199", "nom": "RADIOLOGÍA"}, {"cod": "DIP3209", "nom": "ECOGRAFÍA"}, {"cod": "DIP3219", "nom": "ENDOSCOPIA"}, {"cod": "DIP3229", "nom": "RESONANCIA NUCLEAR"}]}, "ECV7287": {"nombre": "Diplomado En Sist. Integrados De Gestión De Calidad, M. Ambiente Y Seg, Mención Auditor Lider En Sig", "asigs": [{"cod": "DIP0457", "nom": "INTERPRETACIÓN NORMA ISO 9001"}, {"cod": "DIP0467", "nom": "INTERPRETACIÓN NORMA ISO 14001"}, {"cod": "DIP0477", "nom": "PLAN. ESTRA. Y CONTROL DE GEST"}, {"cod": "DIP0487", "nom": "AUTOR LÍDER EN SIST. INTEGRA."}]}, "ECV7386": {"nombre": "Diplomado En Gestión Ambiental Bajo Norma Iso 14001", "asigs": [{"cod": "DIP5217", "nom": "PLAN. ESTRATÉG. PARA UN SIST."}, {"cod": "DIP5227", "nom": "NORMA ISO 14001 SIST. DE GESTI"}, {"cod": "DIP5237", "nom": "AUDITOR LÍDER DE SIST. DE GEST"}]}, "ECV7435": {"nombre": "Diplomado En Auditor Líder En Gestión De Riesgos En Seguridad Y Salud Ocupac. Bajo Norma Iso 45001", "asigs": [{"cod": "DIP5077", "nom": "LEGISL. DE SEG. Y SAL. OCUP."}, {"cod": "DIP5087", "nom": "PLANF. ESTRAT. PARA SIST. DE G"}, {"cod": "DIP5097", "nom": "REQUIS. DE LA NORMA ISO 45001"}, {"cod": "DIP5107", "nom": "AUD. LÍDER DE SIST. DE GEST. D"}]}, "ECV7384": {"nombre": "Diplomado En Innovación En Docencia Universitaria", "asigs": [{"cod": "DIP5307", "nom": "TECN. Y USO DE PLAT. VIRT. AL"}, {"cod": "DIP5317", "nom": "PLANF. CURRICU. DE ASIG. Y REC"}, {"cod": "DIP5327", "nom": "DIDÁCT. Y ESTRAT. METOD. INNOV"}, {"cod": "DIP5337", "nom": "EVAL. Y RETROALIM. EFECTVA"}, {"cod": "DIP5707", "nom": "INV.- ACCIÓN Y REF. PARA EL"}]}, "ECV7418": {"nombre": "Diplomado En Evaluación Educativa: Desde La Comprensión A La Contextualización En El Aula", "asigs": [{"cod": "DIP5627", "nom": "EV. PARA LOS APREND. ESTRAT. T"}, {"cod": "DIP5637", "nom": "DIS. Y ANÁLISIS DE INST. DE EV"}, {"cod": "DIP5647", "nom": "EVAL. AUTENTICA Y RETRO. EFECT"}, {"cod": "DIP5657", "nom": "PROC. DE EVAL. CON EL APOYO TI"}, {"cod": "DIP5707", "nom": "INV.- ACCIÓN Y REF. PARA EL"}]}, "ECV7443": {"nombre": "Diplomado En Enfoque De Género E Interculturalidad Para La Educación Superior", "asigs": [{"cod": "DIP7537", "nom": "ENFOQUES DE GÉNERO E INTER."}, {"cod": "DIP7547", "nom": "DIV. DE DIVER. Y FUENTES DE D."}, {"cod": "DIP7557", "nom": "ENF. DE GÉNERO Y MÉTODOS INTE."}, {"cod": "DIP7567", "nom": "COMP. COMUNICATIVAS NO SEX."}, {"cod": "DIP7577", "nom": "INVESTIGACIÓN-ACCIÓN Y REFL."}]}, "ECV7445": {"nombre": "Diplomado En Investigación-Acción Aplicada A La Docencia Universitaria", "asigs": [{"cod": "DIP7637", "nom": "FUND. EVIDENCIAS Y REFLEXIÓN"}, {"cod": "DIP7647", "nom": "COORDENADAS METODOLÓGICAS"}, {"cod": "DIP7657", "nom": "ESTRATEGIAS DE RECOLECCIÓN"}, {"cod": "DIP7667", "nom": "DISEÑO DE INTERVENCIÓN Y EVAL."}, {"cod": "DIP7677", "nom": "TALL. DE PROTOCOLOS, ESC. COM."}]}, "EPR4416": {"nombre": "Diplomado En Gestión Y Operación En Alimentos Y Bebidas", "asigs": [{"cod": "DIP5549", "nom": "CONT. Y GEST. DE HOTELES Y RES"}, {"cod": "DIP5557", "nom": "GEST. EN OP. DE ALIMEN. Y BEBI"}, {"cod": "DIP5569", "nom": "COC. DE GRANDES PROC. Y NVA. T"}, {"cod": "DIP5577", "nom": "LIDERAZ. EN EMP. DE ALIM. Y BE"}]}, "ECV7470": {"nombre": "Diplomado En Producción De Eventos Empresariales, Tecnologías E Inteligencia Artificial", "asigs": [{"cod": "DIP8177", "nom": "PRODUCCION DE EVENTOS EMPRESA."}, {"cod": "DIP8187", "nom": "ORGANIZACIÓN DE CONGRESOS, SE."}, {"cod": "DIP8197", "nom": "TEAM BUILDING Y LIDERAZGO"}, {"cod": "DIP8207", "nom": "INTELIGENCIA ARTIFICIAL EN EV."}]}, "ECV7471": {"nombre": "Diplomado En Gestión De Turismo De Intereses Especiales", "asigs": [{"cod": "DIP4666", "nom": "GESTIÓN DE EXPERIENCIAS TURIS"}, {"cod": "DIP4676", "nom": "EXPERIENCIAS TURÍSTICAS TERRIT"}, {"cod": "DIP4686", "nom": "EXPERIENCIAS TURÍSTICAS AL AIR"}, {"cod": "DIP4696", "nom": "EXPERIENCIAS TURÍSTICAS ESTRAT"}, {"cod": "DIP4706", "nom": "DISEÑO DE PROYECTOS DE TUR"}]}, "ECV7479": {"nombre": "Diplomado En Normativa Laboral Aplicada", "asigs": [{"cod": "DIP8547", "nom": "FUND. DEL DERECHO LAB. Y CONT."}, {"cod": "DIP8557", "nom": "NORMA. JORNADA LAB. NUEVA LEY"}, {"cod": "DIP8567", "nom": "REMUN. Y BENEFICIOS SOCIALES"}, {"cod": "DIP8577", "nom": "INCLU. LEY 21.015 Y ACOSO LAB."}, {"cod": "DIP8587", "nom": "TALLER PRÁC.: CÁLCULO DE CONC."}]}, "ECV7463": {"nombre": "Diplomado En Ges. Y Coord. De Pro. En At. Primaria De Salud Con Enfoq. En El Mod. De At. Int. En Sal", "asigs": [{"cod": "DIP7817", "nom": "INTRODUCCIÓN AL MODELO DE ATE."}, {"cod": "DIP7827", "nom": "ORIENTACIONES TÉC. DE LOS PRO."}, {"cod": "DIP7837", "nom": "GESTIÓN ADMINIS. DE LOS PROG."}, {"cod": "DIP7847", "nom": "HERR. GERENCIALES PARA CARGOS"}]}, "ECV7501": {"nombre": "Diplomado En Gestión De Infraestructura", "asigs": [{"cod": "DIP9096", "nom": "INTRODUCCIÓN A LA OBRA CIVIL"}, {"cod": "DIP9106", "nom": "GES. Y CICLO DE VIDA DE UN PR."}, {"cod": "DIP9116", "nom": "ADMINISTRACIÓN DE CONTRATOS"}, {"cod": "DIP9126", "nom": "INSTITUCIONALIDAD EN INFRAEST."}, {"cod": "DIP9136", "nom": "GESTIÓN DE INFR.: VIAL, FERRO."}, {"cod": "DIP9146", "nom": "GESTIÓN DE IN.: ILU., SI. ELE."}, {"cod": "DIP9096", "nom": "INTRODUCCIÓN A LA OBRA CIVIL"}, {"cod": "DIP9106", "nom": "GES. Y CICLO DE VIDA DE UN PR."}, {"cod": "DIP9116", "nom": "ADMINISTRACIÓN DE CONTRATOS"}, {"cod": "DIP9126", "nom": "INSTITUCIONALIDAD EN INFRAEST."}, {"cod": "DIP9136", "nom": "GESTIÓN DE INFR.: VIAL, FERRO."}, {"cod": "DIP9146", "nom": "GESTIÓN DE IN.: ILU., SI. ELE."}]}, "ECV7461": {"nombre": "Diplomado En Docencia Para El Aprendizaje A Lo Largo De La Vida", "asigs": [{"cod": "DIP5587", "nom": "APREN. A LARGO DE LA VIDA Y ED"}, {"cod": "DIP5597", "nom": "DES. FIS. INTELEC. MORAL Y PSI"}, {"cod": "DIP5607", "nom": "EST. METOD. Y PLANF. CURRIC. E"}, {"cod": "DIP5617", "nom": "EST. EVAL. EN LA ED. DE ADULTO"}, {"cod": "DIP5707", "nom": "INV.- ACCIÓN Y REF. PARA EL"}]}, "ECV7476": {"nombre": "Diplomado En Integración De La Inteligencia Artificial En El Ámbito Educativo", "asigs": [{"cod": "DIP8417", "nom": "FUNDA. DE LA INTELIGENCIA ART."}, {"cod": "DIP8427", "nom": "HERR. DE IA GEN. PARA LA CREA."}, {"cod": "DIP8437", "nom": "HERR. DE IA GEN. PARA LA EVAL."}, {"cod": "DIP8447", "nom": "INTEG. PRÁCTICA DE LA IA GEN."}, {"cod": "DIP8457", "nom": "INVESTIGACIÓN-ACCIÓN Y REFLEX."}, {"cod": "DIP5707", "nom": "INV.- ACCIÓN Y REF. PARA EL"}, {"cod": "DIP8417", "nom": "FUNDA. DE LA INTELIGENCIA ART."}, {"cod": "DIP8427", "nom": "HERR. DE IA GEN. PARA LA CREA."}, {"cod": "DIP8437", "nom": "HERR. DE IA GEN. PARA LA EVAL."}, {"cod": "DIP8447", "nom": "INTEG. PRÁCTICA DE LA IA GEN."}]}, "ECV7510": {"nombre": "Diplomado En Turismo Cultural Y Las Industrias Creativas", "asigs": [{"cod": "DIP9556", "nom": "RECURSOS TURÍSTICOS PATRIMONI."}, {"cod": "DIP9566", "nom": "TURISMO CULTURAL DE INT. ESPE."}, {"cod": "DIP9576", "nom": "INSTRUMENTOS DE FOMENTO TURÍS."}, {"cod": "DIP9586", "nom": "INDUSTRIA Y TURISMO CREATIVO"}, {"cod": "DIP9596", "nom": "PROYECTOS, POS. Y PRODUC. TUR."}]}, "EPR4500": {"nombre": "Diplomado En Fisiología Humana Con Orientación Clínica", "asigs": [{"cod": "DIP9049", "nom": "PRINCIPIOS TRON. DE LA FI. HU."}, {"cod": "DIP9059", "nom": "PRO. DE LA FIS. DE LOS SI. NE."}, {"cod": "DIP9069", "nom": "PRO. DE LA FI. DEL SISTEMA EN."}, {"cod": "DIP9079", "nom": "PRO. DE LA FISIOL. DE LOS SIS."}, {"cod": "DIP9089", "nom": "PRO. DE LA FI. DEL SISTEMA RE."}]}, "ECV7506": {"nombre": "Diplomado En Inteligencia Artificial Para Profesionales De La Salud", "asigs": [{"cod": "DIP9386", "nom": "FUNDAMENTOS DE IA EN SALUD"}, {"cod": "DIP9396", "nom": "APLICA. DE IA EN DIAGNO. Y TR."}, {"cod": "DIP9406", "nom": "MARKETING DIGITAL E IA EN SAL."}, {"cod": "DIP9416", "nom": "PROYECTO DE IM. DE IA EN SALUD"}]}, "ECV7511": {"nombre": "Diplomado En Convivencia Educativa Y Aprendizaje Socioemocional", "asigs": [{"cod": "DIP5117", "nom": "FUND. DE LA CONVIVENCIA EDUCA."}, {"cod": "DIP5127", "nom": "M. NORM.Y POL. PÚB. PARA LA C."}, {"cod": "DIP5137", "nom": "APRENDIZAJE SOC. EN CONTE. ED."}, {"cod": "DIP5147", "nom": "LIDERAZGO ED. PARA LA CON. FO."}, {"cod": "DIP5157", "nom": "HACIA UNA CONV. EDUC. IN. E I."}]}, "ECV7528": {"nombre": "Diplomado Intervención Psicosocial A Víctimas Y Testigos En El Sistema De Justicia Penal", "asigs": [{"cod": "DPL0286", "nom": "SISTEMA DE JUSTICIA EN CHILE"}, {"cod": "DPL0296", "nom": "POLÍTICAS PÚBLICAS EN SEG. CI."}, {"cod": "DPL0306", "nom": "INT. PSICO. EN EL SIS. DE JUST"}, {"cod": "DPL0316", "nom": "INT. EN DELITOS SEXUA. Y VIOL."}, {"cod": "DPL0326", "nom": "INTER. EN DELITOS VI. Y CRIMEN"}, {"cod": "DPL0336", "nom": "AUTOC., CUIDADO DE LOS EQUIPOS"}]}, "ECV7496": {"nombre": "Diplomado En Agroecología", "asigs": [{"cod": "DIP8846", "nom": "BASES CIENTÍ. Y EP. DE LA AGR."}, {"cod": "DIP8856", "nom": "TRANSICIÓN AGROECOLÓG. PREDIAL"}, {"cod": "DIP8866", "nom": "MANEJO ECOLÓGICO DE SUELOS"}, {"cod": "DIP8876", "nom": "MA. ECOLÓGICO DE PLAGAS Y ENF."}, {"cod": "DIP8886", "nom": "TEC. APR. PARA RECURSOS HÍDRI."}]}, "ECV7549": {"nombre": "Diplomado En Revisión, Edición Y Posedición De Textos Traducidos", "asigs": [{"cod": "DPL1256", "nom": "FUND. DE REV. Y ED. DE TEXT. T"}, {"cod": "DPL1266", "nom": "POSEDICIÓN DE TEX. PRETRAD."}, {"cod": "DPL1276", "nom": "INNOV. EN LA TRAD. Y POSED."}, {"cod": "DPL1286", "nom": "CNTRL. Y EVAL. DE LA CALIDAD"}]}, "ECV7552": {"nombre": "Postítulo Mención En Educación Matemática", "asigs": [{"cod": "DPL054", "nom": "PSIC. Y APREN. DEL ADO./VOCAC."}, {"cod": "DPL055", "nom": "LIDERAZGO DE HABILIDADES SOCI."}, {"cod": "DPL056", "nom": "SISTEMAS NUMÉRICOS"}, {"cod": "DPL057", "nom": "EVALUACIÓN TOMA DE DECISIÓN"}, {"cod": "DPL058", "nom": "HERR. DIGI. Y PLANES DE MEJORA"}, {"cod": "DPL059", "nom": "DATOS Y PROBABILIDADES"}, {"cod": "DPL060", "nom": "ALGEBRA Y FUNCIONES"}, {"cod": "DPL061", "nom": "GEOMETRÍA Y MEDICIÓN"}, {"cod": "DPL1376", "nom": "PERSP. TEÓRICAS Y CURR. EN ED."}, {"cod": "DPL1386", "nom": "INVEST. CIENT. Y DISEÑO DE ING"}, {"cod": "DPL1396", "nom": "TECNOLOGÍA EN EDUCACIÓN STEM"}, {"cod": "DPL1406", "nom": "DESARR. DE LA CREAT. E INNOV.1"}, {"cod": "DPL1416", "nom": "TALL. DE INV. EN ED. STEM I"}, {"cod": "DPL1426", "nom": "TALL. DE INV. EN ED. STEM II"}]}, "EPR2562": {"nombre": "Postítulo Mención En Lenguaje", "asigs": [{"cod": "DPL046", "nom": "PSIC. Y APR. DEL AD. /VOCACIÓN"}, {"cod": "DPL047", "nom": "LIDERAZGO DE HABILIDADES SOCI."}, {"cod": "DPL048", "nom": "LITERATURA INFANTIL 1"}, {"cod": "DPL049", "nom": "EVALUACIÓN TOMA DE DECISIÓN"}, {"cod": "DPL050", "nom": "HERR. DIGITALES Y PL. DE MEJO."}, {"cod": "DPL051", "nom": "COMPRENSIÓN DE TEXTOS"}, {"cod": "DPL052", "nom": "PRODU. DE TEXTOS ORALES Y ESC."}, {"cod": "DPL053", "nom": "INVEST. EN LENGUA Y LITERATURA"}]}, "EPR8561": {"nombre": "Diplomado En Deporte Escolar", "asigs": [{"cod": "DPL0789", "nom": "GIMNASIA ARTÍSTICA EN LA ESC."}, {"cod": "DPL0799", "nom": "BALONMANO EN LA ESCUELA"}, {"cod": "DPL0809", "nom": "BÁSQUETBOL EN LA ESCUELA"}, {"cod": "DPL0819", "nom": "VÓLEIBOL EN LA ESCUELA"}]}, "ECV7504": {"nombre": "Diplomado En Gestión Para La Transformación Digital Ágil", "asigs": [{"cod": "DIP9276", "nom": "FUNDAMENTOS DE TRANSF. DIGITAL"}, {"cod": "DIP9286", "nom": "TECN. DISRUPTIVAS Y HERR. INN."}, {"cod": "DIP9296", "nom": "MODELOS DE NEGOCIOS DIGITALES"}, {"cod": "DIP9306", "nom": "MINDSET ÁGIL"}, {"cod": "DIP9316", "nom": "DISEÑO ESTR. DE TRANS. DIGITAL"}]}, "ECV7563": {"nombre": "Diplomado En Prácticas Inclusivas", "asigs": [{"cod": "DIP3577", "nom": "BASES DE LA DIVERSIFICACIÓN"}, {"cod": "DIP3587", "nom": "DIVERSIDAD Y APRENDIZAJE"}, {"cod": "DIP3597", "nom": "ESTRAT. DIVERSIFICADAS DE ENS."}, {"cod": "DIP3607", "nom": "DISEÑO DE ESTR. DIVERS. DE ENS"}]}, "EPR8553": {"nombre": "Postítulo En Psicomotricidad Infantil", "asigs": [{"cod": "DPL1436", "nom": "FUND. DE LA PSICOMOTRICIDAD"}, {"cod": "DPL1449", "nom": "OBS. PSICOMOTRIZ Y EV. DIAG."}, {"cod": "DPL1459", "nom": "INTEV. EN PSICOM. EDUC. Y TER."}, {"cod": "DPL146", "nom": "FORM. CORP. DEL PSICOM."}, {"cod": "DPL1479", "nom": "PROY. INT. Y SUPERV. DE LA PRÁ"}]}, "ECV7415": {"nombre": "Diplomado En Normativa Ifrs", "asigs": [{"cod": "DIP7727", "nom": "INT. Y MARCO CONCEP. PARA LA I"}, {"cod": "DIP7737", "nom": "RUBROS CORRIENTES Y RESULTADOS"}, {"cod": "DIP7747", "nom": "RUBROS NO CORRIENTES"}, {"cod": "DIP7757", "nom": "INVERS. TEMP. PERMAN. Y COMB."}, {"cod": "DIP7767", "nom": "IMPUEST. DIFERI. Y PRES. EE.FF"}]}, "EOL6565": {"nombre": "Diplomado En Diseño E Instalación Fotovoltaica Con Certificación Tüv", "asigs": [{"cod": "DPL1526", "nom": "CONOC. BÁSIC. DE FÍSICA"}, {"cod": "DPL1536", "nom": "DIS. Y MODEL. DE SIST. SOLAR."}, {"cod": "DPL1546", "nom": "BUENAS PRÁC. PARA EL DISEÑO"}, {"cod": "DPL1556", "nom": "TAL. PRÁCTICO APL. Y CERT."}]}, "ECV7544": {"nombre": "Diplomado En Ingeniería De Datos Con Python", "asigs": [{"cod": "DPL1036", "nom": "FUND. DE ING. DATOS Y SQL"}, {"cod": "DPL1046", "nom": "PROG. EN PYTHON Y MAN. DE DATO"}, {"cod": "DPL1056", "nom": "HERR. Y ENT. PARA CS. DE DATOS"}, {"cod": "DPL1066", "nom": "DATA PIPELINE Y AUTOMATIZACIÓN"}]}, "EOL6557": {"nombre": "Diplomado En Machine Learning Aplicado", "asigs": [{"cod": "DPL1136", "nom": "FUND. DE PROG. Y PROCES."}, {"cod": "DPL1146", "nom": "CS. DE DATOS Y AUTOM. CON PYTH"}, {"cod": "DPL1156", "nom": "MODEL. ESTADÍST. Y APREN. AUT."}, {"cod": "DPL1166", "nom": "DEEP LEARNING APL. A PYTHON"}]}, "ECV7499": {"nombre": "Diplomado En Finanzas Y Aspectos Contables Para No Financieros", "asigs": [{"cod": "DIP8986", "nom": "ENTORNO ECO. Y CONCEPTOS FINA."}, {"cod": "DIP8996", "nom": "LOS ESTADOS FIN. Y TOMA DE DE."}, {"cod": "DIP9006", "nom": "HERRAMIENTAS DE ANÁLISIS FINA."}, {"cod": "DIP9016", "nom": "PLANIFICACIÓN FINANCIE. Y PRE."}, {"cod": "DIP9026", "nom": "DECISIONES FINANCIE. Y FINTECH"}, {"cod": "DIP9036", "nom": "TALLER DE SIM. DE DECISI. FIN."}]}, "EPR2566": {"nombre": "Diplomado En Finanzas Avanzadas Para El Mundo Del Trabajo", "asigs": [{"cod": "DPL156", "nom": "ADM. DE RIESGO CAMBIARIO"}, {"cod": "DPL157", "nom": "ADM. DE RIESGO DE TASA DE INT."}, {"cod": "DPL158", "nom": "MESA DINERO E INIC. A SIST. DE"}, {"cod": "DPL159", "nom": "HERRAM. DIGITALES Y FINTECH"}, {"cod": "DPL160", "nom": "AUDITORÍA FORENSE"}]}, "ECV7438": {"nombre": "Diplomado En Bioinformática Genómica", "asigs": [{"cod": "DIP6947", "nom": "INTRODUCCIÓN A LA BIOINFORMÁ"}, {"cod": "DIP6957", "nom": "BIOINFORMÁTICA GENÓMICA I"}, {"cod": "DIP6967", "nom": "BIOINFORMÁTICA GENÓMICA II"}, {"cod": "DIP6977", "nom": "BIOINFORMÁTICA ESTRUCTURAL"}]}, "EME4538": {"nombre": "Diplomado En Cirugía Reproductiva Y Tenencia Responsable", "asigs": [{"cod": "DPL0746", "nom": "TENENCIA RESP. Y BIENESTAR"}, {"cod": "DPL0756", "nom": "SALUD PÚBLICA VETERINARIA"}, {"cod": "DPL0769", "nom": "TEORÍA Y PRECLÍNICA QUIRÚRGICA"}, {"cod": "DPL077", "nom": "TALERES QUIRÚRGICOS SUPERV."}]}, "ECV7551": {"nombre": "Diplomado Justicia Penal Juvenil: Mediación Y Enfoque Restaurativo", "asigs": [{"cod": "DPL1336", "nom": "COMPREN. AL ADOLESCENTE ACTUAL"}, {"cod": "DPL1346", "nom": "SISTEMA PENAL JUVENIL EN CHILE"}, {"cod": "DPL1356", "nom": "JUST. REST. Y MED. PENAL JUV."}, {"cod": "DPL1366", "nom": "DIS. DE INTERV. RESTAURATIVAS"}]}, "EPR4550": {"nombre": "Diplomado En Diseño Videojuegos - Chime Co Japón Y Aone Games", "asigs": [{"cod": "DPL1299", "nom": "MOD. Y TEXTU, PARA VIDEOJUEGOS"}, {"cod": "DPL1309", "nom": "ANIMACIÓN Y VFX PARA VIDEOJUE."}, {"cod": "DPL1319", "nom": "UNREAL ENGINE Y OPTIMIZACIÓN"}, {"cod": "DPL1326", "nom": "PORTAFOLIO PROFESIONAL"}]}, "ECV7564": {"nombre": "Diplomado En Gestión De Proyectos De Creación", "asigs": [{"cod": "DPL0926", "nom": "TAL. DE DISEÑO Y GEST. PROY."}, {"cod": "DPL0936", "nom": "FORM. Y VINCL. DE PROYECTOS"}, {"cod": "DPL0946", "nom": "FINANC. Y GESTIÓN DE RECUR."}, {"cod": "DPL0956", "nom": "ADM. Y MARCOS REGULATORIOS"}, {"cod": "DPL0966", "nom": "COMUNICACIÓN DEL PROYECTO"}]}, "ECV7502": {"nombre": "Diplomado En Gestión De Proyectos Complejos Con Metodología Ágil Scrum", "asigs": [{"cod": "DIP9156", "nom": "PRINCIPIOS DE SCRUM Y AGILE"}, {"cod": "DIP9166", "nom": "GESTIÓN DE PROYECTOS CON SCRUM"}, {"cod": "DIP9176", "nom": "DESA. ÁGIL DE PRODUCTOS Y ENT."}, {"cod": "DIP9186", "nom": "LIDERAZ. Y TRANSFORMACIÓN ÁGIL"}]}};
+
+// ─── MÓDULOS UDLA ───
+const MODS=[
+  {ini:510,fin:570,base:100},{ini:580,fin:640,base:200},{ini:650,fin:710,base:300},
+  {ini:720,fin:780,base:400},{ini:790,fin:850,base:500},{ini:860,fin:920,base:600},
+  {ini:930,fin:990,base:700},{ini:1000,fin:1060,base:800},{ini:1070,fin:1130,base:900},
+  {ini:1155,fin:1215,base:1000},{ini:1225,fin:1285,base:1100},{ini:1290,fin:1350,base:1200}
+];
+const DIAS=['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+function toMin(t){const[h,m]=t.split(':').map(Number);return h*60+m;}
+function calcBloques(franjas){
+  const all=new Set();
+  franjas.forEach(f=>{
+    if(!f.diasIdx.length||!f.ini||!f.fin||f.ini>=f.fin)return;
+    const ini=toMin(f.ini),fin=toMin(f.fin);
+    MODS.forEach(mod=>{if(mod.ini<fin&&mod.fin>ini)f.diasIdx.forEach(di=>all.add((di+1)*100+mod.base/100));});
+  });
+  return[...all].sort((a,b)=>a-b);
+}
+
+// ─── ESTADO ───
+let asigs=[],editIdx=null,franjas=[];
+
+// ─── AUTOCOMPLETE CÓDIGO ───
+let dropSel=-1;
+function onCodigoInput(){
+  const q=document.getElementById('p-codigo').value.trim().toUpperCase();
+  document.getElementById('p-codigo').value=q;
+  // Limpiar nombre si el código cambia
+  const exact=CATALOGO[q];
+  if(exact){
+    setNombrePrograma(q,exact.nombre);
+    cerrarDropdown();return;
+  }
+  document.getElementById('p-nombre').value='';
+  document.getElementById('p-nombre').className='';
+  if(q.length<2){cerrarDropdown();return;}
+  const matches=Object.entries(CATALOGO).filter(([k,v])=>
+    k.includes(q)||v.nombre.toUpperCase().includes(q)
+  ).slice(0,8);
+  if(!matches.length){cerrarDropdown();return;}
+  dropSel=-1;
+  const dd=document.getElementById('cod-dropdown');
+  dd.innerHTML=matches.map(([k,v],i)=>
+    `<div class="dropdown-item" onmousedown="selCodigo('${k}')" id="ddi-${i}">
+      <span class="dropdown-cod">${k}</span>
+      <span class="dropdown-nom">${v.nombre}</span>
+    </div>`).join('');
+  dd.style.display='block';
+}
+function onCodigoKey(e){
+  const dd=document.getElementById('cod-dropdown');
+  const items=dd.querySelectorAll('.dropdown-item');
+  if(e.key==='ArrowDown'){e.preventDefault();dropSel=Math.min(dropSel+1,items.length-1);items.forEach((el,i)=>el.classList.toggle('sel',i===dropSel));}
+  else if(e.key==='ArrowUp'){e.preventDefault();dropSel=Math.max(dropSel-1,0);items.forEach((el,i)=>el.classList.toggle('sel',i===dropSel));}
+  else if(e.key==='Enter'&&dropSel>=0){e.preventDefault();items[dropSel].dispatchEvent(new Event('mousedown'));}
+  else if(e.key==='Escape'){cerrarDropdown();}
+}
+function selCodigo(cod){
+  document.getElementById('p-codigo').value=cod;
+  setNombrePrograma(cod,CATALOGO[cod].nombre);
+  cerrarDropdown();
+}
+function setNombrePrograma(cod,nombre){
+  const el=document.getElementById('p-nombre');
+  el.value=nombre;
+  el.className='nombre-autocomp';
+  // Setear tipo automáticamente
+  const n=nombre.toLowerCase();
+  const sel=document.getElementById('p-tipo');
+  if(n.startsWith('diplomado'))sel.value='Diplomado';
+  else if(n.startsWith('postítulo')||n.startsWith('postitulo'))sel.value='Postítulo';
+  else if(n.startsWith('magíster')||n.startsWith('magister'))sel.value='Magíster';
+}
+function cerrarDropdown(){document.getElementById('cod-dropdown').style.display='none';}
+document.addEventListener('click',e=>{if(!e.target.closest('.autocomplete-wrap'))cerrarDropdown();});
+
+// ─── NAVEGACIÓN ───
+function irA(n){
+  if(n===2){if(!validarPaso1())return;document.getElementById('badge-periodo').textContent='Período '+document.getElementById('p-periodo').value.trim();}
+  if(n===3){if(!asigs.length){alert('Agrega al menos una asignatura antes de continuar.');return;}renderResumen();}
+  [1,2,3].forEach(i=>{
+    document.getElementById('panel'+i).className='panel'+(i===n?' active':'');
+    const sc=document.getElementById('sc'+i),sl=document.getElementById('sl'+i);
+    if(i<n){sc.className='step-circle done';sl.className='step-lbl done';}
+    else if(i===n){sc.className='step-circle active';sl.className='step-lbl active';}
+    else{sc.className='step-circle';sl.className='step-lbl';}
+    if(i<3)document.getElementById('ln'+i).className='step-line'+(i<n?' done':'');
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function validarPaso1(){
+  let ok=true;
+  ['p-periodo','p-responsable','p-codigo'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el.value.trim()){el.classList.add('error');ok=false;}else el.classList.remove('error');
+  });
+  if(!ok)alert('Completa: Período, Responsable y Código de programa.');
+  return ok;
+}
+
+// ─── TABLA ASIGNATURAS ───
+function renderTabla(){
+  const empty=document.getElementById('tbl-empty'),wrap=document.getElementById('tbl-wrap'),tbody=document.getElementById('asig-tbody');
+  if(!asigs.length){empty.style.display='block';wrap.style.display='none';return;}
+  empty.style.display='none';wrap.style.display='block';
+  tbody.innerHTML=asigs.map((a,i)=>`<tr>
+    <td style="color:#aaa;font-size:12px">${i+1}</td>
+    <td><strong>${a.sigla}</strong></td>
+    <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${a.nombre}</td>
+    <td>${fmt(a.ini)}</td><td>${fmt(a.fin)}</td>
+    <td style="text-align:center">${a.semanas||'—'}</td>
+    <td><span class="badge ${a.bloques.length?'b-ok':'b-warn'}">${a.bloques.length} bloque${a.bloques.length!==1?'s':''}</span></td>
+    <td style="display:flex;gap:6px">
+      <button class="btn-edit" onclick="abrirForm(${i})">Editar</button>
+      <button class="btn-del" onclick="eliminar(${i})">✕</button>
+    </td></tr>`).join('');
+}
+function eliminar(i){if(!confirm('¿Eliminar esta asignatura?'))return;asigs.splice(i,1);renderTabla();}
+
+// ─── FORM ASIG ───
+function abrirForm(idx){
+  editIdx=idx;franjas=[];
+  const es=idx!==null;
+  document.getElementById('form-titulo').textContent=es?'Editar asignatura':'Nueva asignatura';
+
+  // Catálogo del programa actual
+  const cod=document.getElementById('p-codigo').value.trim().toUpperCase();
+  const catProg=CATALOGO[cod]?CATALOGO[cod].asigs:[];
+  const catSec=document.getElementById('cat-asig-section');
+  const btnCat=document.getElementById('btn-guardar-cat');
+
+  if(!es && catProg.length){
+    catSec.style.display='block';
+    btnCat.style.display='inline-flex';
+    renderCatAsigs(catProg);
+  } else {
+    catSec.style.display='none';
+    btnCat.style.display='none';
+  }
+
+  if(es){
+    const a=asigs[idx];
+    document.getElementById('fa-sigla').value=a.sigla;
+    document.getElementById('fa-nombre').value=a.nombre;
+    document.getElementById('fa-ini').value=a.ini;
+    document.getElementById('fa-fin').value=a.fin;
+    document.getElementById('fa-semanas').value=a.semanas||'';
+    document.getElementById('fa-obs').value=a.obs||'';
+    franjas=JSON.parse(JSON.stringify(a.franjas||[]));
+  } else {
+    ['fa-sigla','fa-nombre','fa-ini','fa-fin','fa-semanas','fa-obs'].forEach(id=>document.getElementById(id).value='');
+    addFranja();
+  }
+  renderFranjas();
+  const el=document.getElementById('form-asig');
+  el.style.display='block';el.className='card form-asig-card';
+  el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function renderCatAsigs(catAsigs){
+  const existentes=new Set(asigs.map(a=>a.sigla));
+  document.getElementById('cat-asig-list').innerHTML=catAsigs.map((a,i)=>{
+    const ya=existentes.has(a.cod);
+    return `<div class="cat-asig-item ${ya?'checked':''}" onclick="toggleCatCheck(${i})">
+      <input type="checkbox" class="cat-asig-check" id="cc-${i}" ${ya?'checked disabled':''} onchange="updCatCount()">
+      <span class="cat-asig-cod">${a.cod}</span>
+      <span class="cat-asig-nom">${a.nom}${ya?' <em style=\"color:#1d9e75;font-size:11px\">(ya agregada)</em>':''}</span>
+    </div>`;}).join('');
+  updCatCount();
+}
+function toggleCatCheck(i){
+  const cb=document.getElementById('cc-'+i);
+  if(cb.disabled)return;
+  cb.checked=!cb.checked;
+  cb.closest('.cat-asig-item').classList.toggle('checked',cb.checked);
+  updCatCount();
+}
+function updCatCount(){
+  const total=document.querySelectorAll('.cat-asig-check:not([disabled])').length;
+  const sel=document.querySelectorAll('.cat-asig-check:not([disabled]):checked').length;
+  document.getElementById('cat-sel-count').textContent=sel+' de '+total+' seleccionadas';
+}
+function selTodas(){document.querySelectorAll('.cat-asig-check:not([disabled])').forEach(cb=>{cb.checked=true;cb.closest('.cat-asig-item').classList.add('checked');});updCatCount();}
+function deselTodas(){document.querySelectorAll('.cat-asig-check:not([disabled])').forEach(cb=>{cb.checked=false;cb.closest('.cat-asig-item').classList.remove('checked');});updCatCount();}
+
+function guardarDesdeChat(){} // alias
+function guardarDesdecat(){} // alias
+
+function guardarDesdeEl(){} // fixer
+
+// Guardar asignaturas seleccionadas del catálogo (sin horario aún — se editan después)
+function guardarDesdecat_real(){
+  const cod=document.getElementById('p-codigo').value.trim().toUpperCase();
+  const catAsigs=CATALOGO[cod]?CATALOGO[cod].asigs:[];
+  const ini=document.getElementById('fa-ini').value;
+  const fin=document.getElementById('fa-fin').value;
+  if(!ini||!fin){alert('Ingresa las fechas de inicio y término antes de agregar las asignaturas.');return;}
+  if(ini>fin){alert('La fecha de término debe ser posterior a la de inicio.');return;}
+  const checks=document.querySelectorAll('.cat-asig-check:not([disabled]):checked');
+  if(!checks.length){alert('Selecciona al menos una asignatura del catálogo.');return;}
+  const sem=document.getElementById('fa-semanas').value;
+  const obs=document.getElementById('fa-obs').value.trim();
+  const bls=calcBloques(franjas);
+  if(!bls.length&&!confirm('Las asignaturas no tienen bloques horarios asignados. ¿Guardar igualmente?'))return;
+  const existentes=new Set(asigs.map(a=>a.sigla));
+  let agregadas=0;
+  checks.forEach(cb=>{
+    const i=parseInt(cb.id.replace('cc-',''));
+    const a=catAsigs[i];
+    if(existentes.has(a.cod))return;
+    asigs.push({
+      sigla:a.cod,
+      nombre:a.nom,
+      ini,fin,
+      semanas:sem,
+      obs,
+      franjas:JSON.parse(JSON.stringify(franjas)),
+      bloques:[...bls]
+    });
+    agregadas++;
+  });
+  if(agregadas===0){alert('Todas las asignaturas seleccionadas ya estaban agregadas.');return;}
+  cancelarForm();renderTabla();
+}
+
+function cancelarForm(){document.getElementById('form-asig').style.display='none';editIdx=null;franjas=[];}
+
+function guardarAsig(){
+  const sigla=document.getElementById('fa-sigla').value.trim().toUpperCase();
+  const nombre=document.getElementById('fa-nombre').value.trim().toUpperCase();
+  const ini=document.getElementById('fa-ini').value;
+  const fin=document.getElementById('fa-fin').value;
+  if(!sigla||!nombre||!ini||!fin){alert('Completa sigla, nombre y ambas fechas.');return;}
+  if(ini>fin){alert('La fecha de término debe ser posterior a la de inicio.');return;}
+  const bls=calcBloques(franjas);
+  if(!bls.length&&!confirm('Esta asignatura no tiene bloques horarios. ¿Guardar igualmente?'))return;
+  const obj={sigla,nombre,ini,fin,semanas:document.getElementById('fa-semanas').value||'',obs:document.getElementById('fa-obs').value.trim(),franjas:JSON.parse(JSON.stringify(franjas)),bloques:bls};
+  if(editIdx===null)asigs.push(obj);else asigs[editIdx]=obj;
+  cancelarForm();renderTabla();
+}
+
+// ─── SEMANAS AUTO ───
+function calcSemanas(){
+  const ini=document.getElementById('fa-ini').value,fin=document.getElementById('fa-fin').value;
+  if(!ini||!fin||ini>fin){document.getElementById('fa-semanas').value='';return;}
+  document.getElementById('fa-semanas').value=Math.ceil((new Date(fin)-new Date(ini))/(1000*60*60*24*7));
+}
+
+// ─── FRANJAS ───
+function addFranja(){franjas.push({diasIdx:[],ini:'',fin:''});renderFranjas();}
+function quitarFranja(i){franjas.splice(i,1);renderFranjas();}
+function toggleDia(fi,di){const idx=franjas[fi].diasIdx.indexOf(di);if(idx>=0)franjas[fi].diasIdx.splice(idx,1);else franjas[fi].diasIdx.push(di);renderFranjas();}
+function setTime(fi,campo,val){franjas[fi][campo]=val;renderBloquesRes();}
+function renderFranjas(){
+  const cont=document.getElementById('franjas-cont');
+  if(!franjas.length){cont.innerHTML='<p style="font-size:12px;color:#888;font-style:italic">Sin franjas. Haz clic en + Agregar franja.</p>';renderBloquesRes();return;}
+  cont.innerHTML=franjas.map((f,fi)=>`
+    <div class="franja-box">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <span style="font-size:12px;font-weight:700;color:#1a5fa8">Franja ${fi+1}</span>
+        <button class="btn-del" onclick="quitarFranja(${fi})">✕ Quitar</button>
+      </div>
+      <div><label style="font-size:11px;margin-bottom:5px">Días de clases</label>
+        <div class="dia-chips">${DIAS.map((d,di)=>`<div class="chip ${f.diasIdx.includes(di)?'on':''}" onclick="toggleDia(${fi},${di})">${d}</div>`).join('')}</div>
+      </div>
+      <div class="franja-row">
+        <div><label style="font-size:11px">Hora inicio</label><input type="time" value="${f.ini}" onchange="setTime(${fi},'ini',this.value)"></div>
+        <div><label style="font-size:11px">Hora fin</label><input type="time" value="${f.fin}" onchange="setTime(${fi},'fin',this.value)"></div>
+      </div>
+    </div>`).join('');
+  renderBloquesRes();
+}
+function renderBloquesRes(){
+  const bls=calcBloques(franjas),el=document.getElementById('bloques-res');
+  el.innerHTML=bls.length
+    ?`<div style="font-size:12px;font-weight:700;color:#0f6e56;margin-bottom:6px">Bloques UDLA asignados (${bls.length}):</div><div class="bloques-preview">${bls.map(b=>`<span class="bloques-chip">${b}</span>`).join('')}</div>`
+    :'<div class="bloques-none">Selecciona días y horario para ver los bloques asignados automáticamente.</div>';
+}
+
+// ─── RESUMEN ───
+function renderResumen(){
+  const total=asigs.reduce((s,a)=>s+a.bloques.length,0),sinB=asigs.filter(a=>!a.bloques.length).length;
+  const periodo=document.getElementById('p-periodo').value,resp=document.getElementById('p-responsable').value;
+  const cod=document.getElementById('p-codigo').value.toUpperCase(),tipo=document.getElementById('p-tipo').value;
+  const nombre=document.getElementById('p-nombre').value;
+  document.getElementById('stat-grid').innerHTML=`
+    <div class="stat"><div class="stat-n">${periodo}</div><div class="stat-l">Período</div></div>
+    <div class="stat"><div class="stat-n">${asigs.length}</div><div class="stat-l">Asignaturas</div></div>
+    <div class="stat"><div class="stat-n">${total}</div><div class="stat-l">Filas totales</div></div>
+    <div class="stat"><div class="stat-n">${sinB?'<span style="color:#e65100">'+sinB+'</span>':0}</div><div class="stat-l">Sin bloques</div></div>`;
+  document.getElementById('alerta-warn').innerHTML=sinB?`<div class="alert-warn">⚠ ${sinB} asignatura(s) sin bloques horarios — no generarán filas en el Excel.</div>`:'';
+  document.getElementById('resumen-det').innerHTML=`<strong>${resp}</strong> · ${tipo} · Código: <strong>${cod}</strong>${nombre?' · '+nombre:''}`;
+  const filas=generarFilas();
+  const cols=['Período','Responsable','Cód. Prog.','Cód. Asig.','Nombre Asignatura','F. Inicio','F. Término','Semanas','Módulo','Observaciones'];
+  document.getElementById('prev-tbl').innerHTML=
+    '<tr>'+cols.map(c=>`<th>${c}</th>`).join('')+'</tr>'+
+    filas.map(f=>`<tr><td>${f[0]}</td><td>${f[1]}</td><td>${f[2]}</td><td><strong>${f[3]}</strong></td><td>${f[4]}</td><td>${fmt(f[5])}</td><td>${fmt(f[6])}</td><td style="text-align:center">${f[7]||''}</td><td class="mod-cell">${f[8]}</td><td style="max-width:160px;overflow:hidden;text-overflow:ellipsis">${f[9]||''}</td></tr>`).join('');
+}
+
+// ─── GENERAR FILAS ───
+function generarFilas(){
+  const periodo=document.getElementById('p-periodo').value,resp=document.getElementById('p-responsable').value;
+  const cod=document.getElementById('p-codigo').value.toUpperCase();
+  const rows=[];
+  asigs.forEach(a=>a.bloques.forEach(b=>rows.push([periodo,resp,cod,a.sigla,a.nombre,a.ini,a.fin,a.semanas||'',b,a.obs||''])));
+  return rows;
+}
+
+// ─── EXPORTAR ───
+function exportar(){
+  const filas=generarFilas();
+  if(!filas.length){alert('No hay filas para exportar.');return;}
+  const hdr=[null,null,'Periodo','Responsable','Programa','Codigo Asignatura','Nombre Asignatura','Semanas duración','Fecha de inicio asignatura NRC   (DD-MM-AAAA)','Fecha de Término asignatura NRC  (DD-MM-AAAA)','Horario Clases (1 fila por cada módulo)','Observaciones'];
+  const data=[hdr,...filas.map(f=>[null,null,f[0],f[1],f[2],f[3],f[4],f[7]!==''?Number(f[7]):null,f[5],f[6],f[8],f[9]||null])];
+  const ws=XLSX.utils.aoa_to_sheet(data);
+  const fmtF='DD-MM-YYYY';
+  for(let r=1;r<data.length;r++){
+    const cI=XLSX.utils.encode_cell({r,c:8}),cF=XLSX.utils.encode_cell({r,c:9});
+    if(ws[cI]){ws[cI].t='d';ws[cI].z=fmtF;}
+    if(ws[cF]){ws[cF].t='d';ws[cF].z=fmtF;}
+  }
+  ws['!cols']=[{wch:3},{wch:3},{wch:8},{wch:20},{wch:10},{wch:14},{wch:36},{wch:10},{wch:16},{wch:16},{wch:10},{wch:65}];
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,'Horarios');
+  const p=document.getElementById('p-periodo').value;
+  const ini=document.getElementById('p-responsable').value.trim().split(' ').map(w=>w[0]||'').join('').toUpperCase();
+  XLSX.writeFile(wb,`Creacion_NRC_${p}_${ini}.xlsx`);
+}
+
+// ─── UTILS ───
+function fmt(s){if(!s)return'—';const[y,m,d]=s.split('-');return`${d}/${m}/${y}`;}
+
+// Fix alias
+function guardarDesdecat(){guardarDesdecat_real();}
+function guardarDesdeChat(){guardarDesdecat_real();}
+function guardarDesdeEl(){guardarDesdecat_real();}
+</script>
+</body>
+</html>
