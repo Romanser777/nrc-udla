@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Creación NRC — Educación Continua UDLA</title>
+<title>CreaciÃ³n NRC â€” EducaciÃ³n Continua UDLA</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -58,7 +58,7 @@ textarea{resize:vertical;min-height:56px}
 .btn-edit{background:#f0f4ff;color:#1a5fa8;border:1.5px solid #c0d0f0;padding:5px 11px;border-radius:5px;font-size:12px;cursor:pointer;font-weight:600}
 .btn-edit:hover{background:#dde8ff}
 .actions{display:flex;justify-content:space-between;align-items:center;margin-top:4px}
-/* Días chips */
+/* DÃ­as chips */
 .dia-chips{display:flex;gap:5px;flex-wrap:wrap}
 .chip{padding:5px 11px;border-radius:20px;border:1.5px solid #d0d0c8;background:#fafaf6;font-size:12px;font-weight:600;cursor:pointer;color:#666;transition:all .12s;user-select:none}
 .chip.on{background:#1a5fa8;border-color:#1a5fa8;color:#fff}
@@ -85,7 +85,7 @@ textarea{resize:vertical;min-height:56px}
 .badge{padding:2px 9px;border-radius:10px;font-size:11px;font-weight:700;display:inline-block}
 .b-ok{background:#e0f4ec;color:#0f6e56}
 .b-warn{background:#fff3e0;color:#e65100}
-/* Asigs del catálogo */
+/* Asigs del catÃ¡logo */
 .cat-asig-list{margin-top:12px;border:1px solid #e0e8f0;border-radius:7px;overflow:hidden}
 .cat-asig-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-bottom:1px solid #eef2f8;background:#fff;cursor:pointer;transition:background .1s}
 .cat-asig-item:last-child{border-bottom:none}
@@ -142,8 +142,8 @@ textarea{resize:vertical;min-height:56px}
 <body>
 
 <div class="topbar">
-  <div class="topbar-title">Creación NRC — Educación Continua UDLA</div>
-  <div class="topbar-badge" id="badge-periodo">Período 202610</div>
+  <div class="topbar-title">CreaciÃ³n NRC â€” EducaciÃ³n Continua UDLA</div>
+  <div class="topbar-badge" id="badge-periodo">PerÃ­odo 202610</div>
 </div>
 
 <div class="wrap">
@@ -159,10 +159,10 @@ textarea{resize:vertical;min-height:56px}
   <!-- PASO 1 -->
   <div class="panel active" id="panel1">
     <div class="card">
-      <div class="card-hdr">Datos de la sesión</div>
+      <div class="card-hdr">Datos de la sesiÃ³n</div>
       <div class="row r2">
         <div>
-          <label>Período *</label>
+          <label>PerÃ­odo *</label>
           <input id="p-periodo" type="text" value="202610" maxlength="6" placeholder="ej: 202610">
         </div>
         <div>
@@ -173,7 +173,7 @@ textarea{resize:vertical;min-height:56px}
     </div>
     <div class="actions">
       <div></div>
-      <button class="btn btn-primary" onclick="irA(2)">Siguiente →</button>
+      <button class="btn btn-primary" onclick="irA(2)">Siguiente â†’</button>
     </div>
   </div>
 
@@ -190,7 +190,7 @@ textarea{resize:vertical;min-height:56px}
         <!-- Mini-form agregar -->
         <div id="add-prog-form" style="display:none;margin-top:10px;padding-top:10px;border-top:1px solid #eee">
           <div style="margin-bottom:8px">
-            <label style="font-size:11px;margin-bottom:3px;display:block">Código *</label>
+            <label style="font-size:11px;margin-bottom:3px;display:block">CÃ³digo *</label>
             <div class="autocomplete-wrap">
               <input id="ap-codigo" type="text" placeholder="ej: ECV7563" autocomplete="off"
                 oninput="onApCodigoInput()" onkeydown="onApCodigoKey(event)" style="text-transform:uppercase;font-size:12px">
@@ -200,7 +200,7 @@ textarea{resize:vertical;min-height:56px}
           <div id="ap-manual-fields" style="display:none;margin-top:8px">
             <div style="margin-bottom:6px">
               <label style="font-size:12px">Nombre del programa *</label>
-              <input id="ap-nombre" type="text" placeholder="ej: DIPLOMADO EN ESTADÍSTICA APLICADA"
+              <input id="ap-nombre" type="text" placeholder="ej: DIPLOMADO EN ESTADÃSTICA APLICADA"
                      style="width:100%;text-transform:uppercase">
             </div>
             <div style="margin-bottom:6px">
@@ -208,8 +208,8 @@ textarea{resize:vertical;min-height:56px}
               <select id="ap-tipo" style="width:100%">
                 <option value="">-- Selecciona --</option>
                 <option value="Diplomado">Diplomado</option>
-                <option value="Postítulo">Postítulo</option>
-                <option value="Magíster">Magíster</option>
+                <option value="PostÃ­tulo">PostÃ­tulo</option>
+                <option value="MagÃ­ster">MagÃ­ster</option>
               </select>
             </div>
           </div>
@@ -221,7 +221,7 @@ textarea{resize:vertical;min-height:56px}
       <div class="prog-workspace">
         <div id="prog-workspace-empty" style="display:block">
           <div class="empty">
-            <div style="font-size:36px;margin-bottom:8px">📋</div>
+            <div style="font-size:36px;margin-bottom:8px">ðŸ“‹</div>
             <div>Agrega un programa desde el panel izquierdo para comenzar.</div>
           </div>
         </div>
@@ -232,12 +232,12 @@ textarea{resize:vertical;min-height:56px}
               <button class="btn btn-primary btn-sm" onclick="abrirForm(null)">+ Agregar asignatura</button>
             </div>
             <div id="tbl-empty" class="empty">
-              <div style="font-size:36px;margin-bottom:8px">📋</div>
-              <div>Sin asignaturas todavía.<br>Usa <strong>+ Agregar asignatura</strong> para comenzar.</div>
+              <div style="font-size:36px;margin-bottom:8px">ðŸ“‹</div>
+              <div>Sin asignaturas todavÃ­a.<br>Usa <strong>+ Agregar asignatura</strong> para comenzar.</div>
             </div>
             <div id="tbl-wrap" style="display:none">
               <table class="asig-tbl">
-                <thead><tr><th>#</th><th>Sigla</th><th>Nombre asignatura</th><th>F. inicio</th><th>F. término</th><th>Semanas</th><th>Bloques</th><th>Acciones</th></tr></thead>
+                <thead><tr><th>#</th><th>Sigla</th><th>Nombre asignatura</th><th>F. inicio</th><th>F. tÃ©rmino</th><th>Semanas</th><th>Bloques</th><th>Acciones</th></tr></thead>
                 <tbody id="asig-tbody"></tbody>
               </table>
             </div>
@@ -250,7 +250,7 @@ textarea{resize:vertical;min-height:56px}
             </div>
 
             <div id="cat-asig-section" style="display:none;margin-bottom:18px">
-              <label style="margin-bottom:8px;font-size:13px">Asignaturas del catálogo para este programa — selecciona las que van en esta oferta:</label>
+              <label style="margin-bottom:8px;font-size:13px">Asignaturas del catÃ¡logo para este programa â€” selecciona las que van en esta oferta:</label>
               <div class="cat-asig-list" id="cat-asig-list"></div>
               <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
                 <button class="btn btn-outline btn-sm" onclick="selTodas()">Seleccionar todas</button>
@@ -264,10 +264,10 @@ textarea{resize:vertical;min-height:56px}
 
             <div class="row r5">
               <div><label>Sigla *</label><input id="fa-sigla" type="text" placeholder="ej: DIP3577" style="text-transform:uppercase"></div>
-              <div><label>Nombre asignatura *</label><input id="fa-nombre" type="text" placeholder="ej: BASES DE LA DIVERSIFICACIÓN" style="text-transform:uppercase"></div>
+              <div><label>Nombre asignatura *</label><input id="fa-nombre" type="text" placeholder="ej: BASES DE LA DIVERSIFICACIÃ“N" style="text-transform:uppercase"></div>
               <div><label>Fecha inicio *</label><input id="fa-ini" type="date" onchange="calcSemanas()" oninput="calcSemanas()"></div>
-              <div><label>Fecha término *</label><input id="fa-fin" type="date" onchange="calcSemanas()" oninput="calcSemanas()"></div>
-              <div><label>Semanas</label><input id="fa-semanas" type="number" min="1" max="104" placeholder="auto"><div class="hint">Calculado automáticamente</div></div>
+              <div><label>Fecha tÃ©rmino *</label><input id="fa-fin" type="date" onchange="calcSemanas()" oninput="calcSemanas()"></div>
+              <div><label>Semanas</label><input id="fa-semanas" type="number" min="1" max="104" placeholder="auto"><div class="hint">Calculado automÃ¡ticamente</div></div>
             </div>
 
             <div style="background:#f0f6ff;border:1.5px solid #c0d4f0;border-radius:8px;padding:16px;margin-bottom:14px">
@@ -275,29 +275,29 @@ textarea{resize:vertical;min-height:56px}
                 <div style="font-size:13px;font-weight:700;color:#1a5fa8">Franjas horarias</div>
                 <button class="btn btn-outline btn-sm" onclick="addFranja()" style="border-color:#1a5fa8;color:#1a5fa8">+ Agregar franja</button>
               </div>
-              <p style="font-size:12px;color:#555;margin-bottom:12px">Elige días y franjas horarias. Los bloques UDLA se asignan automáticamente.</p>
+              <p style="font-size:12px;color:#555;margin-bottom:12px">Elige dÃ­as y franjas horarias. Los bloques UDLA se asignan automÃ¡ticamente.</p>
               <div id="franjas-cont"></div>
               <div id="bloques-res" style="margin-top:10px"></div>
             </div>
 
             <div>
               <label>Observaciones</label>
-              <textarea id="fa-obs" placeholder="ej: Clases viernes 17:30 a 20:30 hrs y sábados de 09:30 a 12:30 pm"></textarea>
+              <textarea id="fa-obs" placeholder="ej: Clases viernes 17:30 a 20:30 hrs y sÃ¡bados de 09:30 a 12:30 pm"></textarea>
               <div class="hint">Este texto aparece en la columna Observaciones de cada fila generada para esta asignatura.</div>
             </div>
 
             <div class="actions" style="margin-top:16px">
               <button class="btn btn-outline" onclick="cancelarForm()">Cancelar</button>
               <div style="display:flex;gap:8px">
-                <button class="btn btn-green" id="btn-guardar-cat" onclick="guardarDesdecat_real()" style="display:none">Agregar seleccionadas del catálogo</button>
+                <button class="btn btn-green" id="btn-guardar-cat" onclick="guardarDesdecat_real()" style="display:none">Agregar seleccionadas del catÃ¡logo</button>
                 <button class="btn btn-green" onclick="guardarAsig()">Guardar asignatura individual</button>
               </div>
             </div>
           </div>
         </div>
         <div class="actions" style="margin-top:16px">
-          <button class="btn btn-outline" onclick="irA(1)">← Volver</button>
-          <button class="btn btn-primary" onclick="irA(3)">Siguiente →</button>
+          <button class="btn btn-outline" onclick="irA(1)">â† Volver</button>
+          <button class="btn btn-primary" onclick="irA(3)">Siguiente â†’</button>
         </div>
       </div>
     </div>
@@ -313,28 +313,1981 @@ textarea{resize:vertical;min-height:56px}
     </div>
     <div class="card">
       <div class="card-hdr">Vista previa de filas</div>
-      <p style="font-size:12px;color:#888;margin-bottom:12px">Una fila por cada bloque horario — igual que el formato original.</p>
+      <p style="font-size:12px;color:#888;margin-bottom:12px">Una fila por cada bloque horario â€” igual que el formato original.</p>
       <div class="prev-wrap"><table class="prev-tbl" id="prev-tbl"></table></div>
     </div>
     <div class="actions">
-      <button class="btn btn-outline" onclick="irA(2)">← Volver</button>
-      <button class="btn btn-green" onclick="exportar()" style="font-size:14px;padding:12px 30px">⬇ Descargar Excel</button>
+      <button class="btn btn-outline" onclick="irA(2)">â† Volver</button>
+      <button class="btn btn-green" onclick="exportar()" style="font-size:14px;padding:12px 30px">â¬‡ Descargar Excel</button>
     </div>
   </div>
 
 </div>
 
 <script>
-const CATALOGO = {"ECV7320": {"nombre": "Diplomado En Motricidad Infantil", "asigs": [{"cod": "DIP1877", "nom": "INFANCIA Y EDUCACIÓN EN EL CHI"}, {"cod": "DIP1887", "nom": "BASES PEDAG.MOTRICIDAD INFANTI"}, {"cod": "DIP1897", "nom": "DES. DE LA MOTRICIDAD INFANTIL"}, {"cod": "DIP1907", "nom": "EVAL. PARA EL APRENDIZAJE INFA"}]}, "ECV7365": {"nombre": "Diplomado En Alfabetización Inicial Y Didáctica Para La Primera Infancia", "asigs": [{"cod": "DIP3837", "nom": "ALFABETIZACIÓN INICIAL EN PRIM"}, {"cod": "DIP3847", "nom": "DIDÁCTICA DE LA LECTURA"}, {"cod": "DIP3857", "nom": "DIDÁCTICA DE LA ESCRITURA"}, {"cod": "DIP3867", "nom": "EVAL. DE LA LECTURA Y ESCRIT."}]}, "ECV7378": {"nombre": "Diplomado En Ciberseguridad Y Gestión", "asigs": [{"cod": "DIP450", "nom": "FUND. INFRAES. Y MARCO LEG."}, {"cod": "DIP451", "nom": "CIBERSEGURIDAD Y NEGOCIOS"}, {"cod": "DIP452", "nom": "GEST. DE RIESG, ANÁLISIS, CON"}, {"cod": "DIP453", "nom": "CONT. DEL NEG. PLAN DE REC."}, {"cod": "DIP454", "nom": "CIB. EN PLATAFORM. DIG."}, {"cod": "DIP455", "nom": "TEND. EN LA IND. Y GEST."}]}, "ECV7348": {"nombre": "Diplomado En Necesidades Educativas Especiales Y Contextos Inclusivos", "asigs": [{"cod": "DIP3057", "nom": "NORMATIVA DE EDUC ESPECIAL"}, {"cod": "DIP3067", "nom": "ATENCIÓN DE LA DIVERSIDAD"}, {"cod": "DIP3077", "nom": "DIAG. Y ESTRATEGIAS DE INTERV."}, {"cod": "DIP3087", "nom": "GESTIÓN DE LA DIVERSIDAD"}]}, "ECV7405": {"nombre": "Postítulo En Discapacidad Intelectual Y Educación Inclusiva", "asigs": [{"cod": "DIP4897", "nom": "FUND. DE LA DISC. INTELECTUAL"}, {"cod": "DIP4907", "nom": "EVAL. Y DIAG. DE LA DISC. INT."}, {"cod": "DIP4917", "nom": "NEUROC. Y DESARR. DE HAB. COGN"}, {"cod": "DIP4927", "nom": "DISC. E INCLUSIÓN EDUCAT."}, {"cod": "DIP4937", "nom": "APREND. PARA TODOS, PRINC. DID"}, {"cod": "DIP4947", "nom": "DID. DE LA LECTOE. Y DISC. INT"}, {"cod": "DIP4957", "nom": "DIDÁCT. DE LA MAT. Y DISC. INT"}, {"cod": "DIP4967", "nom": "INSER. SOCIAL Y LAB. EN LA DIS"}, {"cod": "DIP4977", "nom": "PROYECTO SOCIOEDUCATIVO FINAL"}]}, "EOL7256": {"nombre": "Diplomado En Infecciones Asociadas A La Atención En Salud", "asigs": [{"cod": "DIP5977", "nom": "APLIC. DE NORMAS DE SUPERV."}, {"cod": "ENF0117", "nom": "MEDIDAS DE PRV. Y CONTROL IAAS"}, {"cod": "ENF0127", "nom": "GENERALIDADES DE LAS IAAS"}, {"cod": "ENF0137", "nom": "VIGILANCIA EPIDEMIOLÓGICA"}, {"cod": "DIP5977", "nom": "APLIC. DE NORMAS DE SUPERV."}, {"cod": "ENF0117", "nom": "MEDIDAS DE PRV. Y CONTROL IAAS"}, {"cod": "ENF0127", "nom": "GENERALIDADES DE LAS IAAS"}, {"cod": "ENF0137", "nom": "VIGILANCIA EPIDEMIOLÓGICA"}]}, "ECV7433": {"nombre": "Diplomado En Trastorno Del Espectro Autista Y Discapacidad Intelectual En El Curso De La Vida", "asigs": [{"cod": "DIP6507", "nom": "MOD. DE CALID. DE VIDA, INCLUS"}, {"cod": "DIP6517", "nom": "CARACT. DE LOS DESAF. DEL NEUR"}, {"cod": "DIP6527", "nom": "SIST. Y MÉTOD. DE EVAL. DE LOS"}, {"cod": "DIP6537", "nom": "ABORD. TERAP. Y SISTEM. DE APO"}, {"cod": "DIP6547", "nom": "SEMINARIO METOD. DE PROP."}]}, "EPR4358": {"nombre": "Diplomado En Salud Mental: Abordaje Interdisciplinario  Y Gestión Clínica", "asigs": [{"cod": "DIP3457", "nom": "POL. PÚB. Y SERV. DE SALUD MEN"}, {"cod": "DIP3467", "nom": "GEST. CLÍNICA Y COMUNIT. EN SA"}, {"cod": "DIP3477", "nom": "DET. SOCIALES Y CONDICIONANTES"}, {"cod": "DIP3489", "nom": "HERR. DE INTERVEN. CLÍNICA"}]}, "ESC8356": {"nombre": "Diplomado En Gerontogeriatría Interdisciplinaria", "asigs": [{"cod": "DIP3337", "nom": "GENER. DEL PROC. DE ENVEJ."}, {"cod": "DIP3347", "nom": "ENVEJ. BIOLÓGICO NORMAL"}, {"cod": "DIP3357", "nom": "PRIN. PAT. Y SIND. GERIAT."}, {"cod": "DIP3367", "nom": "ENF. FAM. Y SOC. EN EL AD. MAY"}, {"cod": "DIP337", "nom": "APR. PARA UN TRAB. MULTID."}]}, "ECV7306": {"nombre": "Diplomado En Derecho Del Trabajo Y Sistema De Relaciones Laborales En La Empresa", "asigs": [{"cod": "DIP1307", "nom": "REGULACIÓN JURÍDICA EN LA EMP."}, {"cod": "DIP1317", "nom": "CONTRATO INDIVIDUAL DEL TRAB."}, {"cod": "DIP1327", "nom": "SEGUR. SOCIAL Y DERECHO DE LA"}, {"cod": "DIP1337", "nom": "ORGAN. SINDICALES Y NEG. COLEC"}, {"cod": "DIP1347", "nom": "INSOLV.DE LA EMP. Y SUS EFEC."}]}, "ECV7325": {"nombre": "Diplomado En Derecho Administrativo Y Función Pública", "asigs": [{"cod": "DIP2077", "nom": "BASES Y PPÍOS. SIST. D. ADMIN."}, {"cod": "DIP2087", "nom": "LA ORG. ADM. DEL ESTADO"}, {"cod": "DIP2097", "nom": "ACT. JURÍDICAS DE LA ADM."}, {"cod": "DIP2107", "nom": "FUNC. PÚB. PROB. Y TRANS."}, {"cod": "DIP2117", "nom": "SISTEMA CONTRATO LABORAL PÚBL."}, {"cod": "DIP2127", "nom": "SEG. SOCIAL EN LA FUNC. PÚB."}, {"cod": "DIP2137", "nom": "TER. RELACIÓN. LAB. FUN. PÚB."}, {"cod": "DIP2147", "nom": "D. ADMIN. SANCIONATORIO LAB."}, {"cod": "DIP2157", "nom": "RES. LAB. DEL ESTADO EN SUBC."}]}, "ECV7273": {"nombre": "Diplomado En Gestión Y Planificación Tributaria", "asigs": [{"cod": "DIP0017", "nom": "CÓDIGO TRIBUTARIO E IVA"}, {"cod": "DIP0027", "nom": "IMPUESTO A LA RENTA EMPRESARIA"}, {"cod": "DIP0037", "nom": "IMPUESTO A LA RENTA PERSONAS"}, {"cod": "DIP0047", "nom": "GESTIÓN Y PLANIFICACIÓN TRIBUT"}, {"cod": "DIP5777", "nom": "IMPUESTO AL VALOR AGREGADO"}, {"cod": "DIP5787", "nom": "REGISTROS DE IMPUTACIÓN"}, {"cod": "DIP5797", "nom": "TRIBUTACIÓN INTERNACIONAL"}]}, "ECV7347": {"nombre": "Diplomado En Medicina Interna De Caninos", "asigs": [{"cod": "DIP3017", "nom": "MEDICINA INTERNA 1"}, {"cod": "DIP3027", "nom": "MEDICINA INTERNA 2"}, {"cod": "DIP3037", "nom": "MEDICINA INTERNA 3"}, {"cod": "DIP3047", "nom": "MEDICINA INTERNA 4"}]}, "ECV7398": {"nombre": "Diplomado En Salud Familiar Y Comunitario", "asigs": [{"cod": "DIP4807", "nom": "BASES CONCEPTUALES DE ATEN"}, {"cod": "DIP4817", "nom": "PROMOCIÓN DE LA SALUD FAMILIAR"}, {"cod": "DIP4827", "nom": "MO. DE AT. CON ENFO. EN LAS F."}, {"cod": "DIP4837", "nom": "DESAFÍOS PARA LA ATENCIÓN DE S"}]}, "ECV7432": {"nombre": "Diplomado En Nutrición Deportiva Y Fitness", "asigs": [{"cod": "DIP6447", "nom": "BASES MORFOFIS. DEL ENTRENAMI."}, {"cod": "DIP6457", "nom": "PLANIF. DEL ENTRENAM. DEPORT."}, {"cod": "DIP6467", "nom": "VALOR. NUTRUC. Y COMP. CORP."}, {"cod": "DIP6477", "nom": "REQUER. NUTRIC. DE DEPORTE"}, {"cod": "DIP6487", "nom": "SUPLEMENTACIÓN DEPORTIVA"}, {"cod": "DIP6497", "nom": "INTEGRADO FINAL"}]}, "ECV7453": {"nombre": "Diplomado En Gestión De Personas Y Cambio Organizacional", "asigs": [{"cod": "DIP2207", "nom": "DIAG.Y EVAL. DEL CAMB. ORGANIZ"}, {"cod": "DIP2217", "nom": "ASP.LEGAL. Y JURÍD. EN LA GES."}, {"cod": "DIP2227", "nom": "RECLUTAMIENTO Y SELECCIÓN"}, {"cod": "DIP2237", "nom": "CAPACITACIÓN Y EVAL. DESEMPEÑO"}, {"cod": "DIP2247", "nom": "COACHING, LIDERAZGO, NEG. Y RE"}, {"cod": "DIP2257", "nom": "EST.INTERVENCIÓN EN ORGANIZA."}]}, "ECV7377": {"nombre": "Diplomado En Competencias Digitales Para La Docencia", "asigs": [{"cod": "DIP4467", "nom": "ENTOR. VIRT. DE APREND. Y CREA"}, {"cod": "DIP4477", "nom": "ESTRAT. DID. PARA LA CREAT. E"}, {"cod": "DIP4487", "nom": "COMPET. DIGITALES PARA LA DOC."}, {"cod": "DIP5707", "nom": "INV.- ACCIÓN Y REF. PARA EL"}, {"cod": "DIP6167", "nom": "ANÁLISIS Y REDIS. DE PRÁC. PED"}]}, "ECV7404": {"nombre": "Diplomado En Orientación Educacional, Vocacional Y Familiar", "asigs": [{"cod": "DIP4847", "nom": "INTROD. A LA ORIENT. EDUCACIO."}, {"cod": "DIP4857", "nom": "ESTRAT. DE ORIENT. EDUCAC."}, {"cod": "DIP4867", "nom": "ORIENTACIÓN VOCACIONAL"}, {"cod": "DIP4877", "nom": "ORIENTACIÓN FAMILIAR"}, {"cod": "DIP4887", "nom": "DIS. METODOL. DE PLAN DE ORIEN"}]}, "ECV7425": {"nombre": "Diplomado En Evaluación Y Diseño De Instrumentos Para El Contexto Escolar", "asigs": [{"cod": "DIP5927", "nom": "MOD. Y PROC. DE EVAL. EN EL AU"}, {"cod": "DIP5937", "nom": "PROC. DE EVAL.: DISEÑ. DE INST"}, {"cod": "DIP5947", "nom": "DISEÑ. DE INSTR. DE OBSERV"}, {"cod": "DIP5957", "nom": "RETROALIMENTACIÓN EN EL AULA"}, {"cod": "DIP5967", "nom": "ANÁLIS. DE LA INF. PARA LA TOM"}]}, "ECV7337": {"nombre": "Diplomado En Bioestadística", "asigs": [{"cod": "DIP2587", "nom": "INT. A LA ESTAD. Y ANALIS."}, {"cod": "DIP2597", "nom": "PROB. E INFER. ESTADÍSTICA"}, {"cod": "DIP2607", "nom": "MODELOS DE REGRESIÓN LINEAL"}, {"cod": "DIP2617", "nom": "TEST PAREMÉTRICOS Y NO PAREM."}]}, "ECV7338": {"nombre": "Diplomado En Data Science", "asigs": [{"cod": "DIP2627", "nom": "INTRODUCCIÓN AL DATA SCIENCE"}, {"cod": "DIP2667", "nom": "MACHINE LEARNING I"}, {"cod": "DIP2677", "nom": "MACHINE LEARNING II"}, {"cod": "DIP3387", "nom": "PROGRAMACIÓN PARA DATA SCIENCE"}, {"cod": "DIP3397", "nom": "APLIC DE LA INTELIGENCIA ARTIF"}]}, "EPR9434": {"nombre": "Diplomado En Psicología Aplicada A La Actividad Física Y El Deporte", "asigs": [{"cod": "DIP6559", "nom": "BASES DE LA PSICOLOGIA DEPORTI"}, {"cod": "DIP6569", "nom": "PSICOLOGÍA DEPOR. PRES. Y FUT"}, {"cod": "DIP6579", "nom": "CS. DEL DEP. APLIC. A LA PSIC."}, {"cod": "DIP6589", "nom": "ÁREAS DE APLI. DE LA PSICO. DE"}, {"cod": "DIP6599", "nom": "INTERV. EN LA PSICOL. DEPORTIV"}]}, "ECV7278": {"nombre": "Diplomado Bim En Integración Del Diseño, Coordinación Y Revisión Para Proyectos Aec", "asigs": [{"cod": "DIP0187", "nom": "TEORÍA Y BIM PARA ARQUITECTURA"}, {"cod": "DIP0197", "nom": "BIM PARA ESTRUCTURA"}, {"cod": "DIP0207", "nom": "BIM  PARA INSTALACIONES - MEP"}, {"cod": "DIP1507", "nom": "COORDINACIÓN Y PRODUCTIVIDAD"}]}, "ECV7349": {"nombre": "Diplomado En Diseño De Sistemas De Riego Y Fertirrigación", "asigs": [{"cod": "DIP3097", "nom": "RELACIÓN-SUELO-AGUA-PLANTA"}, {"cod": "DIP3107", "nom": "DISEÑO SIST.RIEGO PRESURIZADO"}, {"cod": "DIP3117", "nom": "PROG. DE RIEGO, TELEMETRIA Y T"}, {"cod": "DIP3127", "nom": "NUTRICIÓN Y FERTIIRIGACIÓN DE"}, {"cod": "DIP3137", "nom": "MANEJO Y MANTENCIÓN DE SIST.RI"}]}, "EME4392": {"nombre": "Diplomado En Anestesia Y Manejo De Dolor En Pequeños Animales", "asigs": [{"cod": "DIP5039", "nom": "BASES DE LA ANESTESIA GENERAL"}, {"cod": "DIP5049", "nom": "ESTRATEGIAS ANESTÉSICAS"}, {"cod": "DIP5057", "nom": "BASES DEL DOLOR"}, {"cod": "DIP5067", "nom": "ANESTESIA Y ANALGESIA REGIONAL"}]}, "ECV7327": {"nombre": "Diplomado En Peritaje Psicosocial En Materia Penal Y Familia", "asigs": [{"cod": "DIP2167", "nom": "CONTEXTO JUDICIAL Y LABOR PERI"}, {"cod": "DIP2177", "nom": "EVALUACIÓN PERICIAL PSICOLÓGIC"}, {"cod": "DIP2187", "nom": "ELABORACION Y ANÁLISIS DE INFO"}, {"cod": "DIP2197", "nom": "TRABAJO FINAL"}]}, "EME8454": {"nombre": "Diplomado En Imagenología De Animales Pequeños", "asigs": [{"cod": "DIP3199", "nom": "RADIOLOGÍA"}, {"cod": "DIP3209", "nom": "ECOGRAFÍA"}, {"cod": "DIP3219", "nom": "ENDOSCOPIA"}, {"cod": "DIP3229", "nom": "RESONANCIA NUCLEAR"}]}, "ECV7287": {"nombre": "Diplomado En Sist. Integrados De Gestión De Calidad, M. Ambiente Y Seg, Mención Auditor Lider En Sig", "asigs": [{"cod": "DIP0457", "nom": "INTERPRETACIÓN NORMA ISO 9001"}, {"cod": "DIP0467", "nom": "INTERPRETACIÓN NORMA ISO 14001"}, {"cod": "DIP0477", "nom": "PLAN. ESTRA. Y CONTROL DE GEST"}, {"cod": "DIP0487", "nom": "AUTOR LÍDER EN SIST. INTEGRA."}]}, "ECV7386": {"nombre": "Diplomado En Gestión Ambiental Bajo Norma Iso 14001", "asigs": [{"cod": "DIP5217", "nom": "PLAN. ESTRATÉG. PARA UN SIST."}, {"cod": "DIP5227", "nom": "NORMA ISO 14001 SIST. DE GESTI"}, {"cod": "DIP5237", "nom": "AUDITOR LÍDER DE SIST. DE GEST"}]}, "ECV7435": {"nombre": "Diplomado En Auditor Líder En Gestión De Riesgos En Seguridad Y Salud Ocupac. Bajo Norma Iso 45001", "asigs": [{"cod": "DIP5077", "nom": "LEGISL. DE SEG. Y SAL. OCUP."}, {"cod": "DIP5087", "nom": "PLANF. ESTRAT. PARA SIST. DE G"}, {"cod": "DIP5097", "nom": "REQUIS. DE LA NORMA ISO 45001"}, {"cod": "DIP5107", "nom": "AUD. LÍDER DE SIST. DE GEST. D"}]}, "ECV7384": {"nombre": "Diplomado En Innovación En Docencia Universitaria", "asigs": [{"cod": "DIP5307", "nom": "TECN. Y USO DE PLAT. VIRT. AL"}, {"cod": "DIP5317", "nom": "PLANF. CURRICU. DE ASIG. Y REC"}, {"cod": "DIP5327", "nom": "DIDÁCT. Y ESTRAT. METOD. INNOV"}, {"cod": "DIP5337", "nom": "EVAL. Y RETROALIM. EFECTVA"}, {"cod": "DIP5707", "nom": "INV.- ACCIÓN Y REF. PARA EL"}]}, "ECV7418": {"nombre": "Diplomado En Evaluación Educativa: Desde La Comprensión A La Contextualización En El Aula", "asigs": [{"cod": "DIP5627", "nom": "EV. PARA LOS APREND. ESTRAT. T"}, {"cod": "DIP5637", "nom": "DIS. Y ANÁLISIS DE INST. DE EV"}, {"cod": "DIP5647", "nom": "EVAL. AUTENTICA Y RETRO. EFECT"}, {"cod": "DIP5657", "nom": "PROC. DE EVAL. CON EL APOYO TI"}, {"cod": "DIP5707", "nom": "INV.- ACCIÓN Y REF. PARA EL"}]}, "ECV7443": {"nombre": "Diplomado En Enfoque De Género E Interculturalidad Para La Educación Superior", "asigs": [{"cod": "DIP7537", "nom": "ENFOQUES DE GÉNERO E INTER."}, {"cod": "DIP7547", "nom": "DIV. DE DIVER. Y FUENTES DE D."}, {"cod": "DIP7557", "nom": "ENF. DE GÉNERO Y MÉTODOS INTE."}, {"cod": "DIP7567", "nom": "COMP. COMUNICATIVAS NO SEX."}, {"cod": "DIP7577", "nom": "INVESTIGACIÓN-ACCIÓN Y REFL."}]}, "ECV7445": {"nombre": "Diplomado En Investigación-Acción Aplicada A La Docencia Universitaria", "asigs": [{"cod": "DIP7637", "nom": "FUND. EVIDENCIAS Y REFLEXIÓN"}, {"cod": "DIP7647", "nom": "COORDENADAS METODOLÓGICAS"}, {"cod": "DIP7657", "nom": "ESTRATEGIAS DE RECOLECCIÓN"}, {"cod": "DIP7667", "nom": "DISEÑO DE INTERVENCIÓN Y EVAL."}, {"cod": "DIP7677", "nom": "TALL. DE PROTOCOLOS, ESC. COM."}]}, "EPR4416": {"nombre": "Diplomado En Gestión Y Operación En Alimentos Y Bebidas", "asigs": [{"cod": "DIP5549", "nom": "CONT. Y GEST. DE HOTELES Y RES"}, {"cod": "DIP5557", "nom": "GEST. EN OP. DE ALIMEN. Y BEBI"}, {"cod": "DIP5569", "nom": "COC. DE GRANDES PROC. Y NVA. T"}, {"cod": "DIP5577", "nom": "LIDERAZ. EN EMP. DE ALIM. Y BE"}]}, "ECV7470": {"nombre": "Diplomado En Producción De Eventos Empresariales, Tecnologías E Inteligencia Artificial", "asigs": [{"cod": "DIP8177", "nom": "PRODUCCION DE EVENTOS EMPRESA."}, {"cod": "DIP8187", "nom": "ORGANIZACIÓN DE CONGRESOS, SE."}, {"cod": "DIP8197", "nom": "TEAM BUILDING Y LIDERAZGO"}, {"cod": "DIP8207", "nom": "INTELIGENCIA ARTIFICIAL EN EV."}]}, "ECV7471": {"nombre": "Diplomado En Gestión De Turismo De Intereses Especiales", "asigs": [{"cod": "DIP4666", "nom": "GESTIÓN DE EXPERIENCIAS TURIS"}, {"cod": "DIP4676", "nom": "EXPERIENCIAS TURÍSTICAS TERRIT"}, {"cod": "DIP4686", "nom": "EXPERIENCIAS TURÍSTICAS AL AIR"}, {"cod": "DIP4696", "nom": "EXPERIENCIAS TURÍSTICAS ESTRAT"}, {"cod": "DIP4706", "nom": "DISEÑO DE PROYECTOS DE TUR"}]}, "ECV7479": {"nombre": "Diplomado En Normativa Laboral Aplicada", "asigs": [{"cod": "DIP8547", "nom": "FUND. DEL DERECHO LAB. Y CONT."}, {"cod": "DIP8557", "nom": "NORMA. JORNADA LAB. NUEVA LEY"}, {"cod": "DIP8567", "nom": "REMUN. Y BENEFICIOS SOCIALES"}, {"cod": "DIP8577", "nom": "INCLU. LEY 21.015 Y ACOSO LAB."}, {"cod": "DIP8587", "nom": "TALLER PRÁC.: CÁLCULO DE CONC."}]}, "ECV7463": {"nombre": "Diplomado En Ges. Y Coord. De Pro. En At. Primaria De Salud Con Enfoq. En El Mod. De At. Int. En Sal", "asigs": [{"cod": "DIP7817", "nom": "INTRODUCCIÓN AL MODELO DE ATE."}, {"cod": "DIP7827", "nom": "ORIENTACIONES TÉC. DE LOS PRO."}, {"cod": "DIP7837", "nom": "GESTIÓN ADMINIS. DE LOS PROG."}, {"cod": "DIP7847", "nom": "HERR. GERENCIALES PARA CARGOS"}]}, "ECV7501": {"nombre": "Diplomado En Gestión De Infraestructura", "asigs": [{"cod": "DIP9096", "nom": "INTRODUCCIÓN A LA OBRA CIVIL"}, {"cod": "DIP9106", "nom": "GES. Y CICLO DE VIDA DE UN PR."}, {"cod": "DIP9116", "nom": "ADMINISTRACIÓN DE CONTRATOS"}, {"cod": "DIP9126", "nom": "INSTITUCIONALIDAD EN INFRAEST."}, {"cod": "DIP9136", "nom": "GESTIÓN DE INFR.: VIAL, FERRO."}, {"cod": "DIP9146", "nom": "GESTIÓN DE IN.: ILU., SI. ELE."}, {"cod": "DIP9096", "nom": "INTRODUCCIÓN A LA OBRA CIVIL"}, {"cod": "DIP9106", "nom": "GES. Y CICLO DE VIDA DE UN PR."}, {"cod": "DIP9116", "nom": "ADMINISTRACIÓN DE CONTRATOS"}, {"cod": "DIP9126", "nom": "INSTITUCIONALIDAD EN INFRAEST."}, {"cod": "DIP9136", "nom": "GESTIÓN DE INFR.: VIAL, FERRO."}, {"cod": "DIP9146", "nom": "GESTIÓN DE IN.: ILU., SI. ELE."}]}, "ECV7461": {"nombre": "Diplomado En Docencia Para El Aprendizaje A Lo Largo De La Vida", "asigs": [{"cod": "DIP5587", "nom": "APREN. A LARGO DE LA VIDA Y ED"}, {"cod": "DIP5597", "nom": "DES. FIS. INTELEC. MORAL Y PSI"}, {"cod": "DIP5607", "nom": "EST. METOD. Y PLANF. CURRIC. E"}, {"cod": "DIP5617", "nom": "EST. EVAL. EN LA ED. DE ADULTO"}, {"cod": "DIP5707", "nom": "INV.- ACCIÓN Y REF. PARA EL"}]}, "ECV7476": {"nombre": "Diplomado En Integración De La Inteligencia Artificial En El Ámbito Educativo", "asigs": [{"cod": "DIP8417", "nom": "FUNDA. DE LA INTELIGENCIA ART."}, {"cod": "DIP8427", "nom": "HERR. DE IA GEN. PARA LA CREA."}, {"cod": "DIP8437", "nom": "HERR. DE IA GEN. PARA LA EVAL."}, {"cod": "DIP8447", "nom": "INTEG. PRÁCTICA DE LA IA GEN."}, {"cod": "DIP8457", "nom": "INVESTIGACIÓN-ACCIÓN Y REFLEX."}, {"cod": "DIP5707", "nom": "INV.- ACCIÓN Y REF. PARA EL"}, {"cod": "DIP8417", "nom": "FUNDA. DE LA INTELIGENCIA ART."}, {"cod": "DIP8427", "nom": "HERR. DE IA GEN. PARA LA CREA."}, {"cod": "DIP8437", "nom": "HERR. DE IA GEN. PARA LA EVAL."}, {"cod": "DIP8447", "nom": "INTEG. PRÁCTICA DE LA IA GEN."}]}, "ECV7510": {"nombre": "Diplomado En Turismo Cultural Y Las Industrias Creativas", "asigs": [{"cod": "DIP9556", "nom": "RECURSOS TURÍSTICOS PATRIMONI."}, {"cod": "DIP9566", "nom": "TURISMO CULTURAL DE INT. ESPE."}, {"cod": "DIP9576", "nom": "INSTRUMENTOS DE FOMENTO TURÍS."}, {"cod": "DIP9586", "nom": "INDUSTRIA Y TURISMO CREATIVO"}, {"cod": "DIP9596", "nom": "PROYECTOS, POS. Y PRODUC. TUR."}]}, "EPR4500": {"nombre": "Diplomado En Fisiología Humana Con Orientación Clínica", "asigs": [{"cod": "DIP9049", "nom": "PRINCIPIOS TRON. DE LA FI. HU."}, {"cod": "DIP9059", "nom": "PRO. DE LA FIS. DE LOS SI. NE."}, {"cod": "DIP9069", "nom": "PRO. DE LA FI. DEL SISTEMA EN."}, {"cod": "DIP9079", "nom": "PRO. DE LA FISIOL. DE LOS SIS."}, {"cod": "DIP9089", "nom": "PRO. DE LA FI. DEL SISTEMA RE."}]}, "ECV7506": {"nombre": "Diplomado En Inteligencia Artificial Para Profesionales De La Salud", "asigs": [{"cod": "DIP9386", "nom": "FUNDAMENTOS DE IA EN SALUD"}, {"cod": "DIP9396", "nom": "APLICA. DE IA EN DIAGNO. Y TR."}, {"cod": "DIP9406", "nom": "MARKETING DIGITAL E IA EN SAL."}, {"cod": "DIP9416", "nom": "PROYECTO DE IM. DE IA EN SALUD"}]}, "ECV7511": {"nombre": "Diplomado En Convivencia Educativa Y Aprendizaje Socioemocional", "asigs": [{"cod": "DIP5117", "nom": "FUND. DE LA CONVIVENCIA EDUCA."}, {"cod": "DIP5127", "nom": "M. NORM.Y POL. PÚB. PARA LA C."}, {"cod": "DIP5137", "nom": "APRENDIZAJE SOC. EN CONTE. ED."}, {"cod": "DIP5147", "nom": "LIDERAZGO ED. PARA LA CON. FO."}, {"cod": "DIP5157", "nom": "HACIA UNA CONV. EDUC. IN. E I."}]}, "ECV7528": {"nombre": "Diplomado Intervención Psicosocial A Víctimas Y Testigos En El Sistema De Justicia Penal", "asigs": [{"cod": "DPL0286", "nom": "SISTEMA DE JUSTICIA EN CHILE"}, {"cod": "DPL0296", "nom": "POLÍTICAS PÚBLICAS EN SEG. CI."}, {"cod": "DPL0306", "nom": "INT. PSICO. EN EL SIS. DE JUST"}, {"cod": "DPL0316", "nom": "INT. EN DELITOS SEXUA. Y VIOL."}, {"cod": "DPL0326", "nom": "INTER. EN DELITOS VI. Y CRIMEN"}, {"cod": "DPL0336", "nom": "AUTOC., CUIDADO DE LOS EQUIPOS"}]}, "ECV7496": {"nombre": "Diplomado En Agroecología", "asigs": [{"cod": "DIP8846", "nom": "BASES CIENTÍ. Y EP. DE LA AGR."}, {"cod": "DIP8856", "nom": "TRANSICIÓN AGROECOLÓG. PREDIAL"}, {"cod": "DIP8866", "nom": "MANEJO ECOLÓGICO DE SUELOS"}, {"cod": "DIP8876", "nom": "MA. ECOLÓGICO DE PLAGAS Y ENF."}, {"cod": "DIP8886", "nom": "TEC. APR. PARA RECURSOS HÍDRI."}]}, "ECV7549": {"nombre": "Diplomado En Revisión, Edición Y Posedición De Textos Traducidos", "asigs": [{"cod": "DPL1256", "nom": "FUND. DE REV. Y ED. DE TEXT. T"}, {"cod": "DPL1266", "nom": "POSEDICIÓN DE TEX. PRETRAD."}, {"cod": "DPL1276", "nom": "INNOV. EN LA TRAD. Y POSED."}, {"cod": "DPL1286", "nom": "CNTRL. Y EVAL. DE LA CALIDAD"}]}, "ECV7552": {"nombre": "Postítulo Mención En Educación Matemática", "asigs": [{"cod": "DPL054", "nom": "PSIC. Y APREN. DEL ADO./VOCAC."}, {"cod": "DPL055", "nom": "LIDERAZGO DE HABILIDADES SOCI."}, {"cod": "DPL056", "nom": "SISTEMAS NUMÉRICOS"}, {"cod": "DPL057", "nom": "EVALUACIÓN TOMA DE DECISIÓN"}, {"cod": "DPL058", "nom": "HERR. DIGI. Y PLANES DE MEJORA"}, {"cod": "DPL059", "nom": "DATOS Y PROBABILIDADES"}, {"cod": "DPL060", "nom": "ALGEBRA Y FUNCIONES"}, {"cod": "DPL061", "nom": "GEOMETRÍA Y MEDICIÓN"}, {"cod": "DPL1376", "nom": "PERSP. TEÓRICAS Y CURR. EN ED."}, {"cod": "DPL1386", "nom": "INVEST. CIENT. Y DISEÑO DE ING"}, {"cod": "DPL1396", "nom": "TECNOLOGÍA EN EDUCACIÓN STEM"}, {"cod": "DPL1406", "nom": "DESARR. DE LA CREAT. E INNOV.1"}, {"cod": "DPL1416", "nom": "TALL. DE INV. EN ED. STEM I"}, {"cod": "DPL1426", "nom": "TALL. DE INV. EN ED. STEM II"}]}, "EPR2562": {"nombre": "Postítulo Mención En Lenguaje", "asigs": [{"cod": "DPL046", "nom": "PSIC. Y APR. DEL AD. /VOCACIÓN"}, {"cod": "DPL047", "nom": "LIDERAZGO DE HABILIDADES SOCI."}, {"cod": "DPL048", "nom": "LITERATURA INFANTIL 1"}, {"cod": "DPL049", "nom": "EVALUACIÓN TOMA DE DECISIÓN"}, {"cod": "DPL050", "nom": "HERR. DIGITALES Y PL. DE MEJO."}, {"cod": "DPL051", "nom": "COMPRENSIÓN DE TEXTOS"}, {"cod": "DPL052", "nom": "PRODU. DE TEXTOS ORALES Y ESC."}, {"cod": "DPL053", "nom": "INVEST. EN LENGUA Y LITERATURA"}]}, "EPR8561": {"nombre": "Diplomado En Deporte Escolar", "asigs": [{"cod": "DPL0789", "nom": "GIMNASIA ARTÍSTICA EN LA ESC."}, {"cod": "DPL0799", "nom": "BALONMANO EN LA ESCUELA"}, {"cod": "DPL0809", "nom": "BÁSQUETBOL EN LA ESCUELA"}, {"cod": "DPL0819", "nom": "VÓLEIBOL EN LA ESCUELA"}]}, "ECV7504": {"nombre": "Diplomado En Gestión Para La Transformación Digital Ágil", "asigs": [{"cod": "DIP9276", "nom": "FUNDAMENTOS DE TRANSF. DIGITAL"}, {"cod": "DIP9286", "nom": "TECN. DISRUPTIVAS Y HERR. INN."}, {"cod": "DIP9296", "nom": "MODELOS DE NEGOCIOS DIGITALES"}, {"cod": "DIP9306", "nom": "MINDSET ÁGIL"}, {"cod": "DIP9316", "nom": "DISEÑO ESTR. DE TRANS. DIGITAL"}]}, "ECV7563": {"nombre": "Diplomado En Prácticas Inclusivas", "asigs": [{"cod": "DIP3577", "nom": "BASES DE LA DIVERSIFICACIÓN"}, {"cod": "DIP3587", "nom": "DIVERSIDAD Y APRENDIZAJE"}, {"cod": "DIP3597", "nom": "ESTRAT. DIVERSIFICADAS DE ENS."}, {"cod": "DIP3607", "nom": "DISEÑO DE ESTR. DIVERS. DE ENS"}]}, "EPR8553": {"nombre": "Postítulo En Psicomotricidad Infantil", "asigs": [{"cod": "DPL1436", "nom": "FUND. DE LA PSICOMOTRICIDAD"}, {"cod": "DPL1449", "nom": "OBS. PSICOMOTRIZ Y EV. DIAG."}, {"cod": "DPL1459", "nom": "INTEV. EN PSICOM. EDUC. Y TER."}, {"cod": "DPL146", "nom": "FORM. CORP. DEL PSICOM."}, {"cod": "DPL1479", "nom": "PROY. INT. Y SUPERV. DE LA PRÁ"}]}, "ECV7415": {"nombre": "Diplomado En Normativa Ifrs", "asigs": [{"cod": "DIP7727", "nom": "INT. Y MARCO CONCEP. PARA LA I"}, {"cod": "DIP7737", "nom": "RUBROS CORRIENTES Y RESULTADOS"}, {"cod": "DIP7747", "nom": "RUBROS NO CORRIENTES"}, {"cod": "DIP7757", "nom": "INVERS. TEMP. PERMAN. Y COMB."}, {"cod": "DIP7767", "nom": "IMPUEST. DIFERI. Y PRES. EE.FF"}]}, "EOL6565": {"nombre": "Diplomado En Diseño E Instalación Fotovoltaica Con Certificación Tüv", "asigs": [{"cod": "DPL1526", "nom": "CONOC. BÁSIC. DE FÍSICA"}, {"cod": "DPL1536", "nom": "DIS. Y MODEL. DE SIST. SOLAR."}, {"cod": "DPL1546", "nom": "BUENAS PRÁC. PARA EL DISEÑO"}, {"cod": "DPL1556", "nom": "TAL. PRÁCTICO APL. Y CERT."}]}, "ECV7544": {"nombre": "Diplomado En Ingeniería De Datos Con Python", "asigs": [{"cod": "DPL1036", "nom": "FUND. DE ING. DATOS Y SQL"}, {"cod": "DPL1046", "nom": "PROG. EN PYTHON Y MAN. DE DATO"}, {"cod": "DPL1056", "nom": "HERR. Y ENT. PARA CS. DE DATOS"}, {"cod": "DPL1066", "nom": "DATA PIPELINE Y AUTOMATIZACIÓN"}]}, "EOL6557": {"nombre": "Diplomado En Machine Learning Aplicado", "asigs": [{"cod": "DPL1136", "nom": "FUND. DE PROG. Y PROCES."}, {"cod": "DPL1146", "nom": "CS. DE DATOS Y AUTOM. CON PYTH"}, {"cod": "DPL1156", "nom": "MODEL. ESTADÍST. Y APREN. AUT."}, {"cod": "DPL1166", "nom": "DEEP LEARNING APL. A PYTHON"}]}, "ECV7499": {"nombre": "Diplomado En Finanzas Y Aspectos Contables Para No Financieros", "asigs": [{"cod": "DIP8986", "nom": "ENTORNO ECO. Y CONCEPTOS FINA."}, {"cod": "DIP8996", "nom": "LOS ESTADOS FIN. Y TOMA DE DE."}, {"cod": "DIP9006", "nom": "HERRAMIENTAS DE ANÁLISIS FINA."}, {"cod": "DIP9016", "nom": "PLANIFICACIÓN FINANCIE. Y PRE."}, {"cod": "DIP9026", "nom": "DECISIONES FINANCIE. Y FINTECH"}, {"cod": "DIP9036", "nom": "TALLER DE SIM. DE DECISI. FIN."}]}, "EPR2566": {"nombre": "Diplomado En Finanzas Avanzadas Para El Mundo Del Trabajo", "asigs": [{"cod": "DPL156", "nom": "ADM. DE RIESGO CAMBIARIO"}, {"cod": "DPL157", "nom": "ADM. DE RIESGO DE TASA DE INT."}, {"cod": "DPL158", "nom": "MESA DINERO E INIC. A SIST. DE"}, {"cod": "DPL159", "nom": "HERRAM. DIGITALES Y FINTECH"}, {"cod": "DPL160", "nom": "AUDITORÍA FORENSE"}]}, "ECV7438": {"nombre": "Diplomado En Bioinformática Genómica", "asigs": [{"cod": "DIP6947", "nom": "INTRODUCCIÓN A LA BIOINFORMÁ"}, {"cod": "DIP6957", "nom": "BIOINFORMÁTICA GENÓMICA I"}, {"cod": "DIP6967", "nom": "BIOINFORMÁTICA GENÓMICA II"}, {"cod": "DIP6977", "nom": "BIOINFORMÁTICA ESTRUCTURAL"}]}, "EME4538": {"nombre": "Diplomado En Cirugía Reproductiva Y Tenencia Responsable", "asigs": [{"cod": "DPL0746", "nom": "TENENCIA RESP. Y BIENESTAR"}, {"cod": "DPL0756", "nom": "SALUD PÚBLICA VETERINARIA"}, {"cod": "DPL0769", "nom": "TEORÍA Y PRECLÍNICA QUIRÚRGICA"}, {"cod": "DPL077", "nom": "TALERES QUIRÚRGICOS SUPERV."}]}, "ECV7551": {"nombre": "Diplomado Justicia Penal Juvenil: Mediación Y Enfoque Restaurativo", "asigs": [{"cod": "DPL1336", "nom": "COMPREN. AL ADOLESCENTE ACTUAL"}, {"cod": "DPL1346", "nom": "SISTEMA PENAL JUVENIL EN CHILE"}, {"cod": "DPL1356", "nom": "JUST. REST. Y MED. PENAL JUV."}, {"cod": "DPL1366", "nom": "DIS. DE INTERV. RESTAURATIVAS"}]}, "EPR4550": {"nombre": "Diplomado En Diseño Videojuegos - Chime Co Japón Y Aone Games", "asigs": [{"cod": "DPL1299", "nom": "MOD. Y TEXTU, PARA VIDEOJUEGOS"}, {"cod": "DPL1309", "nom": "ANIMACIÓN Y VFX PARA VIDEOJUE."}, {"cod": "DPL1319", "nom": "UNREAL ENGINE Y OPTIMIZACIÓN"}, {"cod": "DPL1326", "nom": "PORTAFOLIO PROFESIONAL"}]}, "ECV7564": {"nombre": "Diplomado En Gestión De Proyectos De Creación", "asigs": [{"cod": "DPL0926", "nom": "TAL. DE DISEÑO Y GEST. PROY."}, {"cod": "DPL0936", "nom": "FORM. Y VINCL. DE PROYECTOS"}, {"cod": "DPL0946", "nom": "FINANC. Y GESTIÓN DE RECUR."}, {"cod": "DPL0956", "nom": "ADM. Y MARCOS REGULATORIOS"}, {"cod": "DPL0966", "nom": "COMUNICACIÓN DEL PROYECTO"}]}, "ECV7502": {"nombre": "Diplomado En Gestión De Proyectos Complejos Con Metodología Ágil Scrum", "asigs": [{"cod": "DIP9156", "nom": "PRINCIPIOS DE SCRUM Y AGILE"}, {"cod": "DIP9166", "nom": "GESTIÓN DE PROYECTOS CON SCRUM"}, {"cod": "DIP9176", "nom": "DESA. ÁGIL DE PRODUCTOS Y ENT."}, {"cod": "DIP9186", "nom": "LIDERAZ. Y TRANSFORMACIÓN ÁGIL"}]}};
+const CATALOGO = {
+  "ECV7278": {
+    "nombre": "Diplomado Bim En IntegraciÃ³n Del DiseÃ±o, CoordinaciÃ³n Y RevisiÃ³n Para Proyectos Aec",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP0187",
+        "nom": "TEORÃA Y BIM PARA ARQUITECTURA"
+      },
+      {
+        "cod": "DIP0197",
+        "nom": "BIM PARA ESTRUCTURA"
+      },
+      {
+        "cod": "DIP0207",
+        "nom": "BIM  PARA INSTALACIONES - MEP"
+      },
+      {
+        "cod": "DIP1507",
+        "nom": "COORDINACIÃ“N Y PRODUCTIVIDAD"
+      }
+    ]
+  },
+  "ECV7400": {
+    "nombre": "Diplomado Convivencia Escolar Y Aprendizaje Socioemocional",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP5117",
+        "nom": "FUND. DE LA CONVIVENCIA EDUCA."
+      },
+      {
+        "cod": "DIP5127",
+        "nom": "M. NORM.Y POL. PÃšB. PARA LA C."
+      },
+      {
+        "cod": "DIP5137",
+        "nom": "APRENDIZAJE SOC. EN CONTE. ED."
+      },
+      {
+        "cod": "DIP5147",
+        "nom": "LIDERAZGO ED. PARA LA CON. FO."
+      },
+      {
+        "cod": "DIP5157",
+        "nom": "HACIA UNA CONV. EDUC. IN. E I."
+      }
+    ]
+  },
+  "ECV7496": {
+    "nombre": "Diplomado En AgroecologÃ­a",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP8846",
+        "nom": "BASES CIENTÃ. Y EP. DE LA AGR."
+      },
+      {
+        "cod": "DIP8856",
+        "nom": "TRANSICIÃ“N AGROECOLÃ“G. PREDIAL"
+      },
+      {
+        "cod": "DIP8866",
+        "nom": "MANEJO ECOLÃ“GICO DE SUELOS"
+      },
+      {
+        "cod": "DIP8876",
+        "nom": "MA. ECOLÃ“GICO DE PLAGAS Y ENF."
+      },
+      {
+        "cod": "DIP8886",
+        "nom": "TEC. APR. PARA RECURSOS HÃDRI."
+      }
+    ]
+  },
+  "ECV7365": {
+    "nombre": "Diplomado En AlfabetizaciÃ³n Inicial Y DidÃ¡ctica Para La Primera Infancia",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP3837",
+        "nom": "ALFABETIZACIÃ“N INICIAL EN PRIM"
+      },
+      {
+        "cod": "DIP3847",
+        "nom": "DIDÃCTICA DE LA LECTURA"
+      },
+      {
+        "cod": "DIP3857",
+        "nom": "DIDÃCTICA DE LA ESCRITURA"
+      },
+      {
+        "cod": "DIP3867",
+        "nom": "EVAL. DE LA LECTURA Y ESCRIT."
+      }
+    ]
+  },
+  "ECV7407": {
+    "nombre": "Diplomado En Auditor LÃ­der En GestiÃ³n De Riesgos En Seguridad Y Salud Ocupac. Bajo Norma Iso 45001",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP5087",
+        "nom": "PLANF. ESTRAT. PARA SIST. DE G"
+      },
+      {
+        "cod": "DIP5097",
+        "nom": "REQUIS. DE LA NORMA ISO 45001"
+      },
+      {
+        "cod": "DIP5107",
+        "nom": "AUD. LÃDER DE SIST. DE GEST. D"
+      },
+      {
+        "cod": "DIP5077",
+        "nom": "LEGISL. DE SEG. Y SAL. OCUP."
+      }
+    ]
+  },
+  "ECV7337": {
+    "nombre": "Diplomado En BioestadÃ­stica",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP2587",
+        "nom": "INT. A LA ESTAD. Y ANALIS."
+      },
+      {
+        "cod": "DIP2597",
+        "nom": "PROB. E INFER. ESTADÃSTICA"
+      },
+      {
+        "cod": "DIP2607",
+        "nom": "MODELOS DE REGRESIÃ“N LINEAL"
+      },
+      {
+        "cod": "DIP2617",
+        "nom": "TEST PAREMÃ‰TRICOS Y NO PAREM."
+      }
+    ]
+  },
+  "ECV7438": {
+    "nombre": "Diplomado En BioinformÃ¡tica GenÃ³mica",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP6947",
+        "nom": "INTRODUCCIÃ“N A LA BIOINFORMÃ"
+      },
+      {
+        "cod": "DIP6957",
+        "nom": "BIOINFORMÃTICA GENÃ“MICA I"
+      },
+      {
+        "cod": "DIP6967",
+        "nom": "BIOINFORMÃTICA GENÃ“MICA II"
+      },
+      {
+        "cod": "DIP6977",
+        "nom": "BIOINFORMÃTICA ESTRUCTURAL"
+      }
+    ]
+  },
+  "ECV7378": {
+    "nombre": "Diplomado En Ciberseguridad Y GestiÃ³n",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP450",
+        "nom": "FUND. INFRAES. Y MARCO LEG."
+      },
+      {
+        "cod": "DIP451",
+        "nom": "CIBERSEGURIDAD Y NEGOCIOS"
+      },
+      {
+        "cod": "DIP452",
+        "nom": "GEST. DE RIESG, ANÃLISIS, CON"
+      },
+      {
+        "cod": "DIP453",
+        "nom": "CONT. DEL NEG. PLAN DE REC."
+      },
+      {
+        "cod": "DIP454",
+        "nom": "CIB. EN PLATAFORM. DIG."
+      },
+      {
+        "cod": "DIP455",
+        "nom": "TEND. EN LA IND. Y GEST."
+      }
+    ]
+  },
+  "ECV7377": {
+    "nombre": "Diplomado En Competencias Digitales Para La Docencia",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP4467",
+        "nom": "ENTOR. VIRT. DE APREND. Y CREA"
+      },
+      {
+        "cod": "DIP4477",
+        "nom": "ESTRAT. DID. PARA LA CREAT. E"
+      },
+      {
+        "cod": "DIP4487",
+        "nom": "DOC. EN LA ERA DIGITAL"
+      },
+      {
+        "cod": "DIP6167",
+        "nom": "REDIS. DE PRÃC. PEDAG. Y SEG."
+      },
+      {
+        "cod": "DIP5707",
+        "nom": "INV.- ACCIÃ“N Y REF. PARA EL"
+      }
+    ]
+  },
+  "ECV7451": {
+    "nombre": "Diplomado En ComunicaciÃ³n Y Marketing Digital Para Emprender",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP7127",
+        "nom": "INTROD. AL MARKETING CON PROP."
+      },
+      {
+        "cod": "DIP7137",
+        "nom": "SEGMENTACIÃ“N  - ESTRATEGIA DIG"
+      },
+      {
+        "cod": "DIP7147",
+        "nom": "CONEXIÃ“N CON EL CONSUMIDOR"
+      },
+      {
+        "cod": "DIP7157",
+        "nom": "ESTRAT. Y PLAN DE GENERACIÃ“N"
+      },
+      {
+        "cod": "DIP7167",
+        "nom": "REDES SOCIALES Y CAMPAÃ‘AS"
+      },
+      {
+        "cod": "DIP7177",
+        "nom": "PROYECTO FINAL (PRES. DE CASO)"
+      }
+    ]
+  },
+  "ECV7514": {
+    "nombre": "Diplomado En Conflicto Y CooperaciÃ³n Internacional En El Siglo Xxi",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP9606",
+        "nom": "TEORÃA REL. INT. EN EL S. XXI"
+      },
+      {
+        "cod": "DIP9616",
+        "nom": "ANÃLISIS Y MAN. DE CRISIS INT."
+      },
+      {
+        "cod": "DIP9626",
+        "nom": "COOPERACIÃ“N INTERNACIO. Y NEG."
+      },
+      {
+        "cod": "DIP9636",
+        "nom": "NACIONALI. PERIFÃ‰RICOS Y CONT."
+      },
+      {
+        "cod": "DIP9646",
+        "nom": "RUSIA EN LA ERA DE LA PO. FRÃA"
+      },
+      {
+        "cod": "DIP9656",
+        "nom": "EL CONFLICTO PA.: PRINC. HITOS"
+      },
+      {
+        "cod": "DIP9666",
+        "nom": "EL DECLIVE DE LA DEMOCRACIA"
+      },
+      {
+        "cod": "DIP9676",
+        "nom": "COBE. PER. DE LOS CON. BÃ‰LICOS"
+      }
+    ]
+  },
+  "ECV7414": {
+    "nombre": "Diplomado En Control De GestiÃ³n - Controlling Sap",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP5497",
+        "nom": "FUND. DE LA GEST. ESTRATÃ‰GICA"
+      },
+      {
+        "cod": "DIP5507",
+        "nom": "GEST. Y MODELACIÃ“N DE PROCESOS"
+      },
+      {
+        "cod": "DIP5517",
+        "nom": "CONTROL DE GESTIÃ“N"
+      },
+      {
+        "cod": "DIP5527",
+        "nom": "CONTROLLING SAP I"
+      },
+      {
+        "cod": "DIP5537",
+        "nom": "CONTROLLING SAP II"
+      }
+    ]
+  },
+  "ECV7511": {
+    "nombre": "Diplomado En Convivencia Educativa Y Aprendizaje Socioemocional",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP5117",
+        "nom": "FUND. DE LA CONVIVENCIA EDUCA."
+      },
+      {
+        "cod": "DIP5127",
+        "nom": "M. NORM.Y POL. PÃšB. PARA LA C."
+      },
+      {
+        "cod": "DIP5137",
+        "nom": "APRENDIZAJE SOC. EN CONTE. ED."
+      },
+      {
+        "cod": "DIP5147",
+        "nom": "LIDERAZGO ED. PARA LA CON. FO."
+      },
+      {
+        "cod": "DIP5157",
+        "nom": "HACIA UNA CONV. EDUC. IN. E I."
+      }
+    ]
+  },
+  "ECV7338": {
+    "nombre": "Diplomado En Data Science",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP2627",
+        "nom": "INTRODUCCIÃ“N AL DATA SCIENCE"
+      },
+      {
+        "cod": "DIP2667",
+        "nom": "MACHINE LEARNING I"
+      },
+      {
+        "cod": "DIP2677",
+        "nom": "MACHINE LEARNING II"
+      },
+      {
+        "cod": "DIP3387",
+        "nom": "PROGRAMACIÃ“N PARA DATA SCIENCE"
+      },
+      {
+        "cod": "DIP3397",
+        "nom": "APLIC DE LA INTELIGENCIA ARTIF"
+      }
+    ]
+  },
+  "ECV7325": {
+    "nombre": "Diplomado En Derecho Administrativo Y FunciÃ³n PÃºblica",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP2077",
+        "nom": "BASES Y PPÃOS. SIST. D. ADMIN."
+      },
+      {
+        "cod": "DIP2087",
+        "nom": "LA ORG. ADM. DEL ESTADO"
+      },
+      {
+        "cod": "DIP2097",
+        "nom": "ACT. JURÃDICAS DE LA ADM."
+      },
+      {
+        "cod": "DIP2107",
+        "nom": "FUNC. PÃšB. PROB. Y TRANS."
+      },
+      {
+        "cod": "DIP2117",
+        "nom": "SISTEMA CONTRATO LABORAL PÃšBL."
+      },
+      {
+        "cod": "DIP2127",
+        "nom": "SEG. SOCIAL EN LA FUNC. PÃšB."
+      },
+      {
+        "cod": "DIP2137",
+        "nom": "TER. RELACIÃ“N. LAB. FUN. PÃšB."
+      },
+      {
+        "cod": "DIP2147",
+        "nom": "D. ADMIN. SANCIONATORIO LAB."
+      },
+      {
+        "cod": "DIP2157",
+        "nom": "RES. LAB. DEL ESTADO EN SUBC."
+      }
+    ]
+  },
+  "ECV7306": {
+    "nombre": "Diplomado En Derecho Del Trabajo Y Sistema De Relaciones Laborales En La Empresa",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP1307",
+        "nom": "REGULACIÃ“N JURÃDICA EN LA EMP."
+      },
+      {
+        "cod": "DIP1317",
+        "nom": "CONTRATO INDIVIDUAL DEL TRAB."
+      },
+      {
+        "cod": "DIP1327",
+        "nom": "SEGUR. SOCIAL Y DERECHO DE LA"
+      },
+      {
+        "cod": "DIP1337",
+        "nom": "ORGAN. SINDICALES Y NEG. COLEC"
+      },
+      {
+        "cod": "DIP1347",
+        "nom": "INSOLV.DE LA EMP. Y SUS EFEC."
+      }
+    ]
+  },
+  "ECV7411": {
+    "nombre": "Diplomado En Derecho Inmobiliario",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP5447",
+        "nom": "INTROD. AL DERECHO INMOBILIARI"
+      },
+      {
+        "cod": "DIP5457",
+        "nom": "COPROPIEDAD INMOBILIARIA"
+      },
+      {
+        "cod": "DIP5467",
+        "nom": "EJERC. DEL DERECHO INMOBILIARI"
+      },
+      {
+        "cod": "DIP5477",
+        "nom": "SISTEMA REGISTRAL"
+      },
+      {
+        "cod": "DIP5487",
+        "nom": "SOL. DE CONTROV. INMOB. Y REG"
+      }
+    ]
+  },
+  "ECV7473": {
+    "nombre": "Diplomado En Desarrollo De Habilidades E InnovaciÃ³n En El Aula MatemÃ¡tica",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP8257",
+        "nom": "RESOL. DE PROB. MAT. Y SU REP."
+      },
+      {
+        "cod": "DIP8267",
+        "nom": "MODELACIÃ“N Y ARGUMENT. EN MAT."
+      },
+      {
+        "cod": "DIP8277",
+        "nom": "RECURSOS DIDÃCT. PARA LA MAT."
+      },
+      {
+        "cod": "DIP8287",
+        "nom": "GESTIÃ“N DEL AULA MAT. E INTER."
+      }
+    ]
+  },
+  "ECV7426": {
+    "nombre": "Diplomado En DirecciÃ³n De Proyectos - MÃ³dulo Ps Sap",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP6327",
+        "nom": "FUND. DE LA GEST. DE PROY."
+      },
+      {
+        "cod": "DIP6337",
+        "nom": "ADM. GERENCIAL DE PROY."
+      },
+      {
+        "cod": "DIP6347",
+        "nom": "AGILIDAD. PARA LA DIR. DE PROY"
+      },
+      {
+        "cod": "DIP6357",
+        "nom": "GESTIÃ“N DE PROY. CON SAP"
+      }
+    ]
+  },
+  "ECV7349": {
+    "nombre": "Diplomado En DiseÃ±o De Sistemas De Riego Y FertirrigaciÃ³n",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP3097",
+        "nom": "RELACIÃ“N-SUELO-AGUA-PLANTA"
+      },
+      {
+        "cod": "DIP3107",
+        "nom": "DISEÃ‘O SIST.RIEGO PRESURIZADO"
+      },
+      {
+        "cod": "DIP3117",
+        "nom": "PROG. DE RIEGO, TELEMETRIA Y T"
+      },
+      {
+        "cod": "DIP3127",
+        "nom": "NUTRICIÃ“N Y FERTIIRIGACIÃ“N DE"
+      },
+      {
+        "cod": "DIP3137",
+        "nom": "MANEJO Y MANTENCIÃ“N DE SIST.RI"
+      }
+    ]
+  },
+  "ECV7484": {
+    "nombre": "Diplomado En Diversidades En Ed. Superior: Enfoque Integral En NeurocogniciÃ³n, GÃ©nero, Cultura Y Sal",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP8787",
+        "nom": "FUN. DE LA IN. EN ED. SUPERIOR"
+      },
+      {
+        "cod": "DIP8797",
+        "nom": "SALUD MENTAL Y BIENESTAR EST."
+      },
+      {
+        "cod": "DIP8807",
+        "nom": "DI. SEXUAL Y DE GÃ‰NERO EN ED."
+      },
+      {
+        "cod": "DIP8817",
+        "nom": "APOYO A ESTUD. CON NEU. O DIV."
+      },
+      {
+        "cod": "DIP8827",
+        "nom": "MIGRACIÃ“N Y EDUCACIÃ“N SUPERIOR"
+      },
+      {
+        "cod": "DIP8837",
+        "nom": "DIVERSIDAD CULTURAL Y EQUIDAD"
+      }
+    ]
+  },
+  "ECV7360": {
+    "nombre": "Diplomado En DiversificaciÃ³n De La EnseÃ±anza Para La EducaciÃ³n Inclusiva",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP3577",
+        "nom": "BASES DE LA DIVERSIFICACIÃ“N"
+      },
+      {
+        "cod": "DIP3587",
+        "nom": "DIVERSIDAD Y APRENDIZAJE"
+      },
+      {
+        "cod": "DIP3597",
+        "nom": "ESTRAT. DIVERSIFICADAS DE ENS."
+      },
+      {
+        "cod": "DIP3607",
+        "nom": "DISEÃ‘O DE ESTR. DIVERS. DE ENS"
+      }
+    ]
+  },
+  "ECV7461": {
+    "nombre": "Diplomado En Docencia Para El Aprendizaje A Lo Largo De La Vida",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP5587",
+        "nom": "APREN. A LARGO DE LA VIDA Y ED"
+      },
+      {
+        "cod": "DIP5597",
+        "nom": "DES. FIS. INTELEC. MORAL Y PSI"
+      },
+      {
+        "cod": "DIP5607",
+        "nom": "EST. METOD. Y PLANF. CURRIC. E"
+      },
+      {
+        "cod": "DIP5617",
+        "nom": "EST. EVAL. EN LA ED. DE ADULTO"
+      },
+      {
+        "cod": "DIP5707",
+        "nom": "INV.- ACCIÃ“N Y REF. PARA EL"
+      }
+    ]
+  },
+  "ECV7443": {
+    "nombre": "Diplomado En Enfoque De GÃ©nero E Interculturalidad Para La EducaciÃ³n Superior",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP7537",
+        "nom": "ENFOQUES DE GÃ‰NERO E INTER."
+      },
+      {
+        "cod": "DIP7547",
+        "nom": "DIV. DE DIVER. Y FUENTES DE D."
+      },
+      {
+        "cod": "DIP7557",
+        "nom": "ENF. DE GÃ‰NERO Y MÃ‰TODOS INTE."
+      },
+      {
+        "cod": "DIP7567",
+        "nom": "COMP. COMUNICATIVAS NO SEX."
+      },
+      {
+        "cod": "DIP7577",
+        "nom": "INVESTIGACIÃ“N-ACCIÃ“N Y REFL."
+      }
+    ]
+  },
+  "ECV7418": {
+    "nombre": "Diplomado En EvaluaciÃ³n Educativa: Desde La ComprensiÃ³n A La ContextualizaciÃ³n En El Aula",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP5627",
+        "nom": "EV. PARA LOS APREND. ESTRAT. T"
+      },
+      {
+        "cod": "DIP5637",
+        "nom": "DIS. Y ANÃLISIS DE INST. DE EV"
+      },
+      {
+        "cod": "DIP5647",
+        "nom": "EVAL. AUTENTICA Y RETRO. EFECT"
+      },
+      {
+        "cod": "DIP5657",
+        "nom": "PROC. DE EVAL. CON EL APOYO TI"
+      },
+      {
+        "cod": "DIP5707",
+        "nom": "INV.- ACCIÃ“N Y REF. PARA EL"
+      }
+    ]
+  },
+  "ECV7425": {
+    "nombre": "Diplomado En EvaluaciÃ³n Y DiseÃ±o De Instrumentos Para El Contexto Escolar",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP5927",
+        "nom": "MOD. Y PROC. DE EVAL. EN EL AU"
+      },
+      {
+        "cod": "DIP5937",
+        "nom": "PROC. DE EVAL.: DISEÃ‘. DE INST"
+      },
+      {
+        "cod": "DIP5947",
+        "nom": "DISEÃ‘. DE INSTR. DE OBSERV"
+      },
+      {
+        "cod": "DIP5957",
+        "nom": "RETROALIMENTACIÃ“N EN EL AULA"
+      },
+      {
+        "cod": "DIP5967",
+        "nom": "ANÃLIS. DE LA INF. PARA LA TOM"
+      }
+    ]
+  },
+  "ECV7499": {
+    "nombre": "Diplomado En Finanzas Y Aspectos Contables Para No Financieros",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP8986",
+        "nom": "ENTORNO ECO. Y CONCEPTOS FINA."
+      },
+      {
+        "cod": "DIP8996",
+        "nom": "LOS ESTADOS FIN. Y TOMA DE DE."
+      },
+      {
+        "cod": "DIP9006",
+        "nom": "HERRAMIENTAS DE ANÃLISIS FINA."
+      },
+      {
+        "cod": "DIP9016",
+        "nom": "PLANIFICACIÃ“N FINANCIE. Y PRE."
+      },
+      {
+        "cod": "DIP9026",
+        "nom": "DECISIONES FINANCIE. Y FINTECH"
+      },
+      {
+        "cod": "DIP9036",
+        "nom": "TALLER DE SIM. DE DECISI. FIN."
+      }
+    ]
+  },
+  "ECV7386": {
+    "nombre": "Diplomado En GestiÃ³n Ambiental Bajo Norma Iso 14001",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP5217",
+        "nom": "PLAN. ESTRATÃ‰G. PARA UN SIST."
+      },
+      {
+        "cod": "DIP5227",
+        "nom": "NORMA ISO 14001 SIST. DE GESTI"
+      },
+      {
+        "cod": "DIP5237",
+        "nom": "AUDITOR LÃDER DE SIST. DE GEST"
+      }
+    ]
+  },
+  "ECV7387": {
+    "nombre": "Diplomado En GestiÃ³n De Emergencias Y Respuestas Ante Desastres Bajo Norma Iso 22320",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP5407",
+        "nom": "LEG.CHILENA DE EMERG. Y CATÃST"
+      },
+      {
+        "cod": "DIP5417",
+        "nom": "MOD. DE CONTROL Y RESP. A EMER"
+      },
+      {
+        "cod": "DIP5427",
+        "nom": "NORMA ISO 22320 SIST. DE EMER."
+      },
+      {
+        "cod": "DIP5437",
+        "nom": "AUDITOR EN SISTEMAS DE GESTIÃ“N"
+      }
+    ]
+  },
+  "ECV7501": {
+    "nombre": "Diplomado En GestiÃ³n De Infraestructura",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP9096",
+        "nom": "INTRODUCCIÃ“N A LA OBRA CIVIL"
+      },
+      {
+        "cod": "DIP9106",
+        "nom": "GES. Y CICLO DE VIDA DE UN PR."
+      },
+      {
+        "cod": "DIP9116",
+        "nom": "ADMINISTRACIÃ“N DE CONTRATOS"
+      },
+      {
+        "cod": "DIP9126",
+        "nom": "INSTITUCIONALIDAD EN INFRAEST."
+      },
+      {
+        "cod": "DIP9136",
+        "nom": "GESTIÃ“N DE INFR.: VIAL, FERRO."
+      },
+      {
+        "cod": "DIP9146",
+        "nom": "GESTIÃ“N DE IN.: ILU., SI. ELE."
+      }
+    ]
+  },
+  "ECV7453": {
+    "nombre": "Diplomado En GestiÃ³n De Personas Y Cambio Organizacional",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP2207",
+        "nom": "DIAG.Y EVAL. DEL CAMB. ORGANIZ"
+      },
+      {
+        "cod": "DIP2217",
+        "nom": "ASP.LEGAL. Y JURÃD. EN LA GES."
+      },
+      {
+        "cod": "DIP2227",
+        "nom": "RECLUTAMIENTO Y SELECCIÃ“N"
+      },
+      {
+        "cod": "DIP2237",
+        "nom": "CAPACITACIÃ“N Y EVAL. DESEMPEÃ‘O"
+      },
+      {
+        "cod": "DIP2247",
+        "nom": "COACHING, LIDERAZGO, NEG. Y RE"
+      },
+      {
+        "cod": "DIP2257",
+        "nom": "EST.INTERVENCIÃ“N EN ORGANIZA."
+      }
+    ]
+  },
+  "ECV7502": {
+    "nombre": "Diplomado En GestiÃ³n De Proyectos Complejos Con MetodologÃ­a Ãgil Scrum",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP9156",
+        "nom": "PRINCIPIOS DE SCRUM Y AGILE"
+      },
+      {
+        "cod": "DIP9166",
+        "nom": "GESTIÃ“N DE PROYECTOS CON SCRUM"
+      },
+      {
+        "cod": "DIP9176",
+        "nom": "DESA. ÃGIL DE PRODUCTOS Y ENT."
+      },
+      {
+        "cod": "DIP9186",
+        "nom": "LIDERAZ. Y TRANSFORMACIÃ“N ÃGIL"
+      }
+    ]
+  },
+  "ECV7564": {
+    "nombre": "Diplomado En GestiÃ³n De Proyectos De CreaciÃ³n",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DPL0926",
+        "nom": "TAL. DE DISEÃ‘O Y GEST. PROY."
+      },
+      {
+        "cod": "DPL0936",
+        "nom": "FORM. Y VINCL. DE PROYECTOS"
+      },
+      {
+        "cod": "DPL0946",
+        "nom": "FINANC. Y GESTIÃ“N DE RECUR."
+      },
+      {
+        "cod": "DPL0956",
+        "nom": "ADM. Y MARCOS REGULATORIOS"
+      },
+      {
+        "cod": "DPL0966",
+        "nom": "COMUNICACIÃ“N DEL PROYECTO"
+      }
+    ]
+  },
+  "ECV7471": {
+    "nombre": "Diplomado En GestiÃ³n De Turismo De Intereses Especiales",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP4666",
+        "nom": "GESTIÃ“N DE EXPERIENCIAS TURIS"
+      },
+      {
+        "cod": "DIP4676",
+        "nom": "EXPERIENCIAS TURÃSTICAS TERRIT"
+      },
+      {
+        "cod": "DIP4686",
+        "nom": "EXPERIENCIAS TURÃSTICAS AL AIR"
+      },
+      {
+        "cod": "DIP4696",
+        "nom": "EXPERIENCIAS TURÃSTICAS ESTRAT"
+      },
+      {
+        "cod": "DIP4706",
+        "nom": "DISEÃ‘O DE PROYECTOS DE TUR"
+      }
+    ]
+  },
+  "ECV7518": {
+    "nombre": "Diplomado En GestiÃ³n EnergÃ©tica: CertificaciÃ³n De Gestor EnergÃ©tico Ley 21.305 Y Auditor LÃ­der Iso 50001",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP9816",
+        "nom": "MARCO NOR. Y OP. DE LA EF.ENE."
+      },
+      {
+        "cod": "DIP9826",
+        "nom": "ROL Y RESPON. DEL GESTOR ENER."
+      },
+      {
+        "cod": "DIP9836",
+        "nom": "IMPLEME. DE LA NORMA ISO 50001"
+      },
+      {
+        "cod": "DIP9846",
+        "nom": "FOR. DE AUD. L. BAJO ISO 50001"
+      }
+    ]
+  },
+  "ECV7504": {
+    "nombre": "Diplomado En GestiÃ³n Para La TransformaciÃ³n Digital Ãgil",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP9276",
+        "nom": "FUNDAMENTOS DE TRANSF. DIGITAL"
+      },
+      {
+        "cod": "DIP9286",
+        "nom": "TECN. DISRUPTIVAS Y HERR. INN."
+      },
+      {
+        "cod": "DIP9296",
+        "nom": "MODELOS DE NEGOCIOS DIGITALES"
+      },
+      {
+        "cod": "DIP9306",
+        "nom": "MINDSET ÃGIL"
+      },
+      {
+        "cod": "DIP9316",
+        "nom": "DISEÃ‘O ESTR. DE TRANS. DIGITAL"
+      }
+    ]
+  },
+  "ECV7371": {
+    "nombre": "Diplomado En GestiÃ³n TurÃ­stica Sostenible",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP416",
+        "nom": "DESARROLLO TURÃSTICO SOSTENIBL"
+      },
+      {
+        "cod": "DIP417",
+        "nom": "GESTIÃ“N LOCAL Y GOB. TURÃSTICA"
+      },
+      {
+        "cod": "DIP418",
+        "nom": "DISEÃ‘O DE EXP. Y REL. TUR."
+      },
+      {
+        "cod": "DIP419",
+        "nom": "AUTOG. Y DIS. DE PROY. TUR."
+      },
+      {
+        "cod": "DIP420",
+        "nom": "MARKETING Y DIGITALIZACIÃ“N"
+      },
+      {
+        "cod": "DIP421",
+        "nom": "PLAN. TURÃSTICA ESTRATÃ‰GICA"
+      }
+    ]
+  },
+  "ECV7519": {
+    "nombre": "Diplomado En GestiÃ³n Y FormaciÃ³n Educativa Para La FonoaudiologÃ­a",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP9856",
+        "nom": "FUNDAMENTOS DE LA FON. EN EDU."
+      },
+      {
+        "cod": "DIP9866",
+        "nom": "GESTIÃ“N Y LI. EN ED. INCLUSIVA"
+      },
+      {
+        "cod": "DIP9876",
+        "nom": "NEU. Y SU APLICACIÃ“N EN LA FO."
+      },
+      {
+        "cod": "DIP9886",
+        "nom": "DISEÃ‘O E IM. DE PR. INCLUSIVOS"
+      },
+      {
+        "cod": "DIP9896",
+        "nom": "PROYECTO FINAL DE INTEGRACIÃ“N"
+      }
+    ]
+  },
+  "ECV7521": {
+    "nombre": "Diplomado En GestiÃ³n Y Manejo De Sustancias Y Residuos Peligrosos En La Industria MenciÃ³n Auditor",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP9936",
+        "nom": "MARCO NORMA. Y REQUISITOS LEG."
+      },
+      {
+        "cod": "DIP9946",
+        "nom": "CARACTERIZACIÃ“N Y CL. DE RESI."
+      },
+      {
+        "cod": "DIP9956",
+        "nom": "MANEJO SEG. Y ALM. DE RESIDUOS"
+      },
+      {
+        "cod": "DIP9966",
+        "nom": "TRANS. DE RESIDUOS Y SUS. PEL."
+      },
+      {
+        "cod": "DIP9976",
+        "nom": "GESTIÃ“N DE EM. Y RES. ANTE IN."
+      },
+      {
+        "cod": "DIP9986",
+        "nom": "EVALUACIÃ“N, AUD. Y MEJORA CON."
+      }
+    ]
+  },
+  "ECV7273": {
+    "nombre": "Diplomado En GestiÃ³n Y PlanificaciÃ³n Tributaria",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP0017",
+        "nom": "CÃ“DIGO TRIBUTARIO E IVA"
+      },
+      {
+        "cod": "DIP0027",
+        "nom": "IMPUESTO A LA RENTA EMPRESARIA"
+      },
+      {
+        "cod": "DIP0037",
+        "nom": "IMPUESTO A LA RENTA PERSONAS"
+      },
+      {
+        "cod": "DIP0047",
+        "nom": "GESTIÃ“N Y PLANIFICACIÃ“N TRIBUT"
+      },
+      {
+        "cod": "DIP5777",
+        "nom": "IMPUESTO AL VALOR AGREGADO"
+      },
+      {
+        "cod": "DIP5787",
+        "nom": "REGISTROS DE IMPUTACIÃ“N"
+      },
+      {
+        "cod": "DIP5797",
+        "nom": "TRIBUTACIÃ“N INTERNACIONAL"
+      }
+    ]
+  },
+  "ECV7463": {
+    "nombre": "Diplomado En Ges. Y Coord. De Pro. En At. Primaria De Salud Con Enfoq. En El Mod. De At. Int. En Sal",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP7817",
+        "nom": "INTRODUCCIÃ“N AL MODELO DE ATE."
+      },
+      {
+        "cod": "DIP7827",
+        "nom": "ORIENTACIONES TÃ‰C. DE LOS PRO."
+      },
+      {
+        "cod": "DIP7837",
+        "nom": "GESTIÃ“N ADMINIS. DE LOS PROG."
+      },
+      {
+        "cod": "DIP7847",
+        "nom": "HERR. GERENCIALES PARA CARGOS"
+      }
+    ]
+  },
+  "ECV7256": {
+    "nombre": "Diplomado En Infecciones Asociadas A La AtenciÃ³n En Salud",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP5977",
+        "nom": "APLIC. DE NORMAS DE SUPERV."
+      },
+      {
+        "cod": "ENF0137",
+        "nom": "VIGILANCIA EPIDEMIOLÃ“GICA"
+      },
+      {
+        "cod": "ENF0117",
+        "nom": "MEDIDAS DE PRV. Y CONTROL IAAS"
+      },
+      {
+        "cod": "ENF0127",
+        "nom": "GENERALIDADES DE LAS IAAS"
+      }
+    ]
+  },
+  "ECV7544": {
+    "nombre": "Diplomado En IngenierÃ­a De Datos Con Python",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DPL1036",
+        "nom": "FUND. DE ING. DATOS Y SQL"
+      },
+      {
+        "cod": "DPL1046",
+        "nom": "PROG. EN PYTHON Y MAN. DE DATO"
+      },
+      {
+        "cod": "DPL1056",
+        "nom": "HERR. Y ENT. PARA CS. DE DATOS"
+      },
+      {
+        "cod": "DPL1066",
+        "nom": "DATA PIPELINE Y AUTOMATIZACIÃ“N"
+      }
+    ]
+  },
+  "ECV7384": {
+    "nombre": "Diplomado En InnovaciÃ³n En Docencia Universitaria",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP5307",
+        "nom": "TECN. Y USO DE PLAT. VIRT. AL"
+      },
+      {
+        "cod": "DIP5317",
+        "nom": "PLANF. CURRICU. DE ASIG. Y REC"
+      },
+      {
+        "cod": "DIP5327",
+        "nom": "DIDÃCT. Y ESTRAT. METOD. INNOV"
+      },
+      {
+        "cod": "DIP5337",
+        "nom": "EVAL. Y RETROALIM. EFECTVA"
+      },
+      {
+        "cod": "DIP5707",
+        "nom": "INV.- ACCIÃ“N Y REF. PARA EL"
+      }
+    ]
+  },
+  "ECV7476": {
+    "nombre": "Diplomado En IntegraciÃ³n De La Inteligencia Artificial En El Ãmbito Educativo",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP8417",
+        "nom": "FUNDA. DE LA INTELIGENCIA ART."
+      },
+      {
+        "cod": "DIP8427",
+        "nom": "HERR. DE IA GEN. PARA LA CREA."
+      },
+      {
+        "cod": "DIP8437",
+        "nom": "HERR. DE IA GEN. PARA LA EVAL."
+      },
+      {
+        "cod": "DIP8447",
+        "nom": "INTEG. PRÃCTICA DE LA IA GEN."
+      },
+      {
+        "cod": "DIP8457",
+        "nom": "INVESTIGACIÃ“N-ACCIÃ“N Y REFLEX."
+      },
+      {
+        "cod": "DIP5707",
+        "nom": "INV.- ACCIÃ“N Y REF. PARA EL"
+      }
+    ]
+  },
+  "ECV7546": {
+    "nombre": "Diplomado En Inteligencia Artificial Con Python",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DPL1136",
+        "nom": "FUND. DE PROG. Y PROCES."
+      },
+      {
+        "cod": "DPL1146",
+        "nom": "CS. DE DATOS Y AUTOM. CON PYTH"
+      },
+      {
+        "cod": "DPL1156",
+        "nom": "MODEL. ESTADÃST. Y APREN. AUT."
+      },
+      {
+        "cod": "DPL1166",
+        "nom": "DEEP LEARNING APL. A PYTHON"
+      }
+    ]
+  },
+  "ECV7467": {
+    "nombre": "Diplomado En Inteligencia Artificial En Los Negocios",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP8037",
+        "nom": "INTRODUCCIÃ“N A LA INTELIGENCIA"
+      },
+      {
+        "cod": "DIP8047",
+        "nom": "APLICACIONES DE IN. ART. NEG.I"
+      },
+      {
+        "cod": "DIP8057",
+        "nom": "APLICACIONES DE IN. AR. NEG.II"
+      },
+      {
+        "cod": "DIP8067",
+        "nom": "DATA MINING  Y MACHINE LEARN."
+      },
+      {
+        "cod": "DIP8077",
+        "nom": "DESARROLLO DE CHATBOTS Y ASIS."
+      },
+      {
+        "cod": "DIP8087",
+        "nom": "GEST. DEL CAM. AD. RES. IA"
+      }
+    ]
+  },
+  "ECV7506": {
+    "nombre": "Diplomado En Inteligencia Artificial Para Profesionales De La Salud",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP9386",
+        "nom": "FUNDAMENTOS DE IA EN SALUD"
+      },
+      {
+        "cod": "DIP9396",
+        "nom": "APLICA. DE IA EN DIAGNO. Y TR."
+      },
+      {
+        "cod": "DIP9406",
+        "nom": "MARKETING DIGITAL E IA EN SAL."
+      },
+      {
+        "cod": "DIP9416",
+        "nom": "PROYECTO DE IM. DE IA EN SALUD"
+      }
+    ]
+  },
+  "ECV7530": {
+    "nombre": "Diplomado En Inteligencia Artificial, Periodismo Y Comunicaciones: InnovaciÃ³n Y Ã‰tica En La Era Digital",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DPL0426",
+        "nom": "INTROD. A LA INTELIGENCIA ART."
+      },
+      {
+        "cod": "DPL0436",
+        "nom": "HERRAMIEN. DE IA PARA LA CREA."
+      },
+      {
+        "cod": "DPL0446",
+        "nom": "VERIFICACIÃ“N, DESINFO. Y Ã‰TICA"
+      },
+      {
+        "cod": "DPL0456",
+        "nom": "PROY. INT.: IN. Y REF. CRÃTICA"
+      }
+    ]
+  },
+  "ECV7528": {
+    "nombre": "Diplomado En IntervenciÃ³n Psicosocial A VÃ­ctimas Y Testigos En El Sistema De Justicia Penal",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DPL0286",
+        "nom": "SISTEMA DE JUSTICIA EN CHILE"
+      },
+      {
+        "cod": "DPL0296",
+        "nom": "POLÃTICAS PÃšBLICAS EN SEG. CI."
+      },
+      {
+        "cod": "DPL0306",
+        "nom": "INT. PSICO. EN EL SIS. DE JUST"
+      },
+      {
+        "cod": "DPL0316",
+        "nom": "INT. EN DELITOS SEXUA. Y VIOL."
+      },
+      {
+        "cod": "DPL0326",
+        "nom": "INTER. EN DELITOS VI. Y CRIMEN"
+      },
+      {
+        "cod": "DPL0336",
+        "nom": "AUTOC., CUIDADO DE LOS EQUIPOS"
+      }
+    ]
+  },
+  "ECV7445": {
+    "nombre": "Diplomado En InvestigaciÃ³n-AcciÃ³n Aplicada A La Docencia Universitaria",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP7637",
+        "nom": "FUND. EVIDENCIAS Y REFLEXIÃ“N"
+      },
+      {
+        "cod": "DIP7647",
+        "nom": "COORDENADAS METODOLÃ“GICAS"
+      },
+      {
+        "cod": "DIP7657",
+        "nom": "ESTRATEGIAS DE RECOLECCIÃ“N"
+      },
+      {
+        "cod": "DIP7667",
+        "nom": "DISEÃ‘O DE INTERVENCIÃ“N Y EVAL."
+      },
+      {
+        "cod": "DIP7677",
+        "nom": "TALL. DE PROTOCOLOS, ESC. COM."
+      }
+    ]
+  },
+  "ECV7446": {
+    "nombre": "Diplomado En Manejo De Hospital Veterinario",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP7689",
+        "nom": "INTRODUCCIÃ“N A LAS URGENCIAS"
+      },
+      {
+        "cod": "DIP7699",
+        "nom": "MANEJO DEL PACIENTE CRÃTICO"
+      },
+      {
+        "cod": "DIP7709",
+        "nom": "MANEJO DE URG. POR APARATOS"
+      },
+      {
+        "cod": "DIP7719",
+        "nom": "MANEJOS QUIRÃšRGICOS Y POST."
+      }
+    ]
+  },
+  "ECV7507": {
+    "nombre": "Diplomado En Marketing Y Ventas, En Empresas Hoteleras Y GastronÃ³micas",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP9426",
+        "nom": "MARKETING PARA EL CANAL HORECA"
+      },
+      {
+        "cod": "DIP9436",
+        "nom": "ESTRAT. Y CR. DE VALOR EN MER."
+      },
+      {
+        "cod": "DIP9446",
+        "nom": "GESTIÃ“N COMER. Y MARKETING +IA"
+      },
+      {
+        "cod": "DIP9456",
+        "nom": "GESTIÃ“N Y VE. PARA EL CA. HOR."
+      },
+      {
+        "cod": "DIP9466",
+        "nom": "GESTIÃ“N DE EXPE. EN EMPR. HOT."
+      }
+    ]
+  },
+  "ECV7347": {
+    "nombre": "Diplomado En Medicina Interna De Caninos",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP3017",
+        "nom": "MEDICINA INTERNA 1"
+      },
+      {
+        "cod": "DIP3027",
+        "nom": "MEDICINA INTERNA 2"
+      },
+      {
+        "cod": "DIP3037",
+        "nom": "MEDICINA INTERNA 3"
+      },
+      {
+        "cod": "DIP3047",
+        "nom": "MEDICINA INTERNA 4"
+      }
+    ]
+  },
+  "ECV7320": {
+    "nombre": "Diplomado En Motricidad Infantil",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP1877",
+        "nom": "INFANCIA Y EDUCACIÃ“N EN EL CHI"
+      },
+      {
+        "cod": "DIP1887",
+        "nom": "BASES PEDAG.MOTRICIDAD INFANTI"
+      },
+      {
+        "cod": "DIP1897",
+        "nom": "DES. DE LA MOTRICIDAD INFANTIL"
+      },
+      {
+        "cod": "DIP1907",
+        "nom": "EVAL. PARA EL APRENDIZAJE INFA"
+      }
+    ]
+  },
+  "ECV7348": {
+    "nombre": "Diplomado En Necesidades Educativas Especiales Y Contextos Inclusivos",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP3057",
+        "nom": "NORMATIVA DE EDUC ESPECIAL"
+      },
+      {
+        "cod": "DIP3067",
+        "nom": "ATENCIÃ“N DE LA DIVERSIDAD"
+      },
+      {
+        "cod": "DIP3077",
+        "nom": "DIAG. Y ESTRATEGIAS DE INTERV."
+      },
+      {
+        "cod": "DIP3087",
+        "nom": "GESTIÃ“N DE LA DIVERSIDAD"
+      }
+    ]
+  },
+  "ECV7395": {
+    "nombre": "Diplomado En NeurocogniciÃ³n Y Proceso TerapÃ©utico En El Curso De La Vida",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP5247",
+        "nom": "NEUROD. Y COGN. EN EL CONT."
+      },
+      {
+        "cod": "DIP5267",
+        "nom": "NEUROD. Y BIENEST. EN RET."
+      },
+      {
+        "cod": "DIP5277",
+        "nom": "SALUD CEREB. EN ADUL. Y P. MAY"
+      },
+      {
+        "cod": "DIP5297",
+        "nom": "INCLUSIÃ“N, AUTONOM. Y NEUR."
+      },
+      {
+        "cod": "DIP5259",
+        "nom": "EVAL. INTER. Y REHAB. NEUROC."
+      },
+      {
+        "cod": "DIP5289",
+        "nom": "EVAL.INTERV. Y REHAB. NEUROCOG"
+      }
+    ]
+  },
+  "ECV7415": {
+    "nombre": "Diplomado En Normativa Ifrs",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP7727",
+        "nom": "INT. Y MARCO CONCEP. PARA LA I"
+      },
+      {
+        "cod": "DIP7737",
+        "nom": "RUBROS CORRIENTES Y RESULTADOS"
+      },
+      {
+        "cod": "DIP7747",
+        "nom": "RUBROS NO CORRIENTES"
+      },
+      {
+        "cod": "DIP7757",
+        "nom": "INVERS. TEMP. PERMAN. Y COMB."
+      },
+      {
+        "cod": "DIP7767",
+        "nom": "IMPUEST. DIFERI. Y PRES. EE.FF"
+      }
+    ]
+  },
+  "ECV7479": {
+    "nombre": "Diplomado En Normativa Laboral Aplicada",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP8547",
+        "nom": "FUND. DEL DERECHO LAB. Y CONT."
+      },
+      {
+        "cod": "DIP8557",
+        "nom": "NORMA. JORNADA LAB. NUEVA LEY"
+      },
+      {
+        "cod": "DIP8567",
+        "nom": "REMUN. Y BENEFICIOS SOCIALES"
+      },
+      {
+        "cod": "DIP8577",
+        "nom": "INCLU. LEY 21.015 Y ACOSO LAB."
+      },
+      {
+        "cod": "DIP8587",
+        "nom": "TALLER PRÃC.: CÃLCULO DE CONC."
+      }
+    ]
+  },
+  "ECV7432": {
+    "nombre": "Diplomado En NutriciÃ³n Deportiva Y Fitness",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP6447",
+        "nom": "BASES MORFOFIS. DEL ENTRENAMI."
+      },
+      {
+        "cod": "DIP6457",
+        "nom": "PLANIF. DEL ENTRENAM. DEPORT."
+      },
+      {
+        "cod": "DIP6467",
+        "nom": "VALOR. NUTRUC. Y COMP. CORP."
+      },
+      {
+        "cod": "DIP6477",
+        "nom": "REQUER. NUTRIC. DE DEPORTE"
+      },
+      {
+        "cod": "DIP6487",
+        "nom": "SUPLEMENTACIÃ“N DEPORTIVA"
+      },
+      {
+        "cod": "DIP6497",
+        "nom": "INTEGRADO FINAL"
+      }
+    ]
+  },
+  "ECV7404": {
+    "nombre": "Diplomado En OrientaciÃ³n Educacional, Vocacional Y Familiar",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP4847",
+        "nom": "INTROD. A LA ORIENT. EDUCACIO."
+      },
+      {
+        "cod": "DIP4857",
+        "nom": "ESTRAT. DE ORIENT. EDUCAC."
+      },
+      {
+        "cod": "DIP4867",
+        "nom": "ORIENTACIÃ“N VOCACIONAL"
+      },
+      {
+        "cod": "DIP4877",
+        "nom": "ORIENTACIÃ“N FAMILIAR"
+      },
+      {
+        "cod": "DIP4887",
+        "nom": "DIS. METODOL. DE PLAN DE ORIEN"
+      }
+    ]
+  },
+  "ECV7357": {
+    "nombre": "Diplomado En ParticipaciÃ³n Social Y Comunitaria En Salud: Herramientas Y MetodologÃ­as Participativas",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP3407",
+        "nom": "DIMENSIONES SOCIOHISTÃ“RICAS, P"
+      },
+      {
+        "cod": "DIP3417",
+        "nom": "CONTEXTO SOCIOSANITARIO ACT"
+      },
+      {
+        "cod": "DIP3427",
+        "nom": "PARTICIPACIÃ“N SOCIAL Y SALUD C"
+      },
+      {
+        "cod": "DIP3437",
+        "nom": "DISEÃ‘O E IMPLEMENTACIÃ“N DE EST"
+      },
+      {
+        "cod": "DIP3447",
+        "nom": "TALLER PARA LA PLANIFICACIÃ“N P"
+      }
+    ]
+  },
+  "ECV7327": {
+    "nombre": "Diplomado En Peritaje Psicosocial En Materia Penal Y Familia",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP2167",
+        "nom": "CONTEXTO JUDICIAL Y LABOR PERI"
+      },
+      {
+        "cod": "DIP2177",
+        "nom": "EVALUACIÃ“N PERICIAL PSICOLÃ“GIC"
+      },
+      {
+        "cod": "DIP2187",
+        "nom": "ELABORACION Y ANÃLISIS DE INFO"
+      },
+      {
+        "cod": "DIP2197",
+        "nom": "TRABAJO FINAL"
+      }
+    ]
+  },
+  "ECV7563": {
+    "nombre": "Diplomado En PrÃ¡cticas Inclusivas",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP3577",
+        "nom": "BASES DE LA DIVERSIFICACIÃ“N"
+      },
+      {
+        "cod": "DIP3587",
+        "nom": "DIVERSIDAD Y APRENDIZAJE"
+      },
+      {
+        "cod": "DIP3597",
+        "nom": "ESTRAT. DIVERSIFICADAS DE ENS."
+      },
+      {
+        "cod": "DIP3607",
+        "nom": "DISEÃ‘O DE ESTR. DIVERS. DE ENS"
+      }
+    ]
+  },
+  "ECV7470": {
+    "nombre": "Diplomado En ProducciÃ³n De Eventos Empresariales, TecnologÃ­as E Inteligencia Artificial",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP8177",
+        "nom": "PRODUCCION DE EVENTOS EMPRESA."
+      },
+      {
+        "cod": "DIP8187",
+        "nom": "ORGANIZACIÃ“N DE CONGRESOS, SE."
+      },
+      {
+        "cod": "DIP8197",
+        "nom": "TEAM BUILDING Y LIDERAZGO"
+      },
+      {
+        "cod": "DIP8207",
+        "nom": "INTELIGENCIA ARTIFICIAL EN EV."
+      }
+    ]
+  },
+  "ECV7480": {
+    "nombre": "Diplomado En ProducciÃ³n De Eventos Y MediaciÃ³n ArtÃ­stica",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP8597",
+        "nom": "INTR. A LA MEDIACIÃ“N ARTÃSTICA"
+      },
+      {
+        "cod": "DIP8607",
+        "nom": "HERRA. DE LA PRODUC. ARTÃSTICA"
+      },
+      {
+        "cod": "DIP8617",
+        "nom": "GESTIÃ“N DE PÃšBLICOS OB. Y AUD."
+      },
+      {
+        "cod": "DIP8627",
+        "nom": "TRABAJO PRÃCTICO EN TERRITORIO"
+      }
+    ]
+  },
+  "ECV7533": {
+    "nombre": "Diplomado En PsicologÃ­a Educacional IntervenciÃ³n Integral Y SistÃ©mico En Las Necesidades Educativas",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DPL0626",
+        "nom": "ABORDAJE INTE. DE LA DIS. INT."
+      },
+      {
+        "cod": "DPL0636",
+        "nom": "ABORDAJE INT. DEL TR. POR DÃ‰F."
+      },
+      {
+        "cod": "DPL0646",
+        "nom": "ABORDAJE IN. DEL TR. DEL ESPE."
+      },
+      {
+        "cod": "DPL0656",
+        "nom": "ABORDAJE INT. DE LOS TRA. ESP."
+      }
+    ]
+  },
+  "ECV7549": {
+    "nombre": "Diplomado En RevisiÃ³n, EdiciÃ³n Y PosediciÃ³n De Textos Traducidos",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DPL1256",
+        "nom": "FUND. DE REV. Y ED. DE TEXT. T"
+      },
+      {
+        "cod": "DPL1266",
+        "nom": "POSEDICIÃ“N DE TEX. PRETRAD."
+      },
+      {
+        "cod": "DPL1276",
+        "nom": "INNOV. EN LA TRAD. Y POSED."
+      },
+      {
+        "cod": "DPL1286",
+        "nom": "CNTRL. Y EVAL. DE LA CALIDAD"
+      }
+    ]
+  },
+  "ECV7398": {
+    "nombre": "Diplomado En Salud Familiar Y Comunitario",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP4807",
+        "nom": "BASES CONCEPTUALES DE ATEN"
+      },
+      {
+        "cod": "DIP4817",
+        "nom": "PROMOCIÃ“N DE LA SALUD FAMILIAR"
+      },
+      {
+        "cod": "DIP4827",
+        "nom": "MO. DE AT. CON ENFO. EN LAS F."
+      },
+      {
+        "cod": "DIP4837",
+        "nom": "DESAFÃOS PARA LA ATENCIÃ“N DE S"
+      }
+    ]
+  },
+  "ECV7287": {
+    "nombre": "Diplomado En Sist. Integrados De GestiÃ³n De Calidad, M. Ambiente Y Seg, MenciÃ³n Auditor Lider En Sig",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP0457",
+        "nom": "INTERPRETACIÃ“N NORMA ISO 9001"
+      },
+      {
+        "cod": "DIP0467",
+        "nom": "INTERPRETACIÃ“N NORMA ISO 14001"
+      },
+      {
+        "cod": "DIP0477",
+        "nom": "PLAN. ESTRA. Y CONTROL DE GEST"
+      },
+      {
+        "cod": "DIP0487",
+        "nom": "AUTOR LÃDER EN SIST. INTEGRA."
+      }
+    ]
+  },
+  "ECV7449": {
+    "nombre": "Diplomado En TraducciÃ³n Audiovisual: Subtitulado Y Doblaje",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP7037",
+        "nom": "FUND. TEÃ“RICOS DE LA TRADUC"
+      },
+      {
+        "cod": "DIP7047",
+        "nom": "TRADUCCIÃ“N APLICADA AL SUB."
+      },
+      {
+        "cod": "DIP7057",
+        "nom": "TRADUCCIÃ“N APLICADA AL DOBLAJE"
+      },
+      {
+        "cod": "DIP7067",
+        "nom": "REVISIÃ“N Y CONTROL DE CALIDAD"
+      }
+    ]
+  },
+  "ECV7433": {
+    "nombre": "Diplomado En Trastorno Del Espectro Autista Y Discapacidad Intelectual En El Curso De La Vida",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP6507",
+        "nom": "MOD. DE CALID. DE VIDA, INCLUS"
+      },
+      {
+        "cod": "DIP6517",
+        "nom": "CARACT. DE LOS DESAF. DEL NEUR"
+      },
+      {
+        "cod": "DIP6527",
+        "nom": "SIST. Y MÃ‰TOD. DE EVAL. DE LOS"
+      },
+      {
+        "cod": "DIP6537",
+        "nom": "ABORD. TERAP. Y SISTEM. DE APO"
+      },
+      {
+        "cod": "DIP6547",
+        "nom": "SEMINARIO METOD. DE PROP."
+      }
+    ]
+  },
+  "ECV7510": {
+    "nombre": "Diplomado En Turismo Cultural Y Las Industrias Creativas",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP9556",
+        "nom": "RECURSOS TURÃSTICOS PATRIMONI."
+      },
+      {
+        "cod": "DIP9566",
+        "nom": "TURISMO CULTURAL DE INT. ESPE."
+      },
+      {
+        "cod": "DIP9576",
+        "nom": "INSTRUMENTOS DE FOMENTO TURÃS."
+      },
+      {
+        "cod": "DIP9586",
+        "nom": "INDUSTRIA Y TURISMO CREATIVO"
+      },
+      {
+        "cod": "DIP9596",
+        "nom": "PROYECTOS, POS. Y PRODUC. TUR."
+      }
+    ]
+  },
+  "ECV7551": {
+    "nombre": "Diplomado Justicia Penal Juvenil: MediaciÃ³n Y Enfoque Restaurativo",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DPL1336",
+        "nom": "COMPREN. AL ADOLESCENTE ACTUAL"
+      },
+      {
+        "cod": "DPL1346",
+        "nom": "SISTEMA PENAL JUVENIL EN CHILE"
+      },
+      {
+        "cod": "DPL1356",
+        "nom": "JUST. REST. Y MED. PENAL JUV."
+      },
+      {
+        "cod": "DPL1366",
+        "nom": "DIS. DE INTERV. RESTAURATIVAS"
+      }
+    ]
+  },
+  "ECV7405": {
+    "nombre": "PostÃ­tulo En Discapacidad Intelectual Y EducaciÃ³n Inclusiva",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DIP4937",
+        "nom": "APREND. PARA TODOS, PRINC. DID"
+      },
+      {
+        "cod": "DIP4947",
+        "nom": "DID. DE LA LECTOE. Y DISC. INT"
+      },
+      {
+        "cod": "DIP4957",
+        "nom": "DIDÃCT. DE LA MAT. Y DISC. INT"
+      },
+      {
+        "cod": "DIP4967",
+        "nom": "INSER. SOCIAL Y LAB. EN LA DIS"
+      },
+      {
+        "cod": "DIP4897",
+        "nom": "FUND. DE LA DISC. INTELECTUAL"
+      },
+      {
+        "cod": "DIP4907",
+        "nom": "EVAL. Y DIAG. DE LA DISC. INT."
+      },
+      {
+        "cod": "DIP4917",
+        "nom": "NEUROC. Y DESARR. DE HAB. COGN"
+      },
+      {
+        "cod": "DIP4927",
+        "nom": "DISC. E INCLUSIÃ“N EDUCAT."
+      },
+      {
+        "cod": "DIP4977",
+        "nom": "PROYECTO SOCIOEDUCATIVO FINAL"
+      }
+    ]
+  },
+  "ECV7552": {
+    "nombre": "PostÃ­tulo En EducaciÃ³n En Ciencias, TecnologÃ­a Y MatemÃ¡tica",
+    "tipo": "Diplomado",
+    "asigs": [
+      {
+        "cod": "DPL1376",
+        "nom": "PERSP. TEÃ“RICAS Y CURR. EN ED."
+      },
+      {
+        "cod": "DPL1386",
+        "nom": "INVEST. CIENT. Y DISEÃ‘O DE ING"
+      },
+      {
+        "cod": "DPL1396",
+        "nom": "TECNOLOGÃA EN EDUCACIÃ“N STEM"
+      },
+      {
+        "cod": "DPL1406",
+        "nom": "DESARR. DE LA CREAT. E INNOV.1"
+      },
+      {
+        "cod": "DPL1416",
+        "nom": "TALL. DE INV. EN ED. STEM I"
+      },
+      {
+        "cod": "DPL1426",
+        "nom": "TALL. DE INV. EN ED. STEM II"
+      }
+    ]
+  }
+};
 
-// ─── MÓDULOS UDLA ───
+// â”€â”€â”€ MÃ“DULOS UDLA â”€â”€â”€
 const MODS=[
   {ini:510,fin:570,base:100},{ini:580,fin:640,base:200},{ini:650,fin:710,base:300},
   {ini:720,fin:780,base:400},{ini:790,fin:850,base:500},{ini:860,fin:920,base:600},
   {ini:930,fin:990,base:700},{ini:1000,fin:1060,base:800},{ini:1070,fin:1130,base:900},
   {ini:1155,fin:1215,base:1000},{ini:1225,fin:1285,base:1100},{ini:1290,fin:1350,base:1200}
 ];
-const DIAS=['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+const DIAS=['Lunes','Martes','MiÃ©rcoles','Jueves','Viernes','SÃ¡bado','Domingo'];
 function toMin(t){const[h,m]=t.split(':').map(Number);return h*60+m;}
 function calcBloques(franjas){
   const all=new Set();
@@ -346,7 +2299,7 @@ function calcBloques(franjas){
   return[...all].sort((a,b)=>a-b);
 }
 
-// ─── ESTADO GLOBAL ───
+// â”€â”€â”€ ESTADO GLOBAL â”€â”€â”€
 let session = { periodo: '', responsable: '' };
 let programas = [];
 let progActivo = null;
@@ -354,7 +2307,7 @@ let asigs = [];
 let editIdx = null;
 let franjas = [];
 
-// ─── AUTOCOMPLETE PARA AGREGAR PROGRAMA ───
+// â”€â”€â”€ AUTOCOMPLETE PARA AGREGAR PROGRAMA â”€â”€â”€
 let dropSel=-1;
 function onApCodigoInput(){
   const q=document.getElementById('ap-codigo').value.trim().toUpperCase();
@@ -399,20 +2352,20 @@ function setApNombrePrograma(cod,nombre){
   const n=nombre.toLowerCase();
   const sel=document.getElementById('ap-tipo');
   if(n.startsWith('diplomado'))sel.value='Diplomado';
-  else if(n.startsWith('postítulo')||n.startsWith('postitulo'))sel.value='Postítulo';
-  else if(n.startsWith('magíster')||n.startsWith('magister'))sel.value='Magíster';
+  else if(n.startsWith('postÃ­tulo')||n.startsWith('postitulo'))sel.value='PostÃ­tulo';
+  else if(n.startsWith('magÃ­ster')||n.startsWith('magister'))sel.value='MagÃ­ster';
   else sel.value='Otro';
 }
 function cerrarApDropdown(){document.getElementById('ap-dropdown').style.display='none';}
 document.addEventListener('click',e=>{if(!e.target.closest('.autocomplete-wrap'))cerrarApDropdown();});
 
-// ─── NAVEGACIÓN ───
+// â”€â”€â”€ NAVEGACIÃ“N â”€â”€â”€
 function irA(n){
   if(n===2){
     if(!validarPaso1())return;
     session.periodo=document.getElementById('p-periodo').value.trim();
     session.responsable=document.getElementById('p-responsable').value.trim();
-    document.getElementById('badge-periodo').textContent='Período '+session.periodo;
+    document.getElementById('badge-periodo').textContent='PerÃ­odo '+session.periodo;
     renderPanelProgramas();
     if(programas.length>0){activarPrograma(0);}else{mostrarPlaceholder();}
   }
@@ -420,7 +2373,7 @@ function irA(n){
     if(progActivo!==null){programas[progActivo].asigs=asigs;}
     if(!programas.length){alert('Agrega al menos un programa antes de continuar.');return;}
     const sinAsigs=programas.filter(p=>!p.asigs.length);
-    if(sinAsigs.length&&!confirm(sinAsigs.length+' programa(s) no tienen asignaturas. ¿Continuar igualmente?'))return;
+    if(sinAsigs.length&&!confirm(sinAsigs.length+' programa(s) no tienen asignaturas. Â¿Continuar igualmente?'))return;
     renderResumen();
   }
   [1,2,3].forEach(i=>{
@@ -439,11 +2392,11 @@ function validarPaso1(){
     const el=document.getElementById(id);
     if(!el.value.trim()){el.classList.add('error');ok=false;}else el.classList.remove('error');
   });
-  if(!ok)alert('Completa: Período y Responsable.');
+  if(!ok)alert('Completa: PerÃ­odo y Responsable.');
   return ok;
 }
 
-// ─── PANEL DE PROGRAMAS ───
+// â”€â”€â”€ PANEL DE PROGRAMAS â”€â”€â”€
 function renderPanelProgramas(){
   const list=document.getElementById('prog-list');
   if(!programas.length){
@@ -452,9 +2405,9 @@ function renderPanelProgramas(){
   }
   list.innerHTML=programas.map((p,i)=>`
     <div class="prog-item${i===progActivo?' active':''}" onclick="activarPrograma(${i})">
-      <span class="prog-item-name">${p.codigo}${p.nombre?' — '+p.nombre:''}</span>
+      <span class="prog-item-name">${p.codigo}${p.nombre?' â€” '+p.nombre:''}</span>
       <span class="prog-item-badge${!p.asigs.length?' warn':''}">${p.asigs.length}</span>
-      <span class="prog-item-del" onclick="event.stopPropagation();eliminarPrograma(${i})" title="Eliminar programa">✕</span>
+      <span class="prog-item-del" onclick="event.stopPropagation();eliminarPrograma(${i})" title="Eliminar programa">âœ•</span>
     </div>`).join('');
 }
 function mostrarFormAgregarPrograma(){
@@ -474,12 +2427,12 @@ function cancelarAddProg(){
 }
 function agregarPrograma(){
   const cod=document.getElementById('ap-codigo').value.trim().toUpperCase();
-  if(!cod){alert('Ingresa un código de programa.');return;}
+  if(!cod){alert('Ingresa un cÃ³digo de programa.');return;}
   if(programas.some(p=>p.codigo===cod)){alert('El programa '+cod+' ya fue agregado.');return;}
   const enCatalogo=!!CATALOGO[cod];
   const nombre=enCatalogo?CATALOGO[cod].nombre:document.getElementById('ap-nombre').value.trim();
   const tipo=enCatalogo
-    ? (()=>{const n=CATALOGO[cod].nombre.toLowerCase();return n.startsWith('diplomado')?'Diplomado':n.startsWith('postítulo')||n.startsWith('postitulo')?'Postítulo':n.startsWith('magíster')||n.startsWith('magister')?'Magíster':'Otro';})()
+    ? (()=>{const n=CATALOGO[cod].nombre.toLowerCase();return n.startsWith('diplomado')?'Diplomado':n.startsWith('postÃ­tulo')||n.startsWith('postitulo')?'PostÃ­tulo':n.startsWith('magÃ­ster')||n.startsWith('magister')?'MagÃ­ster':'Otro';})()
     : document.getElementById('ap-tipo').value;
   if(!nombre){alert('Ingresa el nombre del programa.');return;}
   if(!tipo){alert('Selecciona el tipo de programa.');return;}
@@ -501,7 +2454,7 @@ function activarPrograma(idx){
   renderTabla();
 }
 function eliminarPrograma(idx){
-  if(!confirm('¿Eliminar el programa '+programas[idx].codigo+'? Se borrarán también sus asignaturas.'))return;
+  if(!confirm('Â¿Eliminar el programa '+programas[idx].codigo+'? Se borrarÃ¡n tambiÃ©n sus asignaturas.'))return;
   if(progActivo===idx){
     programas.splice(idx,1);
     progActivo=null;asigs=[];
@@ -521,7 +2474,7 @@ function mostrarPlaceholder(){
   }
 }
 
-// ─── TABLA ASIGNATURAS ───
+// â”€â”€â”€ TABLA ASIGNATURAS â”€â”€â”€
 function renderTabla(){
   const empty=document.getElementById('tbl-empty'),wrap=document.getElementById('tbl-wrap'),tbody=document.getElementById('asig-tbody');
   if(!asigs.length){empty.style.display='block';wrap.style.display='none';return;}
@@ -531,22 +2484,22 @@ function renderTabla(){
     <td><strong>${a.sigla}</strong></td>
     <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${a.nombre}</td>
     <td>${fmt(a.ini)}</td><td>${fmt(a.fin)}</td>
-    <td style="text-align:center">${a.semanas||'—'}</td>
+    <td style="text-align:center">${a.semanas||'â€”'}</td>
     <td><span class="badge ${a.bloques.length?'b-ok':'b-warn'}">${a.bloques.length} bloque${a.bloques.length!==1?'s':''}</span></td>
     <td style="display:flex;gap:6px">
       <button class="btn-edit" onclick="abrirForm(${i})">Editar</button>
-      <button class="btn-del" onclick="eliminar(${i})">✕</button>
+      <button class="btn-del" onclick="eliminar(${i})">âœ•</button>
     </td></tr>`).join('');
 }
-function eliminar(i){if(!confirm('¿Eliminar esta asignatura?'))return;asigs.splice(i,1);renderTabla();}
+function eliminar(i){if(!confirm('Â¿Eliminar esta asignatura?'))return;asigs.splice(i,1);renderTabla();}
 
-// ─── FORM ASIG ───
+// â”€â”€â”€ FORM ASIG â”€â”€â”€
 function abrirForm(idx){
   editIdx=idx;franjas=[];
   const es=idx!==null;
   document.getElementById('form-titulo').textContent=es?'Editar asignatura':'Nueva asignatura';
 
-  // Catálogo del programa activo
+  // CatÃ¡logo del programa activo
   const cod=progActivo!==null?programas[progActivo].codigo:'';
   const catProg=cod&&CATALOGO[cod]?CATALOGO[cod].asigs:[];
   const catSec=document.getElementById('cat-asig-section');
@@ -628,20 +2581,20 @@ function updCatCount(){
 function selTodas(){document.querySelectorAll('.cat-asig-check:not([disabled])').forEach(cb=>{cb.checked=true;cb.closest('.cat-asig-item').classList.add('checked');});updCatCount();}
 function deselTodas(){document.querySelectorAll('.cat-asig-check:not([disabled])').forEach(cb=>{cb.checked=false;cb.closest('.cat-asig-item').classList.remove('checked');});updCatCount();}
 
-// Guardar asignaturas seleccionadas del catálogo (sin horario aún — se editan después)
+// Guardar asignaturas seleccionadas del catÃ¡logo (sin horario aÃºn â€” se editan despuÃ©s)
 function guardarDesdecat_real(){
   const cod=progActivo!==null?programas[progActivo].codigo:'';
   const catAsigs=cod&&CATALOGO[cod]?CATALOGO[cod].asigs:[];
   const ini=document.getElementById('fa-ini').value;
   const fin=document.getElementById('fa-fin').value;
-  if(!ini||!fin){alert('Ingresa las fechas de inicio y término antes de agregar las asignaturas.');return;}
-  if(ini>fin){alert('La fecha de término debe ser posterior a la de inicio.');return;}
+  if(!ini||!fin){alert('Ingresa las fechas de inicio y tÃ©rmino antes de agregar las asignaturas.');return;}
+  if(ini>fin){alert('La fecha de tÃ©rmino debe ser posterior a la de inicio.');return;}
   const checks=document.querySelectorAll('.cat-asig-check:not([disabled]):checked');
-  if(!checks.length){alert('Selecciona al menos una asignatura del catálogo.');return;}
+  if(!checks.length){alert('Selecciona al menos una asignatura del catÃ¡logo.');return;}
   const sem=document.getElementById('fa-semanas').value;
   const obs=document.getElementById('fa-obs').value.trim();
   const bls=calcBloquesNew(franjas);
-  if(!bls.length&&!confirm('Las asignaturas no tienen bloques horarios asignados. ¿Guardar igualmente?'))return;
+  if(!bls.length&&!confirm('Las asignaturas no tienen bloques horarios asignados. Â¿Guardar igualmente?'))return;
   const existentes=new Set(asigs.map(a=>a.sigla));
   let agregadas=0;
   checks.forEach(cb=>{
@@ -671,15 +2624,15 @@ function guardarAsig(){
   const ini=document.getElementById('fa-ini').value;
   const fin=document.getElementById('fa-fin').value;
   if(!sigla||!nombre||!ini||!fin){alert('Completa sigla, nombre y ambas fechas.');return;}
-  if(ini>fin){alert('La fecha de término debe ser posterior a la de inicio.');return;}
+  if(ini>fin){alert('La fecha de tÃ©rmino debe ser posterior a la de inicio.');return;}
   const bls=calcBloquesNew(franjas);
-  if(!bls.length&&!confirm('Esta asignatura no tiene bloques horarios. ¿Guardar igualmente?'))return;
+  if(!bls.length&&!confirm('Esta asignatura no tiene bloques horarios. Â¿Guardar igualmente?'))return;
   const obj={sigla,nombre,ini,fin,semanas:document.getElementById('fa-semanas').value||'',obs:document.getElementById('fa-obs').value.trim(),franjas:JSON.parse(JSON.stringify(franjas)),bloques:bls};
   if(editIdx===null)asigs.push(obj);else asigs[editIdx]=obj;
   cancelarForm();renderTabla();
 }
 
-// ─── SEMANAS AUTO ───
+// â”€â”€â”€ SEMANAS AUTO â”€â”€â”€
 function calcSemanas(){
   const ini=document.getElementById('fa-ini').value,fin=document.getElementById('fa-fin').value;
   if(!ini||!fin||ini>fin){document.getElementById('fa-semanas').value='';return;}
@@ -687,9 +2640,9 @@ function calcSemanas(){
   document.getElementById('fa-semanas').value=Math.ceil(dias/7);
 }
 
-// ─── FRANJAS (chip-based) ───
+// â”€â”€â”€ FRANJAS (chip-based) â”€â”€â”€
 // Las 12 franjas UDLA como objetos {ini, fin, base}
-// base/100 = número de franja (1..12)
+// base/100 = nÃºmero de franja (1..12)
 const FRANJAS_DEF=[
   {n:1,ini:'08:30',fin:'09:30'},{n:2,ini:'09:40',fin:'10:40'},{n:3,ini:'10:50',fin:'11:50'},
   {n:4,ini:'12:00',fin:'13:00'},{n:5,ini:'13:10',fin:'14:10'},{n:6,ini:'14:20',fin:'15:20'},
@@ -722,17 +2675,17 @@ function renderFranjas(){
     <div class="franja-box">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
         <span style="font-size:12px;font-weight:700;color:#1a5fa8">Franja ${fi+1}</span>
-        <button class="btn-del" onclick="quitarFranja(${fi})">✕ Quitar</button>
+        <button class="btn-del" onclick="quitarFranja(${fi})">âœ• Quitar</button>
       </div>
       <div style="margin-bottom:10px">
-        <label style="font-size:11px;margin-bottom:5px;display:block">Días de clases</label>
+        <label style="font-size:11px;margin-bottom:5px;display:block">DÃ­as de clases</label>
         <div class="dia-chips">${DIAS.map((d,di)=>`<div class="chip ${f.diasIdx.includes(di)?'on':''}" onclick="toggleDia(${fi},${di})">${d}</div>`).join('')}</div>
       </div>
       <div>
-        <label style="font-size:11px;margin-bottom:5px;display:block">Módulos horarios</label>
+        <label style="font-size:11px;margin-bottom:5px;display:block">MÃ³dulos horarios</label>
         <div class="franja-chips-row">${FRANJAS_DEF.map(fd=>`
           <div class="fchip ${f.franjasIdx.includes(fd.n)?'on':''} ${fd.n>=10?'nocturno':''}" onclick="toggleFranjaHor(${fi},${fd.n})">
-            F${fd.n}<span class="fchip-lbl">${fd.ini}–${fd.fin}</span>
+            F${fd.n}<span class="fchip-lbl">${fd.ini}â€“${fd.fin}</span>
           </div>`).join('')}
         </div>
       </div>
@@ -744,33 +2697,33 @@ function renderBloquesRes(){
   const bls=calcBloquesNew(franjas),el=document.getElementById('bloques-res');
   el.innerHTML=bls.length
     ?`<div style="font-size:12px;font-weight:700;color:#0f6e56;margin-bottom:6px">Bloques UDLA asignados (${bls.length}):</div><div class="bloques-preview">${bls.map(b=>`<span class="bloques-chip">${b}</span>`).join('')}</div>`
-    :'<div class="bloques-none">Selecciona días y módulos para ver los bloques asignados automáticamente.</div>';
+    :'<div class="bloques-none">Selecciona dÃ­as y mÃ³dulos para ver los bloques asignados automÃ¡ticamente.</div>';
 }
 
-// ─── RESUMEN ───
+// â”€â”€â”€ RESUMEN â”€â”€â”€
 function renderResumen(){
   const totalAsigs=programas.reduce((s,p)=>s+p.asigs.length,0);
   const totalFilas=programas.reduce((s,p)=>p.asigs.reduce((s2,a)=>s2+a.bloques.length,s),0);
   const sinB=programas.reduce((s,p)=>s+p.asigs.filter(a=>!a.bloques.length).length,0);
   const progSinAsigs=programas.filter(p=>!p.asigs.length).length;
   document.getElementById('stat-grid').innerHTML=`
-    <div class="stat"><div class="stat-n">${session.periodo}</div><div class="stat-l">Período</div></div>
+    <div class="stat"><div class="stat-n">${session.periodo}</div><div class="stat-l">PerÃ­odo</div></div>
     <div class="stat"><div class="stat-n">${programas.length}</div><div class="stat-l">Programas</div></div>
     <div class="stat"><div class="stat-n">${totalAsigs}</div><div class="stat-l">Asignaturas</div></div>
     <div class="stat"><div class="stat-n">${totalFilas}</div><div class="stat-l">Filas totales</div></div>`;
   let warns='';
-  if(sinB)warns+=`<div class="alert-warn">⚠ ${sinB} asignatura(s) sin bloques horarios — no generarán filas en el Excel.</div>`;
-  if(progSinAsigs)warns+=`<div class="alert-warn">⚠ ${progSinAsigs} programa(s) sin asignaturas.</div>`;
+  if(sinB)warns+=`<div class="alert-warn">âš  ${sinB} asignatura(s) sin bloques horarios â€” no generarÃ¡n filas en el Excel.</div>`;
+  if(progSinAsigs)warns+=`<div class="alert-warn">âš  ${progSinAsigs} programa(s) sin asignaturas.</div>`;
   document.getElementById('alerta-warn').innerHTML=warns;
-  document.getElementById('resumen-det').innerHTML=`<strong>${session.responsable}</strong> · ${programas.length} programa(s) · Período <strong>${session.periodo}</strong>`;
+  document.getElementById('resumen-det').innerHTML=`<strong>${session.responsable}</strong> Â· ${programas.length} programa(s) Â· PerÃ­odo <strong>${session.periodo}</strong>`;
   const filas=generarFilas();
-  const cols=['Período','Responsable','Cód. Prog.','Cód. Asig.','Nombre Asignatura','F. Inicio','F. Término','Semanas','Módulo','Observaciones','Programa'];
+  const cols=['PerÃ­odo','Responsable','CÃ³d. Prog.','CÃ³d. Asig.','Nombre Asignatura','F. Inicio','F. TÃ©rmino','Semanas','MÃ³dulo','Observaciones','Programa'];
   document.getElementById('prev-tbl').innerHTML=
     '<tr>'+cols.map(c=>`<th>${c}</th>`).join('')+'</tr>'+
     filas.map((f,fi)=>`<tr${fi>0&&f[10]!==filas[fi-1][10]?' style="border-top:2px solid #1a5fa8"':''}><td>${f[0]}</td><td>${f[1]}</td><td>${f[2]}</td><td><strong>${f[3]}</strong></td><td>${f[4]}</td><td>${fmt(f[5])}</td><td>${fmt(f[6])}</td><td style="text-align:center">${f[7]||''}</td><td class="mod-cell">${f[8]}</td><td style="max-width:160px;overflow:hidden;text-overflow:ellipsis">${f[9]||''}</td><td style="font-size:11px;color:#888">${f[10]}</td></tr>`).join('');
 }
 
-// ─── GENERAR FILAS ───
+// â”€â”€â”€ GENERAR FILAS â”€â”€â”€
 function generarFilas(){
   const rows=[];
   let progIdx=0;
@@ -785,11 +2738,11 @@ function generarFilas(){
   return rows;
 }
 
-// ─── EXPORTAR ───
+// â”€â”€â”€ EXPORTAR â”€â”€â”€
 function exportar(){
   const filas=generarFilas();
   if(!filas.length){alert('No hay filas para exportar.');return;}
-  const hdr=[null,null,'Periodo','Responsable','Programa','Codigo Asignatura','Nombre Asignatura','Semanas duración','Fecha de inicio asignatura NRC   (DD-MM-AAAA)','Fecha de Término asignatura NRC  (DD-MM-AAAA)','Horario Clases (1 fila por cada módulo)','Observaciones'];
+  const hdr=[null,null,'Periodo','Responsable','Programa','Codigo Asignatura','Nombre Asignatura','Semanas duraciÃ³n','Fecha de inicio asignatura NRC   (DD-MM-AAAA)','Fecha de TÃ©rmino asignatura NRC  (DD-MM-AAAA)','Horario Clases (1 fila por cada mÃ³dulo)','Observaciones'];
   const data=[hdr,...filas.map(f=>[null,null,f[0],f[1],f[2],f[3],f[4],f[7]!==''?Number(f[7]):null,f[5],f[6],f[8],f[9]||null])];
   const ws=XLSX.utils.aoa_to_sheet(data);
   const fmtF='DD-MM-YYYY';
@@ -805,8 +2758,8 @@ function exportar(){
   XLSX.writeFile(wb,`Creacion_NRC_${session.periodo}_${ini}.xlsx`);
 }
 
-// ─── UTILS ───
-function fmt(s){if(!s)return'—';const[y,m,d]=s.split('-');return`${d}/${m}/${y}`;}
+// â”€â”€â”€ UTILS â”€â”€â”€
+function fmt(s){if(!s)return'â€”';const[y,m,d]=s.split('-');return`${d}/${m}/${y}`;}
 
 // Fix alias
 function guardarDesdecat(){guardarDesdecat_real();}
