@@ -197,13 +197,21 @@ textarea{resize:vertical;min-height:56px}
               <div class="dropdown" id="ap-dropdown" style="display:none"></div>
             </div>
           </div>
-          <div style="margin-bottom:6px">
-            <label style="font-size:11px;margin-bottom:3px;display:block">Tipo</label>
-            <input id="ap-tipo" type="text" readonly style="font-size:12px;background:#f0f4f0;padding:6px 8px">
-          </div>
-          <div style="margin-bottom:10px">
-            <label style="font-size:11px;margin-bottom:3px;display:block">Nombre</label>
-            <input id="ap-nombre" type="text" readonly style="font-size:12px;background:#f0f4f0;padding:6px 8px">
+          <div id="ap-manual-fields" style="display:none;margin-top:8px">
+            <div style="margin-bottom:6px">
+              <label style="font-size:12px">Nombre del programa *</label>
+              <input id="ap-nombre" type="text" placeholder="ej: DIPLOMADO EN ESTADÍSTICA APLICADA"
+                     style="width:100%;text-transform:uppercase">
+            </div>
+            <div style="margin-bottom:6px">
+              <label style="font-size:12px">Tipo *</label>
+              <select id="ap-tipo" style="width:100%">
+                <option value="">-- Selecciona --</option>
+                <option value="Diplomado">Diplomado</option>
+                <option value="Postítulo">Postítulo</option>
+                <option value="Magíster">Magíster</option>
+              </select>
+            </div>
           </div>
           <button class="btn btn-green btn-sm" onclick="agregarPrograma()" style="width:100%">Agregar</button>
           <button class="btn btn-outline btn-sm" onclick="cancelarAddProg()" style="width:100%;margin-top:5px">Cancelar</button>
@@ -351,13 +359,12 @@ let dropSel=-1;
 function onApCodigoInput(){
   const q=document.getElementById('ap-codigo').value.trim().toUpperCase();
   document.getElementById('ap-codigo').value=q;
-  const exact=CATALOGO[q];
-  if(exact){
-    setApNombrePrograma(q,exact.nombre);
+  const enCatalogo=!!CATALOGO[q];
+  document.getElementById('ap-manual-fields').style.display=enCatalogo?'none':'block';
+  if(enCatalogo){
+    setApNombrePrograma(q,CATALOGO[q].nombre);
     cerrarApDropdown();return;
   }
-  document.getElementById('ap-nombre').value='';
-  document.getElementById('ap-tipo').value='';
   if(q.length<2){cerrarApDropdown();return;}
   const matches=Object.entries(CATALOGO).filter(([k,v])=>
     k.includes(q)||v.nombre.toUpperCase().includes(q)
@@ -383,6 +390,7 @@ function onApCodigoKey(e){
 function selApCodigo(cod){
   document.getElementById('ap-codigo').value=cod;
   setApNombrePrograma(cod,CATALOGO[cod].nombre);
+  document.getElementById('ap-manual-fields').style.display='none';
   cerrarApDropdown();
 }
 function setApNombrePrograma(cod,nombre){
@@ -454,18 +462,27 @@ function mostrarFormAgregarPrograma(){
   document.getElementById('ap-codigo').value='';
   document.getElementById('ap-nombre').value='';
   document.getElementById('ap-tipo').value='';
+  document.getElementById('ap-manual-fields').style.display='none';
   document.getElementById('ap-codigo').focus();
 }
 function cancelarAddProg(){
   document.getElementById('add-prog-form').style.display='none';
+  document.getElementById('ap-nombre').value='';
+  document.getElementById('ap-tipo').value='';
+  document.getElementById('ap-manual-fields').style.display='none';
   cerrarApDropdown();
 }
 function agregarPrograma(){
   const cod=document.getElementById('ap-codigo').value.trim().toUpperCase();
-  const nombre=document.getElementById('ap-nombre').value.trim();
-  const tipo=document.getElementById('ap-tipo').value.trim();
-  if(!cod||!nombre){alert('Selecciona un código de programa válido del catálogo.');return;}
+  if(!cod){alert('Ingresa un código de programa.');return;}
   if(programas.some(p=>p.codigo===cod)){alert('El programa '+cod+' ya fue agregado.');return;}
+  const enCatalogo=!!CATALOGO[cod];
+  const nombre=enCatalogo?CATALOGO[cod].nombre:document.getElementById('ap-nombre').value.trim();
+  const tipo=enCatalogo
+    ? (()=>{const n=CATALOGO[cod].nombre.toLowerCase();return n.startsWith('diplomado')?'Diplomado':n.startsWith('postítulo')||n.startsWith('postitulo')?'Postítulo':n.startsWith('magíster')||n.startsWith('magister')?'Magíster':'Otro';})()
+    : document.getElementById('ap-tipo').value;
+  if(!nombre){alert('Ingresa el nombre del programa.');return;}
+  if(!tipo){alert('Selecciona el tipo de programa.');return;}
   programas.push({codigo:cod,nombre:nombre,tipo:tipo,asigs:[]});
   cancelarAddProg();
   activarPrograma(programas.length-1);
