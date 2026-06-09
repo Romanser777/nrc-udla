@@ -65,8 +65,15 @@ textarea{resize:vertical;min-height:56px}
 .chip:hover:not(.on){background:#eeeee8}
 /* Franjas */
 .franja-box{background:#f0f6ff;border:1.5px solid #c0d4f0;border-radius:8px;padding:14px 16px;margin-bottom:10px}
-.franja-row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-top:10px}
-.franja-row input[type=time]{width:110px}
+.franja-chips-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.fchip{padding:5px 10px;border-radius:5px;border:1.5px solid #c0d4f0;background:#fff;font-size:12px;font-weight:700;cursor:pointer;color:#555;transition:all .12s;user-select:none;line-height:1.4;text-align:center;min-width:80px}
+.fchip .fchip-lbl{display:block;font-size:10px;color:#999;font-weight:400;white-space:nowrap}
+.fchip.on{background:#1a5fa8;border-color:#1a5fa8;color:#fff}
+.fchip.on .fchip-lbl{color:#c5d8f5}
+.fchip:hover:not(.on){background:#dde8ff;border-color:#8ab0e0}
+.fchip.nocturno{border-color:#b0a0d8;background:#f8f5ff}
+.fchip.nocturno .fchip-lbl{color:#7060a0}
+.fchip.nocturno.on{background:#5a3fa8;border-color:#5a3fa8}
 .bloques-chip{display:inline-flex;align-items:center;padding:3px 9px;background:#e0f4ec;color:#0f6e56;border-radius:4px;font-size:12px;font-weight:700;border:1px solid #a8dcc8}
 .bloques-none{font-size:12px;color:#d08000;font-style:italic}
 .bloques-preview{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
@@ -112,6 +119,24 @@ textarea{resize:vertical;min-height:56px}
   .stat-grid{grid-template-columns:repeat(2,1fr)}
   .step-lbl{display:none}
 }
+/* Layout paso 2 */
+.paso2-layout{display:flex;gap:16px;align-items:flex-start}
+.prog-panel{width:240px;flex-shrink:0;background:#fff;border:1px solid #e0e0d8;border-radius:10px;padding:14px;position:sticky;top:20px}
+.prog-panel-title{font-size:13px;font-weight:700;color:#1a1a2e;margin-bottom:10px}
+.prog-list{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.prog-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:7px;cursor:pointer;border:1.5px solid transparent;transition:all .15s}
+.prog-item:hover{background:#f4f8ff}
+.prog-item.active{background:#eef4ff;border-color:#1a5fa8}
+.prog-item-name{flex:1;font-size:12px;font-weight:600;color:#1a1a2e;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.prog-item-badge{font-size:11px;background:#e0f4ec;color:#0f6e56;padding:1px 7px;border-radius:10px;font-weight:700;flex-shrink:0}
+.prog-item-badge.warn{background:#fff3e0;color:#e65100}
+.prog-item-del{color:#ccc;font-size:13px;cursor:pointer;flex-shrink:0;line-height:1;padding:0 3px}
+.prog-item-del:hover{color:#c0392b}
+.prog-workspace{flex:1;min-width:0}
+@media(max-width:700px){
+  .paso2-layout{flex-direction:column}
+  .prog-panel{width:100%;position:static}
+}
 </style>
 </head>
 <body>
@@ -126,7 +151,7 @@ textarea{resize:vertical;min-height:56px}
   <div class="steps">
     <div class="step-item"><div class="step-circle active" id="sc1">1</div><div class="step-lbl active" id="sl1">Datos generales</div></div>
     <div class="step-line" id="ln1"></div>
-    <div class="step-item"><div class="step-circle" id="sc2">2</div><div class="step-lbl" id="sl2">Asignaturas y horarios</div></div>
+    <div class="step-item"><div class="step-circle" id="sc2">2</div><div class="step-lbl" id="sl2">Programas y asignaturas</div></div>
     <div class="step-line" id="ln2"></div>
     <div class="step-item"><div class="step-circle" id="sc3">3</div><div class="step-lbl" id="sl3">Revisar y exportar</div></div>
   </div>
@@ -134,35 +159,15 @@ textarea{resize:vertical;min-height:56px}
   <!-- PASO 1 -->
   <div class="panel active" id="panel1">
     <div class="card">
-      <div class="card-hdr">Datos del programa</div>
-      <div class="row r3">
+      <div class="card-hdr">Datos de la sesión</div>
+      <div class="row r2">
         <div>
           <label>Período *</label>
           <input id="p-periodo" type="text" value="202610" maxlength="6" placeholder="ej: 202610">
         </div>
         <div>
-          <label>Tipo de programa *</label>
-          <select id="p-tipo">
-            <option>Diplomado</option><option>Postítulo</option><option>Magíster</option><option>Otro</option>
-          </select>
-        </div>
-        <div>
           <label>Responsable (coordinador) *</label>
           <input id="p-responsable" type="text" placeholder="ej: Fernanda Miranda">
-        </div>
-      </div>
-      <div class="row r2">
-        <div>
-          <label>Código programa *</label>
-          <div class="autocomplete-wrap">
-            <input id="p-codigo" type="text" placeholder="ej: ECV7563 — escribe para buscar" autocomplete="off"
-              oninput="onCodigoInput()" onkeydown="onCodigoKey(event)" style="text-transform:uppercase">
-            <div class="dropdown" id="cod-dropdown" style="display:none"></div>
-          </div>
-        </div>
-        <div>
-          <label>Nombre del programa</label>
-          <input id="p-nombre" type="text" placeholder="Se completa al ingresar el código" readonly>
         </div>
       </div>
     </div>
@@ -172,98 +177,121 @@ textarea{resize:vertical;min-height:56px}
     </div>
   </div>
 
-  <!-- PASO 2 -->
+  <!-- PASO 2: two-column layout -->
   <div class="panel" id="panel2">
-    <div class="card">
-      <div class="card-hdr">
-        Asignaturas del programa
-        <button class="btn btn-primary btn-sm" onclick="abrirForm(null)">+ Agregar asignatura</button>
+    <div class="paso2-layout">
+      <!-- Columna izquierda: panel de programas -->
+      <div class="prog-panel">
+        <div class="prog-panel-title">Programas</div>
+        <div class="prog-list" id="prog-list">
+          <div class="empty" style="padding:20px 10px;font-size:12px;color:#bbb">Sin programas.</div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="mostrarFormAgregarPrograma()" style="width:100%">+ Agregar programa</button>
+        <!-- Mini-form agregar -->
+        <div id="add-prog-form" style="display:none;margin-top:10px;padding-top:10px;border-top:1px solid #eee">
+          <div style="margin-bottom:8px">
+            <label style="font-size:11px;margin-bottom:3px;display:block">Código *</label>
+            <div class="autocomplete-wrap">
+              <input id="ap-codigo" type="text" placeholder="ej: ECV7563" autocomplete="off"
+                oninput="onApCodigoInput()" onkeydown="onApCodigoKey(event)" style="text-transform:uppercase;font-size:12px">
+              <div class="dropdown" id="ap-dropdown" style="display:none"></div>
+            </div>
+          </div>
+          <div style="margin-bottom:6px">
+            <label style="font-size:11px;margin-bottom:3px;display:block">Tipo</label>
+            <input id="ap-tipo" type="text" readonly style="font-size:12px;background:#f0f4f0;padding:6px 8px">
+          </div>
+          <div style="margin-bottom:10px">
+            <label style="font-size:11px;margin-bottom:3px;display:block">Nombre</label>
+            <input id="ap-nombre" type="text" readonly style="font-size:12px;background:#f0f4f0;padding:6px 8px">
+          </div>
+          <button class="btn btn-green btn-sm" onclick="agregarPrograma()" style="width:100%">Agregar</button>
+          <button class="btn btn-outline btn-sm" onclick="cancelarAddProg()" style="width:100%;margin-top:5px">Cancelar</button>
+        </div>
       </div>
-      <div id="tbl-empty" class="empty">
-        <div style="font-size:36px;margin-bottom:8px">📋</div>
-        <div>Sin asignaturas todavía.<br>Usa <strong>+ Agregar asignatura</strong> para comenzar.</div>
-      </div>
-      <div id="tbl-wrap" style="display:none">
-        <table class="asig-tbl">
-          <thead><tr><th>#</th><th>Sigla</th><th>Nombre asignatura</th><th>F. inicio</th><th>F. término</th><th>Semanas</th><th>Bloques</th><th>Acciones</th></tr></thead>
-          <tbody id="asig-tbody"></tbody>
-        </table>
-      </div>
-    </div>
+      <!-- Columna derecha: workspace del programa activo -->
+      <div class="prog-workspace">
+        <div id="prog-workspace-empty" style="display:block">
+          <div class="empty">
+            <div style="font-size:36px;margin-bottom:8px">📋</div>
+            <div>Agrega un programa desde el panel izquierdo para comenzar.</div>
+          </div>
+        </div>
+        <div id="prog-workspace-content" style="display:none">
+          <div class="card">
+            <div class="card-hdr">
+              <span id="prog-header">Asignaturas</span>
+              <button class="btn btn-primary btn-sm" onclick="abrirForm(null)">+ Agregar asignatura</button>
+            </div>
+            <div id="tbl-empty" class="empty">
+              <div style="font-size:36px;margin-bottom:8px">📋</div>
+              <div>Sin asignaturas todavía.<br>Usa <strong>+ Agregar asignatura</strong> para comenzar.</div>
+            </div>
+            <div id="tbl-wrap" style="display:none">
+              <table class="asig-tbl">
+                <thead><tr><th>#</th><th>Sigla</th><th>Nombre asignatura</th><th>F. inicio</th><th>F. término</th><th>Semanas</th><th>Bloques</th><th>Acciones</th></tr></thead>
+                <tbody id="asig-tbody"></tbody>
+              </table>
+            </div>
+          </div>
 
-    <!-- FORM ASIG -->
-    <div class="card" id="form-asig" style="display:none">
-      <div class="card-hdr" style="color:#1a5fa8">
-        <span id="form-titulo">Nueva asignatura</span>
-      </div>
+          <!-- FORM ASIG -->
+          <div class="card" id="form-asig" style="display:none">
+            <div class="card-hdr" style="color:#1a5fa8">
+              <span id="form-titulo">Nueva asignatura</span>
+            </div>
 
-      <!-- Si hay asigs en catálogo, mostrar selector -->
-      <div id="cat-asig-section" style="display:none;margin-bottom:18px">
-        <label style="margin-bottom:8px;font-size:13px">Asignaturas del catálogo para este programa — selecciona las que van en esta oferta:</label>
-        <div class="cat-asig-list" id="cat-asig-list"></div>
-        <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
-          <button class="btn btn-outline btn-sm" onclick="selTodas()">Seleccionar todas</button>
-          <button class="btn btn-outline btn-sm" onclick="deselTodas()">Deseleccionar todas</button>
-          <span style="font-size:12px;color:#888;margin-left:8px" id="cat-sel-count"></span>
-        </div>
-        <div style="margin-top:14px;border-top:1px solid #eee;padding-top:14px">
-          <div style="font-size:13px;font-weight:600;color:#555;margin-bottom:10px">O ingresa una asignatura manualmente:</div>
-        </div>
-      </div>
+            <div id="cat-asig-section" style="display:none;margin-bottom:18px">
+              <label style="margin-bottom:8px;font-size:13px">Asignaturas del catálogo para este programa — selecciona las que van en esta oferta:</label>
+              <div class="cat-asig-list" id="cat-asig-list"></div>
+              <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
+                <button class="btn btn-outline btn-sm" onclick="selTodas()">Seleccionar todas</button>
+                <button class="btn btn-outline btn-sm" onclick="deselTodas()">Deseleccionar todas</button>
+                <span style="font-size:12px;color:#888;margin-left:8px" id="cat-sel-count"></span>
+              </div>
+              <div style="margin-top:14px;border-top:1px solid #eee;padding-top:14px">
+                <div style="font-size:13px;font-weight:600;color:#555;margin-bottom:10px">O ingresa una asignatura manualmente:</div>
+              </div>
+            </div>
 
-      <div class="row r5">
-        <div>
-          <label>Sigla *</label>
-          <input id="fa-sigla" type="text" placeholder="ej: DIP3577" style="text-transform:uppercase">
-        </div>
-        <div>
-          <label>Nombre asignatura *</label>
-          <input id="fa-nombre" type="text" placeholder="ej: BASES DE LA DIVERSIFICACIÓN" style="text-transform:uppercase">
-        </div>
-        <div>
-          <label>Fecha inicio *</label>
-          <input id="fa-ini" type="date" onchange="calcSemanas()">
-        </div>
-        <div>
-          <label>Fecha término *</label>
-          <input id="fa-fin" type="date" onchange="calcSemanas()">
-        </div>
-        <div>
-          <label>Semanas</label>
-          <input id="fa-semanas" type="number" min="1" max="104" placeholder="auto">
-          <div class="hint">Calculado automáticamente</div>
-        </div>
-      </div>
+            <div class="row r5">
+              <div><label>Sigla *</label><input id="fa-sigla" type="text" placeholder="ej: DIP3577" style="text-transform:uppercase"></div>
+              <div><label>Nombre asignatura *</label><input id="fa-nombre" type="text" placeholder="ej: BASES DE LA DIVERSIFICACIÓN" style="text-transform:uppercase"></div>
+              <div><label>Fecha inicio *</label><input id="fa-ini" type="date" onchange="calcSemanas()" oninput="calcSemanas()"></div>
+              <div><label>Fecha término *</label><input id="fa-fin" type="date" onchange="calcSemanas()" oninput="calcSemanas()"></div>
+              <div><label>Semanas</label><input id="fa-semanas" type="number" min="1" max="104" placeholder="auto"><div class="hint">Calculado automáticamente</div></div>
+            </div>
 
-      <!-- FRANJAS -->
-      <div style="background:#f0f6ff;border:1.5px solid #c0d4f0;border-radius:8px;padding:16px;margin-bottom:14px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-          <div style="font-size:13px;font-weight:700;color:#1a5fa8">Franjas horarias</div>
-          <button class="btn btn-outline btn-sm" onclick="addFranja()" style="border-color:#1a5fa8;color:#1a5fa8">+ Agregar franja</button>
+            <div style="background:#f0f6ff;border:1.5px solid #c0d4f0;border-radius:8px;padding:16px;margin-bottom:14px">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                <div style="font-size:13px;font-weight:700;color:#1a5fa8">Franjas horarias</div>
+                <button class="btn btn-outline btn-sm" onclick="addFranja()" style="border-color:#1a5fa8;color:#1a5fa8">+ Agregar franja</button>
+              </div>
+              <p style="font-size:12px;color:#555;margin-bottom:12px">Elige días y franjas horarias. Los bloques UDLA se asignan automáticamente.</p>
+              <div id="franjas-cont"></div>
+              <div id="bloques-res" style="margin-top:10px"></div>
+            </div>
+
+            <div>
+              <label>Observaciones</label>
+              <textarea id="fa-obs" placeholder="ej: Clases viernes 17:30 a 20:30 hrs y sábados de 09:30 a 12:30 pm"></textarea>
+              <div class="hint">Este texto aparece en la columna Observaciones de cada fila generada para esta asignatura.</div>
+            </div>
+
+            <div class="actions" style="margin-top:16px">
+              <button class="btn btn-outline" onclick="cancelarForm()">Cancelar</button>
+              <div style="display:flex;gap:8px">
+                <button class="btn btn-green" id="btn-guardar-cat" onclick="guardarDesdecat_real()" style="display:none">Agregar seleccionadas del catálogo</button>
+                <button class="btn btn-green" onclick="guardarAsig()">Guardar asignatura individual</button>
+              </div>
+            </div>
+          </div>
         </div>
-        <p style="font-size:12px;color:#555;margin-bottom:12px">Elige los días y el rango horario. Los bloques UDLA se asignan automáticamente.</p>
-        <div id="franjas-cont"></div>
-        <div id="bloques-res" style="margin-top:10px"></div>
-      </div>
-
-      <div>
-        <label>Observaciones</label>
-        <textarea id="fa-obs" placeholder="ej: Clases viernes 17:30 a 20:30 hrs y sábados de 09:30 a 12:30 pm"></textarea>
-        <div class="hint">Este texto aparece en la columna Observaciones de cada fila generada para esta asignatura.</div>
-      </div>
-
-      <div class="actions" style="margin-top:16px">
-        <button class="btn btn-outline" onclick="cancelarForm()">Cancelar</button>
-        <div style="display:flex;gap:8px">
-          <button class="btn btn-green" id="btn-guardar-cat" onclick="guardarDesdecat_real()" style="display:none">Agregar seleccionadas del catálogo</button>
-          <button class="btn btn-green" onclick="guardarAsig()">Guardar asignatura individual</button>
+        <div class="actions" style="margin-top:16px">
+          <button class="btn btn-outline" onclick="irA(1)">← Volver</button>
+          <button class="btn btn-primary" onclick="irA(3)">Siguiente →</button>
         </div>
       </div>
-    </div>
-
-    <div class="actions">
-      <button class="btn btn-outline" onclick="irA(1)">← Volver</button>
-      <button class="btn btn-primary" onclick="irA(3)">Siguiente →</button>
     </div>
   </div>
 
@@ -310,67 +338,83 @@ function calcBloques(franjas){
   return[...all].sort((a,b)=>a-b);
 }
 
-// ─── ESTADO ───
-let asigs=[],editIdx=null,franjas=[];
+// ─── ESTADO GLOBAL ───
+let session = { periodo: '', responsable: '' };
+let programas = [];
+let progActivo = null;
+let asigs = [];
+let editIdx = null;
+let franjas = [];
 
-// ─── AUTOCOMPLETE CÓDIGO ───
+// ─── AUTOCOMPLETE PARA AGREGAR PROGRAMA ───
 let dropSel=-1;
-function onCodigoInput(){
-  const q=document.getElementById('p-codigo').value.trim().toUpperCase();
-  document.getElementById('p-codigo').value=q;
-  // Limpiar nombre si el código cambia
+function onApCodigoInput(){
+  const q=document.getElementById('ap-codigo').value.trim().toUpperCase();
+  document.getElementById('ap-codigo').value=q;
   const exact=CATALOGO[q];
   if(exact){
-    setNombrePrograma(q,exact.nombre);
-    cerrarDropdown();return;
+    setApNombrePrograma(q,exact.nombre);
+    cerrarApDropdown();return;
   }
-  document.getElementById('p-nombre').value='';
-  document.getElementById('p-nombre').className='';
-  if(q.length<2){cerrarDropdown();return;}
+  document.getElementById('ap-nombre').value='';
+  document.getElementById('ap-tipo').value='';
+  if(q.length<2){cerrarApDropdown();return;}
   const matches=Object.entries(CATALOGO).filter(([k,v])=>
     k.includes(q)||v.nombre.toUpperCase().includes(q)
   ).slice(0,8);
-  if(!matches.length){cerrarDropdown();return;}
+  if(!matches.length){cerrarApDropdown();return;}
   dropSel=-1;
-  const dd=document.getElementById('cod-dropdown');
+  const dd=document.getElementById('ap-dropdown');
   dd.innerHTML=matches.map(([k,v],i)=>
-    `<div class="dropdown-item" onmousedown="selCodigo('${k}')" id="ddi-${i}">
+    `<div class="dropdown-item" onmousedown="selApCodigo('${k}')" id="ddi-${i}">
       <span class="dropdown-cod">${k}</span>
       <span class="dropdown-nom">${v.nombre}</span>
     </div>`).join('');
   dd.style.display='block';
 }
-function onCodigoKey(e){
-  const dd=document.getElementById('cod-dropdown');
+function onApCodigoKey(e){
+  const dd=document.getElementById('ap-dropdown');
   const items=dd.querySelectorAll('.dropdown-item');
   if(e.key==='ArrowDown'){e.preventDefault();dropSel=Math.min(dropSel+1,items.length-1);items.forEach((el,i)=>el.classList.toggle('sel',i===dropSel));}
   else if(e.key==='ArrowUp'){e.preventDefault();dropSel=Math.max(dropSel-1,0);items.forEach((el,i)=>el.classList.toggle('sel',i===dropSel));}
   else if(e.key==='Enter'&&dropSel>=0){e.preventDefault();items[dropSel].dispatchEvent(new Event('mousedown'));}
-  else if(e.key==='Escape'){cerrarDropdown();}
+  else if(e.key==='Escape'){cerrarApDropdown();}
 }
-function selCodigo(cod){
-  document.getElementById('p-codigo').value=cod;
-  setNombrePrograma(cod,CATALOGO[cod].nombre);
-  cerrarDropdown();
+function selApCodigo(cod){
+  document.getElementById('ap-codigo').value=cod;
+  setApNombrePrograma(cod,CATALOGO[cod].nombre);
+  cerrarApDropdown();
 }
-function setNombrePrograma(cod,nombre){
-  const el=document.getElementById('p-nombre');
-  el.value=nombre;
-  el.className='nombre-autocomp';
-  // Setear tipo automáticamente
+function setApNombrePrograma(cod,nombre){
+  document.getElementById('ap-nombre').value=nombre;
+  document.getElementById('ap-nombre').className='nombre-autocomp';
   const n=nombre.toLowerCase();
-  const sel=document.getElementById('p-tipo');
+  const sel=document.getElementById('ap-tipo');
   if(n.startsWith('diplomado'))sel.value='Diplomado';
   else if(n.startsWith('postítulo')||n.startsWith('postitulo'))sel.value='Postítulo';
   else if(n.startsWith('magíster')||n.startsWith('magister'))sel.value='Magíster';
+  else sel.value='Otro';
 }
-function cerrarDropdown(){document.getElementById('cod-dropdown').style.display='none';}
-document.addEventListener('click',e=>{if(!e.target.closest('.autocomplete-wrap'))cerrarDropdown();});
+function cerrarApDropdown(){document.getElementById('ap-dropdown').style.display='none';}
+document.addEventListener('click',e=>{if(!e.target.closest('.autocomplete-wrap'))cerrarApDropdown();});
 
 // ─── NAVEGACIÓN ───
 function irA(n){
-  if(n===2){if(!validarPaso1())return;document.getElementById('badge-periodo').textContent='Período '+document.getElementById('p-periodo').value.trim();}
-  if(n===3){if(!asigs.length){alert('Agrega al menos una asignatura antes de continuar.');return;}renderResumen();}
+  if(n===2){
+    if(!validarPaso1())return;
+    session.periodo=document.getElementById('p-periodo').value.trim();
+    session.responsable=document.getElementById('p-responsable').value.trim();
+    document.getElementById('badge-periodo').textContent='Período '+session.periodo;
+    renderPanelProgramas();
+    if(programas.length>0){activarPrograma(0);}else{mostrarPlaceholder();}
+  }
+  if(n===3){
+    if(progActivo!==null){programas[progActivo].asigs=asigs;}
+    if(!programas.length){alert('Agrega al menos un programa antes de continuar.');return;}
+    const sinAsigs=programas.filter(p=>!p.asigs.length);
+    if(sinAsigs.length&&!confirm(sinAsigs.length+' programa(s) no tienen asignaturas. ¿Continuar igualmente?'))return;
+    renderResumen();
+  }
   [1,2,3].forEach(i=>{
     document.getElementById('panel'+i).className='panel'+(i===n?' active':'');
     const sc=document.getElementById('sc'+i),sl=document.getElementById('sl'+i);
@@ -383,12 +427,81 @@ function irA(n){
 }
 function validarPaso1(){
   let ok=true;
-  ['p-periodo','p-responsable','p-codigo'].forEach(id=>{
+  ['p-periodo','p-responsable'].forEach(id=>{
     const el=document.getElementById(id);
     if(!el.value.trim()){el.classList.add('error');ok=false;}else el.classList.remove('error');
   });
-  if(!ok)alert('Completa: Período, Responsable y Código de programa.');
+  if(!ok)alert('Completa: Período y Responsable.');
   return ok;
+}
+
+// ─── PANEL DE PROGRAMAS ───
+function renderPanelProgramas(){
+  const list=document.getElementById('prog-list');
+  if(!programas.length){
+    list.innerHTML='<div class="empty" style="padding:20px 10px;font-size:12px;color:#bbb">Sin programas.</div>';
+    return;
+  }
+  list.innerHTML=programas.map((p,i)=>`
+    <div class="prog-item${i===progActivo?' active':''}" onclick="activarPrograma(${i})">
+      <span class="prog-item-name">${p.codigo}${p.nombre?' — '+p.nombre:''}</span>
+      <span class="prog-item-badge${!p.asigs.length?' warn':''}">${p.asigs.length}</span>
+      <span class="prog-item-del" onclick="event.stopPropagation();eliminarPrograma(${i})" title="Eliminar programa">✕</span>
+    </div>`).join('');
+}
+function mostrarFormAgregarPrograma(){
+  document.getElementById('add-prog-form').style.display='block';
+  document.getElementById('ap-codigo').value='';
+  document.getElementById('ap-nombre').value='';
+  document.getElementById('ap-tipo').value='';
+  document.getElementById('ap-codigo').focus();
+}
+function cancelarAddProg(){
+  document.getElementById('add-prog-form').style.display='none';
+  cerrarApDropdown();
+}
+function agregarPrograma(){
+  const cod=document.getElementById('ap-codigo').value.trim().toUpperCase();
+  const nombre=document.getElementById('ap-nombre').value.trim();
+  const tipo=document.getElementById('ap-tipo').value.trim();
+  if(!cod||!nombre){alert('Selecciona un código de programa válido del catálogo.');return;}
+  if(programas.some(p=>p.codigo===cod)){alert('El programa '+cod+' ya fue agregado.');return;}
+  programas.push({codigo:cod,nombre:nombre,tipo:tipo,asigs:[]});
+  cancelarAddProg();
+  activarPrograma(programas.length-1);
+}
+function activarPrograma(idx){
+  // Guardar estado del programa activo anterior
+  if(progActivo!==null&&programas[progActivo]){programas[progActivo].asigs=asigs;}
+  progActivo=idx;
+  asigs=programas[idx].asigs;
+  renderPanelProgramas();
+  mostrarPlaceholder();
+  document.getElementById('prog-workspace-empty').style.display='none';
+  document.getElementById('prog-workspace-content').style.display='block';
+  document.getElementById('prog-header').textContent=programas[idx].nombre||programas[idx].codigo;
+  cancelarForm();
+  renderTabla();
+}
+function eliminarPrograma(idx){
+  if(!confirm('¿Eliminar el programa '+programas[idx].codigo+'? Se borrarán también sus asignaturas.'))return;
+  if(progActivo===idx){
+    programas.splice(idx,1);
+    progActivo=null;asigs=[];
+    if(programas.length){activarPrograma(Math.min(idx,programas.length-1));}
+    else{mostrarPlaceholder();}
+  } else {
+    programas.splice(idx,1);
+    if(progActivo>idx)progActivo--;
+    renderPanelProgramas();
+  }
+}
+function mostrarPlaceholder(){
+  if(!programas.length){
+    document.getElementById('prog-workspace-empty').style.display='block';
+    document.getElementById('prog-workspace-content').style.display='none';
+    progActivo=null;asigs=[];
+  }
 }
 
 // ─── TABLA ASIGNATURAS ───
@@ -416,9 +529,9 @@ function abrirForm(idx){
   const es=idx!==null;
   document.getElementById('form-titulo').textContent=es?'Editar asignatura':'Nueva asignatura';
 
-  // Catálogo del programa actual
-  const cod=document.getElementById('p-codigo').value.trim().toUpperCase();
-  const catProg=CATALOGO[cod]?CATALOGO[cod].asigs:[];
+  // Catálogo del programa activo
+  const cod=progActivo!==null?programas[progActivo].codigo:'';
+  const catProg=cod&&CATALOGO[cod]?CATALOGO[cod].asigs:[];
   const catSec=document.getElementById('cat-asig-section');
   const btnCat=document.getElementById('btn-guardar-cat');
 
@@ -439,7 +552,11 @@ function abrirForm(idx){
     document.getElementById('fa-fin').value=a.fin;
     document.getElementById('fa-semanas').value=a.semanas||'';
     document.getElementById('fa-obs').value=a.obs||'';
-    franjas=JSON.parse(JSON.stringify(a.franjas||[]));
+    // Migrar franjas al nuevo formato si tienen ini/fin en vez de franjasIdx
+    franjas=(a.franjas||[]).map(f=>{
+      if(f.franjasIdx!==undefined)return JSON.parse(JSON.stringify(f));
+      return {diasIdx:f.diasIdx||[],franjasIdx:[]};
+    });
   } else {
     ['fa-sigla','fa-nombre','fa-ini','fa-fin','fa-semanas','fa-obs'].forEach(id=>document.getElementById(id).value='');
     addFranja();
@@ -454,19 +571,37 @@ function renderCatAsigs(catAsigs){
   const existentes=new Set(asigs.map(a=>a.sigla));
   document.getElementById('cat-asig-list').innerHTML=catAsigs.map((a,i)=>{
     const ya=existentes.has(a.cod);
-    return `<div class="cat-asig-item ${ya?'checked':''}" onclick="toggleCatCheck(${i})">
-      <input type="checkbox" class="cat-asig-check" id="cc-${i}" ${ya?'checked disabled':''} onchange="updCatCount()">
+    return `<div class="cat-asig-item ${ya?'checked':''}" onclick="toggleCatCheck(${i},event)">
+      <input type="checkbox" class="cat-asig-check" id="cc-${i}" data-asig-idx="${i}" ${ya?'checked disabled':''} onclick="event.stopPropagation()" onchange="updCatCount()">
       <span class="cat-asig-cod">${a.cod}</span>
       <span class="cat-asig-nom">${a.nom}${ya?' <em style=\"color:#1d9e75;font-size:11px\">(ya agregada)</em>':''}</span>
     </div>`;}).join('');
   updCatCount();
 }
-function toggleCatCheck(i){
+function toggleCatCheck(i,e){
   const cb=document.getElementById('cc-'+i);
   if(cb.disabled)return;
   cb.checked=!cb.checked;
   cb.closest('.cat-asig-item').classList.toggle('checked',cb.checked);
   updCatCount();
+  // Si se selecciona exactamente uno, poblar el formulario manual
+  const checked=document.querySelectorAll('.cat-asig-check:not([disabled]):checked');
+  if(checked.length===1){
+    const idx=parseInt(checked[0].dataset.asigIdx ?? checked[0].id.replace('cc-',''));
+    const cod=progActivo!==null?programas[progActivo].codigo:'';
+    if(!cod||!CATALOGO[cod])return;
+    const a=CATALOGO[cod].asigs[idx];
+    document.getElementById('fa-sigla').value=a.cod;
+    document.getElementById('fa-nombre').value=a.nom;
+    editIdx=null; franjas=[]; addFranja();
+    renderFranjas();
+    const el=document.getElementById('form-asig');
+    el.style.display='block'; el.className='card form-asig-card';
+    el.scrollIntoView({behavior:'smooth',block:'start'});
+  } else {
+    document.getElementById('fa-sigla').value='';
+    document.getElementById('fa-nombre').value='';
+  }
 }
 function updCatCount(){
   const total=document.querySelectorAll('.cat-asig-check:not([disabled])').length;
@@ -476,15 +611,10 @@ function updCatCount(){
 function selTodas(){document.querySelectorAll('.cat-asig-check:not([disabled])').forEach(cb=>{cb.checked=true;cb.closest('.cat-asig-item').classList.add('checked');});updCatCount();}
 function deselTodas(){document.querySelectorAll('.cat-asig-check:not([disabled])').forEach(cb=>{cb.checked=false;cb.closest('.cat-asig-item').classList.remove('checked');});updCatCount();}
 
-function guardarDesdeChat(){} // alias
-function guardarDesdecat(){} // alias
-
-function guardarDesdeEl(){} // fixer
-
 // Guardar asignaturas seleccionadas del catálogo (sin horario aún — se editan después)
 function guardarDesdecat_real(){
-  const cod=document.getElementById('p-codigo').value.trim().toUpperCase();
-  const catAsigs=CATALOGO[cod]?CATALOGO[cod].asigs:[];
+  const cod=progActivo!==null?programas[progActivo].codigo:'';
+  const catAsigs=cod&&CATALOGO[cod]?CATALOGO[cod].asigs:[];
   const ini=document.getElementById('fa-ini').value;
   const fin=document.getElementById('fa-fin').value;
   if(!ini||!fin){alert('Ingresa las fechas de inicio y término antes de agregar las asignaturas.');return;}
@@ -493,7 +623,7 @@ function guardarDesdecat_real(){
   if(!checks.length){alert('Selecciona al menos una asignatura del catálogo.');return;}
   const sem=document.getElementById('fa-semanas').value;
   const obs=document.getElementById('fa-obs').value.trim();
-  const bls=calcBloques(franjas);
+  const bls=calcBloquesNew(franjas);
   if(!bls.length&&!confirm('Las asignaturas no tienen bloques horarios asignados. ¿Guardar igualmente?'))return;
   const existentes=new Set(asigs.map(a=>a.sigla));
   let agregadas=0;
@@ -525,7 +655,7 @@ function guardarAsig(){
   const fin=document.getElementById('fa-fin').value;
   if(!sigla||!nombre||!ini||!fin){alert('Completa sigla, nombre y ambas fechas.');return;}
   if(ini>fin){alert('La fecha de término debe ser posterior a la de inicio.');return;}
-  const bls=calcBloques(franjas);
+  const bls=calcBloquesNew(franjas);
   if(!bls.length&&!confirm('Esta asignatura no tiene bloques horarios. ¿Guardar igualmente?'))return;
   const obj={sigla,nombre,ini,fin,semanas:document.getElementById('fa-semanas').value||'',obs:document.getElementById('fa-obs').value.trim(),franjas:JSON.parse(JSON.stringify(franjas)),bloques:bls};
   if(editIdx===null)asigs.push(obj);else asigs[editIdx]=obj;
@@ -536,66 +666,105 @@ function guardarAsig(){
 function calcSemanas(){
   const ini=document.getElementById('fa-ini').value,fin=document.getElementById('fa-fin').value;
   if(!ini||!fin||ini>fin){document.getElementById('fa-semanas').value='';return;}
-  document.getElementById('fa-semanas').value=Math.ceil((new Date(fin)-new Date(ini))/(1000*60*60*24*7));
+  const dias=Math.round((new Date(fin)-new Date(ini))/(1000*60*60*24));
+  document.getElementById('fa-semanas').value=Math.ceil(dias/7);
 }
 
-// ─── FRANJAS ───
-function addFranja(){franjas.push({diasIdx:[],ini:'',fin:''});renderFranjas();}
+// ─── FRANJAS (chip-based) ───
+// Las 12 franjas UDLA como objetos {ini, fin, base}
+// base/100 = número de franja (1..12)
+const FRANJAS_DEF=[
+  {n:1,ini:'08:30',fin:'09:30'},{n:2,ini:'09:40',fin:'10:40'},{n:3,ini:'10:50',fin:'11:50'},
+  {n:4,ini:'12:00',fin:'13:00'},{n:5,ini:'13:10',fin:'14:10'},{n:6,ini:'14:20',fin:'15:20'},
+  {n:7,ini:'15:30',fin:'16:30'},{n:8,ini:'16:40',fin:'17:40'},{n:9,ini:'17:50',fin:'18:50'},
+  {n:10,ini:'19:15',fin:'20:15'},{n:11,ini:'20:25',fin:'21:25'},{n:12,ini:'21:30',fin:'22:30'}
+];
+
+function addFranja(){franjas.push({diasIdx:[],franjasIdx:[]});renderFranjas();}
 function quitarFranja(i){franjas.splice(i,1);renderFranjas();}
 function toggleDia(fi,di){const idx=franjas[fi].diasIdx.indexOf(di);if(idx>=0)franjas[fi].diasIdx.splice(idx,1);else franjas[fi].diasIdx.push(di);renderFranjas();}
-function setTime(fi,campo,val){franjas[fi][campo]=val;renderBloquesRes();}
+function toggleFranjaHor(fi,fn){const idx=franjas[fi].franjasIdx.indexOf(fn);if(idx>=0)franjas[fi].franjasIdx.splice(idx,1);else franjas[fi].franjasIdx.push(fn);renderFranjas();}
+
+function calcBloquesNew(franjasList){
+  const all=new Set();
+  franjasList.forEach(f=>{
+    if(!f.diasIdx.length||!f.franjasIdx.length)return;
+    f.diasIdx.forEach(di=>{
+      f.franjasIdx.forEach(fn=>{
+        all.add((di+1)*100+fn);
+      });
+    });
+  });
+  return [...all].sort((a,b)=>a-b);
+}
+
 function renderFranjas(){
   const cont=document.getElementById('franjas-cont');
   if(!franjas.length){cont.innerHTML='<p style="font-size:12px;color:#888;font-style:italic">Sin franjas. Haz clic en + Agregar franja.</p>';renderBloquesRes();return;}
   cont.innerHTML=franjas.map((f,fi)=>`
     <div class="franja-box">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
         <span style="font-size:12px;font-weight:700;color:#1a5fa8">Franja ${fi+1}</span>
         <button class="btn-del" onclick="quitarFranja(${fi})">✕ Quitar</button>
       </div>
-      <div><label style="font-size:11px;margin-bottom:5px">Días de clases</label>
+      <div style="margin-bottom:10px">
+        <label style="font-size:11px;margin-bottom:5px;display:block">Días de clases</label>
         <div class="dia-chips">${DIAS.map((d,di)=>`<div class="chip ${f.diasIdx.includes(di)?'on':''}" onclick="toggleDia(${fi},${di})">${d}</div>`).join('')}</div>
       </div>
-      <div class="franja-row">
-        <div><label style="font-size:11px">Hora inicio</label><input type="time" value="${f.ini}" onchange="setTime(${fi},'ini',this.value)"></div>
-        <div><label style="font-size:11px">Hora fin</label><input type="time" value="${f.fin}" onchange="setTime(${fi},'fin',this.value)"></div>
+      <div>
+        <label style="font-size:11px;margin-bottom:5px;display:block">Módulos horarios</label>
+        <div class="franja-chips-row">${FRANJAS_DEF.map(fd=>`
+          <div class="fchip ${f.franjasIdx.includes(fd.n)?'on':''} ${fd.n>=10?'nocturno':''}" onclick="toggleFranjaHor(${fi},${fd.n})">
+            F${fd.n}<span class="fchip-lbl">${fd.ini}–${fd.fin}</span>
+          </div>`).join('')}
+        </div>
       </div>
     </div>`).join('');
   renderBloquesRes();
 }
+
 function renderBloquesRes(){
-  const bls=calcBloques(franjas),el=document.getElementById('bloques-res');
+  const bls=calcBloquesNew(franjas),el=document.getElementById('bloques-res');
   el.innerHTML=bls.length
     ?`<div style="font-size:12px;font-weight:700;color:#0f6e56;margin-bottom:6px">Bloques UDLA asignados (${bls.length}):</div><div class="bloques-preview">${bls.map(b=>`<span class="bloques-chip">${b}</span>`).join('')}</div>`
-    :'<div class="bloques-none">Selecciona días y horario para ver los bloques asignados automáticamente.</div>';
+    :'<div class="bloques-none">Selecciona días y módulos para ver los bloques asignados automáticamente.</div>';
 }
 
 // ─── RESUMEN ───
 function renderResumen(){
-  const total=asigs.reduce((s,a)=>s+a.bloques.length,0),sinB=asigs.filter(a=>!a.bloques.length).length;
-  const periodo=document.getElementById('p-periodo').value,resp=document.getElementById('p-responsable').value;
-  const cod=document.getElementById('p-codigo').value.toUpperCase(),tipo=document.getElementById('p-tipo').value;
-  const nombre=document.getElementById('p-nombre').value;
+  const totalAsigs=programas.reduce((s,p)=>s+p.asigs.length,0);
+  const totalFilas=programas.reduce((s,p)=>p.asigs.reduce((s2,a)=>s2+a.bloques.length,s),0);
+  const sinB=programas.reduce((s,p)=>s+p.asigs.filter(a=>!a.bloques.length).length,0);
+  const progSinAsigs=programas.filter(p=>!p.asigs.length).length;
   document.getElementById('stat-grid').innerHTML=`
-    <div class="stat"><div class="stat-n">${periodo}</div><div class="stat-l">Período</div></div>
-    <div class="stat"><div class="stat-n">${asigs.length}</div><div class="stat-l">Asignaturas</div></div>
-    <div class="stat"><div class="stat-n">${total}</div><div class="stat-l">Filas totales</div></div>
-    <div class="stat"><div class="stat-n">${sinB?'<span style="color:#e65100">'+sinB+'</span>':0}</div><div class="stat-l">Sin bloques</div></div>`;
-  document.getElementById('alerta-warn').innerHTML=sinB?`<div class="alert-warn">⚠ ${sinB} asignatura(s) sin bloques horarios — no generarán filas en el Excel.</div>`:'';
-  document.getElementById('resumen-det').innerHTML=`<strong>${resp}</strong> · ${tipo} · Código: <strong>${cod}</strong>${nombre?' · '+nombre:''}`;
+    <div class="stat"><div class="stat-n">${session.periodo}</div><div class="stat-l">Período</div></div>
+    <div class="stat"><div class="stat-n">${programas.length}</div><div class="stat-l">Programas</div></div>
+    <div class="stat"><div class="stat-n">${totalAsigs}</div><div class="stat-l">Asignaturas</div></div>
+    <div class="stat"><div class="stat-n">${totalFilas}</div><div class="stat-l">Filas totales</div></div>`;
+  let warns='';
+  if(sinB)warns+=`<div class="alert-warn">⚠ ${sinB} asignatura(s) sin bloques horarios — no generarán filas en el Excel.</div>`;
+  if(progSinAsigs)warns+=`<div class="alert-warn">⚠ ${progSinAsigs} programa(s) sin asignaturas.</div>`;
+  document.getElementById('alerta-warn').innerHTML=warns;
+  document.getElementById('resumen-det').innerHTML=`<strong>${session.responsable}</strong> · ${programas.length} programa(s) · Período <strong>${session.periodo}</strong>`;
   const filas=generarFilas();
-  const cols=['Período','Responsable','Cód. Prog.','Cód. Asig.','Nombre Asignatura','F. Inicio','F. Término','Semanas','Módulo','Observaciones'];
+  const cols=['Período','Responsable','Cód. Prog.','Cód. Asig.','Nombre Asignatura','F. Inicio','F. Término','Semanas','Módulo','Observaciones','Programa'];
   document.getElementById('prev-tbl').innerHTML=
     '<tr>'+cols.map(c=>`<th>${c}</th>`).join('')+'</tr>'+
-    filas.map(f=>`<tr><td>${f[0]}</td><td>${f[1]}</td><td>${f[2]}</td><td><strong>${f[3]}</strong></td><td>${f[4]}</td><td>${fmt(f[5])}</td><td>${fmt(f[6])}</td><td style="text-align:center">${f[7]||''}</td><td class="mod-cell">${f[8]}</td><td style="max-width:160px;overflow:hidden;text-overflow:ellipsis">${f[9]||''}</td></tr>`).join('');
+    filas.map((f,fi)=>`<tr${fi>0&&f[10]!==filas[fi-1][10]?' style="border-top:2px solid #1a5fa8"':''}><td>${f[0]}</td><td>${f[1]}</td><td>${f[2]}</td><td><strong>${f[3]}</strong></td><td>${f[4]}</td><td>${fmt(f[5])}</td><td>${fmt(f[6])}</td><td style="text-align:center">${f[7]||''}</td><td class="mod-cell">${f[8]}</td><td style="max-width:160px;overflow:hidden;text-overflow:ellipsis">${f[9]||''}</td><td style="font-size:11px;color:#888">${f[10]}</td></tr>`).join('');
 }
 
 // ─── GENERAR FILAS ───
 function generarFilas(){
-  const periodo=document.getElementById('p-periodo').value,resp=document.getElementById('p-responsable').value;
-  const cod=document.getElementById('p-codigo').value.toUpperCase();
   const rows=[];
-  asigs.forEach(a=>a.bloques.forEach(b=>rows.push([periodo,resp,cod,a.sigla,a.nombre,a.ini,a.fin,a.semanas||'',b,a.obs||''])));
+  let progIdx=0;
+  programas.forEach(prog=>{
+    prog.asigs.forEach(a=>{
+      a.bloques.forEach(b=>{
+        rows.push([session.periodo,session.responsable,prog.codigo,a.sigla,a.nombre,a.ini,a.fin,a.semanas||'',b,a.obs||'',prog.codigo]);
+      });
+    });
+    progIdx++;
+  });
   return rows;
 }
 
@@ -615,9 +784,8 @@ function exportar(){
   ws['!cols']=[{wch:3},{wch:3},{wch:8},{wch:20},{wch:10},{wch:14},{wch:36},{wch:10},{wch:16},{wch:16},{wch:10},{wch:65}];
   const wb=XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb,ws,'Horarios');
-  const p=document.getElementById('p-periodo').value;
-  const ini=document.getElementById('p-responsable').value.trim().split(' ').map(w=>w[0]||'').join('').toUpperCase();
-  XLSX.writeFile(wb,`Creacion_NRC_${p}_${ini}.xlsx`);
+  const ini=session.responsable.trim().split(' ').map(w=>w[0]||'').join('').toUpperCase();
+  XLSX.writeFile(wb,`Creacion_NRC_${session.periodo}_${ini}.xlsx`);
 }
 
 // ─── UTILS ───
