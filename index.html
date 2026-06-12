@@ -4030,9 +4030,9 @@ function renderBulkFranjas() {
         ${bulkFranjas.length > 1 ? `<button class="btn-del" onclick="removeBulkFranja(${fi})">✕ Quitar</button>` : ''}
       </div>
       <div style="font-size:11px; color:#666; margin-bottom:4px">Días de clases</div>
-      <div class="chips-row">
-        ${['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'].map((d, di) => `
-          <div class="dchip ${f.diasIdx.includes(di) ? 'on' : ''}"
+      <div class="dia-chips">
+        ${DIAS.map((d, di) => `
+          <div class="chip ${f.diasIdx.includes(di) ? 'on' : ''}"
             onclick="toggleBulkDia(${fi},${di})">${d}</div>
         `).join('')}
       </div>
