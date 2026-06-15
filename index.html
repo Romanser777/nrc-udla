@@ -132,6 +132,8 @@ textarea{resize:vertical;min-height:56px}
 .prog-item-badge.warn{background:#fff3e0;color:#e65100}
 .prog-item-del{color:#ccc;font-size:13px;cursor:pointer;flex-shrink:0;line-height:1;padding:0 3px}
 .prog-item-del:hover{color:#c0392b}
+.prog-sec-btn{font-size:11px;font-weight:700;color:#1a5fa8;cursor:pointer;flex-shrink:0;padding:1px 5px;border-radius:4px;border:1px solid #1a5fa8;line-height:1.4}
+.prog-sec-btn:hover{background:#e8f0fc}
 .prog-workspace{flex:1;min-width:0}
 @media(max-width:700px){
   .paso2-layout{flex-direction:column}
@@ -3775,12 +3777,23 @@ function renderPanelProgramas(){
     list.innerHTML='<div class="empty" style="padding:20px 10px;font-size:12px;color:#bbb">Sin programas.</div>';
     return;
   }
-  list.innerHTML=programas.map((p,i)=>`
-    <div class="prog-item${i===progActivo?' active':''}" onclick="activarPrograma(${i})">
-      <span class="prog-item-name">${p.codigo}${p.nombre?' — '+p.nombre:''}</span>
-      <span class="prog-item-badge${!p.asigs.length?' warn':''}">${p.asigs.length}</span>
-      <span class="prog-item-del" onclick="event.stopPropagation();eliminarPrograma(${i})" title="Eliminar programa">✕</span>
-    </div>`).join('');
+  list.innerHTML=programas.map((p,i)=>{
+    const seccionesDeEsteCod=programas.filter(x=>x.codigo===p.codigo);
+    const esPrimera=programas.findIndex(x=>x.codigo===p.codigo)===i;
+    const esUltima=programas.map((x,j)=>x.codigo===p.codigo?j:-1).filter(j=>j>=0).pop()===i;
+    const mostrarBtnSec=esUltima&&seccionesDeEsteCod.length<4;
+    const labelSec=seccionesDeEsteCod.length>1?' — Sec. '+p.seccion:'';
+    const nAsigs=(progActivo===i?asigs:p.asigs).length;
+    return `
+      <div class="prog-item${i===progActivo?' active':''}" onclick="activarPrograma(${i})">
+        <div class="prog-item-name" title="${p.codigo} — ${p.nombre}">
+          ${p.codigo}${labelSec}
+        </div>
+        <span class="prog-item-badge${nAsigs===0?' warn':''}">${nAsigs}</span>
+        ${mostrarBtnSec?`<span class="prog-sec-btn" title="Agregar sección" onclick="event.stopPropagation();agregarSeccion(${i})">+S</span>`:''}
+        <span class="prog-item-del" onclick="event.stopPropagation();eliminarPrograma(${i})" title="Eliminar programa">✕</span>
+      </div>`;
+  }).join('');
 }
 function mostrarFormAgregarPrograma(){
   document.getElementById('add-prog-form').style.display='block';
@@ -3808,9 +3821,19 @@ function agregarPrograma(){
     : document.getElementById('ap-tipo').value;
   if(!nombre){alert('Ingresa el nombre del programa.');return;}
   if(!tipo){alert('Selecciona el tipo de programa.');return;}
-  programas.push({codigo:cod,nombre:nombre,tipo:tipo,asigs:[]});
+  programas.push({codigo:cod,nombre:nombre,tipo:tipo,asigs:[],seccion:1});
   cancelarAddProg();
   activarPrograma(programas.length-1);
+}
+function agregarSeccion(idx) {
+  const prog = programas[idx];
+  const secciones = programas.filter(p => p.codigo === prog.codigo);
+  if (secciones.length >= 4) { alert('Máximo 4 secciones por programa.'); return; }
+  const numSec = secciones.length + 1;
+  if (progActivo !== null) programas[progActivo].asigs = asigs;
+  programas.push({ codigo: prog.codigo, nombre: prog.nombre, tipo: prog.tipo, asigs: [], seccion: numSec });
+  activarPrograma(programas.length - 1);
+  renderPanelProgramas();
 }
 function activarPrograma(idx){
   // Guardar estado del programa activo anterior
@@ -3821,12 +3844,13 @@ function activarPrograma(idx){
   mostrarPlaceholder();
   document.getElementById('prog-workspace-empty').style.display='none';
   document.getElementById('prog-workspace-content').style.display='block';
-  document.getElementById('prog-header').textContent=programas[idx].nombre||programas[idx].codigo;
+  const pg=programas[idx];const secs=programas.filter(x=>x.codigo===pg.codigo);const sf=secs.length>1?' — Sección '+pg.seccion:'';document.getElementById('prog-header').textContent=(pg.nombre||pg.codigo)+sf;
   cancelarForm();
   renderTabla();
 }
 function eliminarPrograma(idx){
   if(!confirm('¿Eliminar el programa '+programas[idx].codigo+'? Se borrarán también sus asignaturas.'))return;
+  const cod=programas[idx].codigo;
   if(progActivo===idx){
     programas.splice(idx,1);
     progActivo=null;asigs=[];
@@ -3835,8 +3859,9 @@ function eliminarPrograma(idx){
   } else {
     programas.splice(idx,1);
     if(progActivo>idx)progActivo--;
-    renderPanelProgramas();
   }
+  let sec=1;programas.forEach(p=>{if(p.codigo===cod){p.seccion=sec;sec++;}});
+  renderPanelProgramas();
 }
 function mostrarPlaceholder(){
   if(!programas.length){
