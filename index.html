@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Creación NRC — Educación Continua UDLA</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Arial,sans-serif;font-size:14px;color:#222;background:#f2f2ee;min-height:100vh}
@@ -139,6 +140,109 @@ textarea{resize:vertical;min-height:56px}
   .paso2-layout{flex-direction:column}
   .prog-panel{width:100%;position:static}
 }
+/* ─── HOME SCREEN ─── */
+#home-panel{padding:32px 0 48px}
+.home-hero{text-align:center;margin-bottom:36px}
+.home-hero h2{font-size:22px;font-weight:700;color:#1a1a2e;margin-bottom:8px}
+.home-hero p{font-size:14px;color:#777}
+.home-options{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:680px;margin:0 auto}
+@media(max-width:580px){.home-options{grid-template-columns:1fr}}
+.home-opt-card{background:#fff;border:2.5px solid #e0e0d8;border-radius:14px;padding:36px 28px;cursor:pointer;transition:all .22s;text-align:center;display:flex;flex-direction:column;align-items:center}
+.home-opt-card:hover{transform:translateY(-4px);box-shadow:0 10px 32px rgba(0,0,0,.1)}
+.hoc-icon{font-size:46px;margin-bottom:14px}
+.hoc-title{font-size:18px;font-weight:700;color:#1a1a2e;margin-bottom:8px}
+.hoc-desc{font-size:12.5px;color:#666;line-height:1.55;margin-bottom:18px;flex:1}
+.hoc-btn{display:inline-block;padding:10px 24px;border-radius:7px;font-size:13px;font-weight:700;border:none;cursor:pointer;transition:all .15s}
+.hoc-crear{border-color:#c0d4f0}.hoc-crear:hover{border-color:#1a5fa8;background:#f0f6ff}
+.hoc-crear .hoc-btn{background:#1a5fa8;color:#fff}
+.hoc-revisar{border-color:#b8e4d0}.hoc-revisar:hover{border-color:#1d9e75;background:#f0faf6}
+.hoc-revisar .hoc-btn{background:#1d9e75;color:#fff}
+/* ─── REVIEWER PANEL ─── */
+.rev-back-bar{background:none;border:none;cursor:pointer;color:#555;font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px;margin-bottom:20px;padding:0}
+.rev-back-bar:hover{color:#1a5fa8}
+.rev-upload-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px}
+@media(max-width:700px){.rev-upload-grid{grid-template-columns:1fr 1fr}}
+.rev-up-card{background:#fafaf6;border:2px dashed #d0d0c8;border-radius:10px;padding:20px 16px;cursor:pointer;position:relative;transition:all .2s}
+.rev-up-card:hover{border-color:#1a5fa8;background:#f4f8ff}
+.rev-up-card.loaded{border-style:solid;border-color:#1d9e75;background:#f0faf6}
+.rev-up-card input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;z-index:2}
+.rev-up-icon{font-size:24px;margin-bottom:6px}
+.rev-up-name{font-size:13px;font-weight:700;color:#1a1a2e}
+.rev-up-hint{font-size:11px;color:#999;line-height:1.4;margin-top:3px}
+.rev-up-ok{font-size:11.5px;font-weight:600;color:#1d9e75;margin-top:6px;display:none}
+.rev-up-card.loaded .rev-up-ok{display:block}
+.rev-prog-wrap{margin-bottom:16px;display:none}
+.rev-prog-wrap.vis{display:block}
+.rev-prog-bar{height:4px;background:#e0e0d8;border-radius:4px;overflow:hidden;margin-bottom:6px}
+.rev-prog-fill{height:100%;background:linear-gradient(90deg,#1a5fa8,#1d9e75);border-radius:4px;transition:width .3s;width:0%}
+.rev-prog-lbl{font-size:12px;color:#888}
+.rev-log{background:#f4f4f0;border:1px solid #e0e0d8;border-radius:6px;padding:12px 14px;font-family:monospace;font-size:11.5px;color:#444;max-height:150px;overflow-y:auto;margin-bottom:16px;display:none;line-height:1.7}
+.rev-log.vis{display:block}
+.rev-log-ok{color:#1d9e75}.rev-log-warn{color:#c07800}.rev-log-err{color:#c0392b}
+.rev-sum-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:20px}
+@media(max-width:700px){.rev-sum-grid{grid-template-columns:repeat(2,1fr)}}
+.rev-sum-card{background:#f4f4f0;border-radius:8px;padding:14px;text-align:center;border:1.5px solid transparent}
+.rev-sum-n{font-size:28px;font-weight:700;line-height:1;margin-bottom:4px}
+.rev-sum-lbl{font-size:11px;color:#666}
+.rsn-total{border-color:#c0d4f0;background:#f0f6ff}.rsn-total .rev-sum-n{color:#1a5fa8}
+.rsn-ok{border-color:#a8dcc8;background:#f0faf6}.rsn-ok .rev-sum-n{color:#1d9e75}
+.rsn-err{border-color:#f0c0c0;background:#fff5f5}.rsn-err .rev-sum-n{color:#c0392b}
+.rsn-warn{border-color:#f0d8a0;background:#fffbf0}.rsn-warn .rev-sum-n{color:#d08000}
+.rsn-none .rev-sum-n{color:#999}
+.rev-filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
+.rev-filters select,.rev-filters input{padding:7px 10px;border:1.5px solid #d5d5cc;border-radius:6px;font-size:12.5px;color:#222;background:#fff;outline:none;transition:border .15s}
+.rev-filters select:focus,.rev-filters input:focus{border-color:#1a5fa8}
+.rev-filters input{min-width:190px}
+.rev-f-count{font-size:12px;color:#888;margin-left:auto}
+.rev-tbl-wrap{border:1px solid #e0e0d8;border-radius:8px;overflow:hidden;overflow-x:auto;margin-bottom:24px}
+.rev-tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.rev-tbl th{padding:9px 10px;text-align:left;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#666;background:#f4f4f0;border-bottom:1.5px solid #e0e0d8;white-space:nowrap}
+.rev-tbl td{padding:9px 10px;border-bottom:1px solid #f0f0e8;vertical-align:middle}
+.rev-tbl tr:last-child td{border-bottom:none}
+.rev-tbl tbody tr:hover td{background:#fafaf6}
+.rev-r-ok td:first-child{border-left:2.5px solid #1d9e75}
+.rev-r-err td:first-child{border-left:2.5px solid #c0392b}
+.rev-r-warn td:first-child{border-left:2.5px solid #d08000}
+.rev-r-none td:first-child{border-left:2.5px solid #ccc}
+.rev-b{display:inline-flex;align-items:center;padding:2px 9px;border-radius:10px;font-size:11px;font-weight:700}
+.rev-b-ok{background:#e0f4ec;color:#0f6e56;border:1px solid #a8dcc8}
+.rev-b-err{background:#fff0f0;color:#c0392b;border:1px solid #f0c0c0}
+.rev-b-warn{background:#fff8e0;color:#d08000;border:1px solid #f0d8a0}
+.rev-b-none{background:#f0f0e8;color:#999;border:1px solid #ddd}
+.rev-chk-ok{color:#1d9e75;font-weight:700}.rev-chk-err{color:#c0392b;font-weight:700}.rev-chk-na{color:#aaa}
+.rev-mod{font-family:monospace;font-size:11px;padding:2px 6px;border-radius:4px;display:inline-block;margin:1px}
+.rev-mod-ok{background:#e0f4ec;color:#0f6e56}
+.rev-mod-miss{background:#fff0f0;color:#c0392b}
+.rev-mod-extra{background:#fff8e0;color:#d08000}
+.rev-mod-plain{background:#e8eef8;color:#1a5fa8}
+.rev-exp-btn{background:none;border:none;color:#bbb;cursor:pointer;padding:2px 5px;border-radius:4px;font-size:13px;transition:all .15s;line-height:1}
+.rev-exp-btn:hover{background:#f0f0e8;color:#333}
+.rev-det-row{display:none}.rev-det-row.vis{display:table-row}
+.rev-det-cell{padding:12px 16px 16px 38px;background:#f9f9f6}
+.rev-det-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:700px){.rev-det-grid{grid-template-columns:1fr 1fr}}
+.rev-det-item label{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#888;display:block;margin-bottom:3px}
+.rev-det-item p{font-size:12px}
+.rev-det-div{grid-column:1/-1;height:1px;background:#e8e8e0}
+.rev-miss-sec{display:none;margin-bottom:24px}.rev-miss-sec.vis{display:block}
+.rev-miss-info{background:#f0f6ff;border:1px solid #c0d4f0;border-radius:6px;padding:12px 16px;font-size:12.5px;color:#444;margin-bottom:14px;line-height:1.6}
+.rev-miss-tabs{display:flex;gap:8px;margin-bottom:14px}
+.rev-miss-tab{padding:7px 16px;border-radius:6px;font-size:12.5px;font-weight:600;cursor:pointer;border:1.5px solid #e0e0d8;background:#fafaf6;color:#666;transition:all .2s}
+.rev-miss-tab.active{background:#f0f6ff;border-color:#1a5fa8;color:#1a5fa8}
+.rev-miss-tab .cnt{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;font-size:10px;font-weight:700;margin-left:5px;background:#e8eef8;color:#1a5fa8}
+.rev-miss-tab .cnt.red{background:#fff0f0;color:#c0392b}
+.rev-miss-tab .cnt.amber{background:#fff8e0;color:#d08000}
+.rev-miss-panel{display:none}.rev-miss-panel.active{display:block}
+.rev-miss-tbl-wrap{border:1px solid #e0e0d8;border-radius:8px;overflow:hidden;overflow-x:auto}
+.rev-prog-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.rev-prog-mini-card{background:#fafaf6;border:1px solid #e0e0d8;border-radius:8px;padding:12px 14px}
+.rev-prog-mini-card h4{font-size:11px;font-weight:700;color:#666;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.rev-pill{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11.5px;font-weight:700;font-family:monospace;margin:2px}
+.rev-pill-miss{background:#fff0f0;color:#c0392b;border:1px solid #f0c0c0}
+.rev-pill-cal{background:#fff8e0;color:#d08000;border:1px solid #f0d8a0}
+.rev-empty{text-align:center;padding:40px 20px;color:#aaa}
+.rev-empty .rei{font-size:36px;opacity:.5;margin-bottom:10px}
+.rev-empty h3{font-size:14px;color:#888;margin-bottom:4px}
 </style>
 </head>
 <body>
@@ -150,8 +254,30 @@ textarea{resize:vertical;min-height:56px}
 
 <div class="wrap">
 
-  <div class="steps">
-    <div class="step-item"><div class="step-circle active" id="sc1">1</div><div class="step-lbl active" id="sl1">Datos generales</div></div>
+  <!-- HOME SELECTION -->
+  <div id="home-panel">
+    <div class="home-hero">
+      <h2>Herramienta NRC — Educación Continua UDLA</h2>
+      <p>Selecciona lo que deseas hacer</p>
+    </div>
+    <div class="home-options">
+      <div class="home-opt-card hoc-crear" onclick="iniciarCreacion()">
+        <div class="hoc-icon">✏️</div>
+        <div class="hoc-title">Crear NRC</div>
+        <div class="hoc-desc">Ingresa programas y asignaturas, define horarios y genera el archivo Excel para Banner.</div>
+        <button class="hoc-btn" tabindex="-1">Comenzar →</button>
+      </div>
+      <div class="home-opt-card hoc-revisar" onclick="iniciarRevision()">
+        <div class="hoc-icon">🔍</div>
+        <div class="hoc-title">Revisar exportación</div>
+        <div class="hoc-desc">Verifica que el Excel exportado coincide con los calendarios: asignaturas, fechas y bloques horarios.</div>
+        <button class="hoc-btn" tabindex="-1">Revisar →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="steps" id="steps-bar" style="display:none">
+    <div class="step-item"><div class="step-circle" id="sc1">1</div><div class="step-lbl" id="sl1">Datos generales</div></div>
     <div class="step-line" id="ln1"></div>
     <div class="step-item"><div class="step-circle" id="sc2">2</div><div class="step-lbl" id="sl2">Programas y asignaturas</div></div>
     <div class="step-line" id="ln2"></div>
@@ -159,7 +285,7 @@ textarea{resize:vertical;min-height:56px}
   </div>
 
   <!-- PASO 1 -->
-  <div class="panel active" id="panel1">
+  <div class="panel" id="panel1">
     <div class="card">
       <div class="card-hdr">Datos de la sesión</div>
       <div class="row r2">
@@ -343,6 +469,123 @@ textarea{resize:vertical;min-height:56px}
       <button class="btn btn-green" onclick="exportar()" style="font-size:14px;padding:12px 30px">⬇ Descargar Excel</button>
     </div>
   </div>
+
+  <!-- PANEL REVISOR -->
+  <div class="panel" id="panel-rev">
+    <button class="rev-back-bar" onclick="volverHome()">← Volver al inicio</button>
+
+    <div class="card">
+      <div class="card-hdr">Cargar archivos para revisión</div>
+      <p style="font-size:12.5px;color:#666;margin-bottom:18px;line-height:1.5">Carga el Excel generado por esta herramienta, los módulos horarios UDLA y el ZIP con los calendarios de los diplomados. El catálogo está integrado en la herramienta.</p>
+      <div class="rev-upload-grid">
+        <div class="rev-up-card" id="rcard-nrc">
+          <input type="file" id="rfile-nrc" accept=".xlsx">
+          <div class="rev-up-icon">📊</div>
+          <div class="rev-up-name">Excel NRC exportado</div>
+          <div class="rev-up-hint">Creacion_NRC_XXXXXX.xlsx<br>Generado con esta herramienta</div>
+          <div class="rev-up-ok" id="rok-nrc">✓ Cargado</div>
+        </div>
+        <div class="rev-up-card" id="rcard-mod">
+          <input type="file" id="rfile-mod" accept=".xlsx">
+          <div class="rev-up-icon">🕐</div>
+          <div class="rev-up-name">Módulos Horarios UDLA</div>
+          <div class="rev-up-hint">Modulos horarios udla.xlsx<br>Para validar bloques horarios</div>
+          <div class="rev-up-ok" id="rok-mod">✓ Cargado</div>
+        </div>
+        <div class="rev-up-card" id="rcard-zip">
+          <input type="file" id="rfile-zip" accept=".zip">
+          <div class="rev-up-icon">📅</div>
+          <div class="rev-up-name">Calendarios (ZIP)</div>
+          <div class="rev-up-hint">Carpeta de calendarios comprimida en .zip</div>
+          <div class="rev-up-ok" id="rok-zip">✓ Cargado</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <button class="btn btn-primary" id="rbtn-run" disabled onclick="runRevisor()">▶ Verificar</button>
+        <button class="btn btn-outline" id="rbtn-exp" style="display:none" onclick="exportRevCSV()">↓ Exportar resultado</button>
+      </div>
+      <div style="margin-top:16px">
+        <div class="rev-prog-wrap" id="rprog-wrap">
+          <div class="rev-prog-bar"><div class="rev-prog-fill" id="rprog-fill"></div></div>
+          <div class="rev-prog-lbl" id="rprog-lbl"></div>
+        </div>
+        <div class="rev-log" id="rlog"></div>
+      </div>
+    </div>
+
+    <!-- RESULTADOS -->
+    <div id="rev-results" style="display:none">
+      <div class="card">
+        <div class="card-hdr">Resumen</div>
+        <div class="rev-sum-grid" id="rev-sum-grid"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-hdr" style="flex-direction:column;align-items:flex-start;gap:10px">
+          <span>Resultados detallados</span>
+          <div class="rev-filters">
+            <select id="rf-estado" onchange="revApplyFilters()">
+              <option value="">Todos los estados</option>
+              <option value="ok">✅ Sin errores</option>
+              <option value="err">❌ Con errores</option>
+              <option value="warn">⚠ Advertencias</option>
+              <option value="none">— Sin calendario</option>
+            </select>
+            <select id="rf-prog" onchange="revApplyFilters()">
+              <option value="">Todos los programas</option>
+            </select>
+            <select id="rf-tipo" onchange="revApplyFilters()">
+              <option value="">Todos los tipos</option>
+              <option value="fi">Error fecha inicio</option>
+              <option value="ft">Error fecha término</option>
+              <option value="mod">Error módulos</option>
+            </select>
+            <input id="rf-q" placeholder="🔍 Buscar asignatura, código..." oninput="revApplyFilters()">
+            <span class="rev-f-count" id="rf-count"></span>
+          </div>
+        </div>
+        <div class="rev-tbl-wrap">
+          <table class="rev-tbl">
+            <thead><tr>
+              <th style="width:26px"></th>
+              <th>Programa</th><th>Cód. Asig.</th><th>Nombre asignatura</th>
+              <th>Inicio Excel</th><th>Inicio Calendario</th><th style="text-align:center">✓</th>
+              <th>Término Excel</th><th>Término Calendario</th><th style="text-align:center">✓</th>
+              <th>Bloques Excel</th><th>Bloques Esperados</th><th style="text-align:center">✓</th>
+              <th>Estado</th>
+            </tr></thead>
+            <tbody id="rev-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card rev-miss-sec" id="rev-miss-sec">
+        <div class="card-hdr">Faltantes y cruces</div>
+        <div class="rev-miss-info" id="rev-miss-info"></div>
+        <div class="rev-prog-grid-2" id="rev-prog-grid-2"></div>
+        <div class="rev-miss-tabs">
+          <button class="rev-miss-tab active" id="rmtab-cal" onclick="revShowMissTab('cal')">📅 En calendario, no en Excel <span class="cnt amber" id="rcnt-cal">0</span></button>
+          <button class="rev-miss-tab" id="rmtab-nrc" onclick="revShowMissTab('nrc')">📊 En Excel, sin calendario <span class="cnt red" id="rcnt-nrc">0</span></button>
+        </div>
+        <div class="rev-miss-panel active" id="rmpanel-cal">
+          <div class="rev-miss-tbl-wrap">
+            <table class="rev-tbl">
+              <thead><tr><th>Programa</th><th>Nombre (Calendario)</th><th>N°</th><th>Inicio</th><th>Término</th><th>Archivo</th></tr></thead>
+              <tbody id="rev-mcal-body"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="rev-miss-panel" id="rmpanel-nrc">
+          <div class="rev-miss-tbl-wrap">
+            <table class="rev-tbl">
+              <thead><tr><th>Programa</th><th>Cód. Asig.</th><th>Nombre</th><th>Inicio</th><th>Término</th><th>Bloques</th></tr></thead>
+              <tbody id="rev-mnrc-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /panel-rev -->
 
 </div>
 
@@ -3816,7 +4059,30 @@ function cerrarApDropdown(){document.getElementById('ap-dropdown').style.display
 document.addEventListener('click',e=>{if(!e.target.closest('.autocomplete-wrap'))cerrarApDropdown();});
 
 // ─── NAVEGACIÓN ───
+function iniciarCreacion(){
+  document.getElementById('home-panel').style.display='none';
+  document.getElementById('steps-bar').style.display='flex';
+  document.getElementById('panel-rev').className='panel';
+  irA(1);
+}
+function iniciarRevision(){
+  document.getElementById('home-panel').style.display='none';
+  document.getElementById('steps-bar').style.display='none';
+  [1,2,3].forEach(i=>document.getElementById('panel'+i).className='panel');
+  document.getElementById('panel-rev').className='panel active';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function volverHome(){
+  document.getElementById('home-panel').style.display='block';
+  document.getElementById('steps-bar').style.display='none';
+  [1,2,3].forEach(i=>document.getElementById('panel'+i).className='panel');
+  document.getElementById('panel-rev').className='panel';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
 function irA(n){
+  document.getElementById('home-panel').style.display='none';
+  document.getElementById('steps-bar').style.display='flex';
+  document.getElementById('panel-rev').className='panel';
   if(n===2){
     if(!validarPaso1())return;
     session.periodo=document.getElementById('p-periodo').value.trim();
@@ -4407,6 +4673,577 @@ function fmt(s){if(!s)return'—';const[y,m,d]=s.split('-');return`${d}/${m}/${y
 function guardarDesdecat(){guardarDesdecat_real();}
 function guardarDesdeChat(){guardarDesdecat_real();}
 function guardarDesdeEl(){guardarDesdecat_real();}
+
+// ═══════════════════════════════════════════════════
+// REVISOR DE EXPORTACIÓN NRC
+// ═══════════════════════════════════════════════════
+const revS = { nrcBuf:null, modBuf:null, zipBuf:null, results:[], filtered:[], calNotInNrc:null, modMap:null };
+const revLoaded = { nrc:false, mod:false, zip:false };
+
+['nrc','mod','zip'].forEach(id => {
+  document.getElementById('rfile-'+id).addEventListener('change', e => {
+    const f = e.target.files[0]; if (!f) return;
+    const r = new FileReader();
+    r.onload = ev => {
+      revS[id+'Buf'] = ev.target.result;
+      revLoaded[id] = true;
+      document.getElementById('rcard-'+id).classList.add('loaded');
+      document.getElementById('rok-'+id).textContent = '✓ ' + f.name;
+      revCheckReady();
+    };
+    r.readAsArrayBuffer(f);
+  });
+});
+
+function revCheckReady() {
+  document.getElementById('rbtn-run').disabled = !Object.values(revLoaded).every(Boolean);
+}
+
+function rSetProg(pct, msg) {
+  document.getElementById('rprog-wrap').classList.add('vis');
+  document.getElementById('rprog-fill').style.width = pct + '%';
+  if (msg) document.getElementById('rprog-lbl').textContent = msg;
+}
+function rLog(msg, type='') {
+  const el = document.getElementById('rlog');
+  el.classList.add('vis');
+  const d = document.createElement('div');
+  d.className = type ? 'rev-log-'+type : '';
+  d.textContent = msg;
+  el.appendChild(d);
+  el.scrollTop = el.scrollHeight;
+}
+
+// ─── Date helpers ───
+function rToDate(v) {
+  if (!v) return null;
+  let d;
+  if (v instanceof Date) d = v;
+  else if (typeof v === 'number') d = new Date(Math.round((v-25569)*86400*1000));
+  else return null;
+  if (isNaN(d.getTime())) return null;
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+}
+function rDateStr(d) {
+  if (!d) return null;
+  const dd = d instanceof Date ? d : rToDate(d);
+  if (!dd) return null;
+  return dd.getFullYear()+'-'+String(dd.getMonth()+1).padStart(2,'0')+'-'+String(dd.getDate()).padStart(2,'0');
+}
+function rFmt(d) {
+  if (!d) return '—';
+  const s = rDateStr(d); if (!s) return '—';
+  const [y,m,day] = s.split('-');
+  return day+'/'+m+'/'+y;
+}
+function rSameDates(a,b) { return (!a||!b) ? null : rDateStr(a)===rDateStr(b); }
+
+// ─── Text helpers ───
+function rNorm(s) {
+  if (!s) return '';
+  return String(s).toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[°º\u00b0\u00ba]/g,'o')
+    .replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ').trim();
+}
+const R_DAY_NUM={lunes:1,lun:1,martes:2,mar:2,miercoles:3,mie:3,jueves:4,jue:4,viernes:5,vie:5,sabado:6,sab:6,domingo:7,dom:7};
+function rDayNum(str) {
+  const n=rNorm(str);
+  for (const [k,v] of Object.entries(R_DAY_NUM)) { if(n===k||n.startsWith(k)) return v; }
+  return null;
+}
+function rParseHorario(txt) {
+  if (!txt) return null;
+  const s = String(txt).replace(/[.,]/g,':');
+  const m = s.match(/(\d{1,2})[:\s](\d{2})\s*[a-zA-Z]+\s*(\d{1,2})[:\s](\d{2})/);
+  if (!m) return null;
+  return { start: m[1].padStart(2,'0')+m[2], end: m[3].padStart(2,'0')+m[4] };
+}
+function rWordOverlap(a,b) {
+  const wa=new Set(rNorm(a).split(' ').filter(w=>w.length>2));
+  const wb=new Set(rNorm(b).split(' ').filter(w=>w.length>2));
+  if (!wa.size||!wb.size) return 0;
+  let hit=0; for (const w of wa) if(wb.has(w)) hit++;
+  return hit/Math.max(wa.size,wb.size);
+}
+
+// ─── Parse NRC Excel ───
+function rParseNRC(buf) {
+  const wb = XLSX.read(buf, {type:'array', cellDates:true});
+  const ws = wb.Sheets[wb.SheetNames[0]];
+  const rows = XLSX.utils.sheet_to_json(ws, {header:1, raw:true, defval:null});
+  const subjects = {};
+  let dataStart = 1;
+  for (let i=0; i<rows.length; i++) {
+    if (rows[i] && rows[i].some(c => c && String(c).toLowerCase().includes('programa'))) {
+      dataStart = i+1; break;
+    }
+  }
+  for (let i=dataStart; i<rows.length; i++) {
+    const r = rows[i]; if (!r) continue;
+    const prog    = String(r[4]||'').trim();
+    const codAsig = String(r[5]||'').trim();
+    const nombre  = String(r[6]||'').trim();
+    const semanas = r[7];
+    const ini     = rToDate(r[8]);
+    const ter     = rToDate(r[9]);
+    const mod     = r[10];
+    if (!prog || !codAsig) continue;
+    const key = prog+'::'+codAsig;
+    if (!subjects[key]) subjects[key] = {prog, codAsig, nombre, semanas, inicio:ini, termino:ter, modulos:[]};
+    if (mod != null && mod !== '') {
+      const mn = parseInt(mod);
+      if (!isNaN(mn) && !subjects[key].modulos.includes(mn)) subjects[key].modulos.push(mn);
+    }
+  }
+  for (const k in subjects) subjects[k].modulos.sort((a,b)=>a-b);
+  rLog(`NRC Excel: ${Object.keys(subjects).length} asignaturas en ${new Set(Object.values(subjects).map(x=>x.prog)).size} programas`, 'ok');
+  return subjects;
+}
+
+// ─── Parse Módulos ───
+function rParseModulos(buf) {
+  const wb = XLSX.read(buf, {type:'array', cellDates:true});
+  const ws = wb.Sheets[wb.SheetNames[0]];
+  const rows = XLSX.utils.sheet_to_json(ws, {header:1, raw:true, defval:null});
+  const map = {};
+  const DAYS = ['LUN','MAR','MIE','JUE','VIE','SAB','DOM'];
+  let hi=-1, dayStart=2;
+  for (let i=0; i<rows.length; i++) {
+    const r=rows[i]; if (!r) continue;
+    if (r.some(c => c && String(c).toLowerCase().includes('hora'))) {
+      hi=i;
+      for (let j=0; j<r.length; j++) { if(String(r[j]||'').toUpperCase().trim()==='LUN'){dayStart=j;break;} }
+      break;
+    }
+  }
+  if (hi<0) throw new Error('No se encontró tabla de módulos');
+  for (let i=hi+1; i<rows.length; i++) {
+    const r=rows[i]; if (!r) continue;
+    const inicio=String(r[dayStart-2]||'').trim();
+    const fin=String(r[dayStart-1]||'').trim();
+    if (!inicio||!fin) continue;
+    for (let d=0; d<7; d++) {
+      const code=r[dayStart+d]; if (code==null) continue;
+      const n=parseInt(code); if (isNaN(n)) continue;
+      map[n]={dayNum:d+1, dayName:DAYS[d], inicio, fin};
+    }
+  }
+  rLog(`Módulos: ${Object.keys(map).length} bloques horarios`, 'ok');
+  return map;
+}
+
+// ─── Parse Calendario ───
+function rParseCalFile(buf, fname) {
+  let wb;
+  try { wb = XLSX.read(buf, {type:'array', cellDates:true}); } catch(e) { return null; }
+  const wsName = wb.SheetNames.find(n=>n.toLowerCase().includes('calendario')) || wb.SheetNames[0];
+  const ws = wb.Sheets[wsName];
+  const rows = XLSX.utils.sheet_to_json(ws, {header:1, raw:true, defval:null});
+  let codProg=null;
+  for (let i=0; i<Math.min(rows.length,30); i++) {
+    const r=rows[i]; if (!r) continue;
+    for (let j=0; j<r.length; j++) {
+      const cell=rNorm(String(r[j]||''));
+      if ((cell==='codigo'||cell==='codigo ') && !cell.includes('asig') && !cell.includes('modal')) {
+        for (let k=j+1; k<Math.min(j+8,r.length); k++) {
+          const val=String(r[k]||'').trim();
+          if (/^[A-Z]{2,4}\d{3,}/.test(val)) { codProg=val; break; }
+        }
+      }
+      if (codProg) break;
+    }
+    if (codProg) break;
+  }
+  let headerIdx=-1;
+  const cols={};
+  for (let i=0; i<rows.length; i++) {
+    const r=rows[i]; if (!r) continue;
+    const rStr=r.map(c=>rNorm(String(c||''))).join('|');
+    if (rStr.includes('fecha') && rStr.includes('asig')) {
+      headerIdx=i;
+      r.forEach((cell,idx)=>{
+        const s=rNorm(String(cell||''));
+        const orig=String(cell||'').toLowerCase();
+        if (s.includes('dia')&&s.includes('clase'))             cols.dia=idx;
+        else if (s==='fecha')                                    cols.fecha=idx;
+        else if (s.includes('horario')&&s.includes('clase'))    cols.horario=idx;
+        else if (s.includes('nombre')&&s.includes('asig'))      cols.nombreAsig=idx;
+        else if (s.includes('asig')&&!s.includes('nombre')&&!s.startsWith('h')&&
+                 (orig.includes('n°')||orig.includes('nº')||orig.includes('n\u00ba')||
+                  orig.includes('n\u00b0')||orig.includes('no.')||orig.includes('no ')||
+                  /^n\s/.test(s)||s==='n de asig'))              cols.nAsig=idx;
+      });
+      break;
+    }
+  }
+  if (cols.nAsig===undefined && cols.nombreAsig!==undefined && cols.nombreAsig>0)
+    cols.nAsig=cols.nombreAsig-1;
+  if (headerIdx<0||cols.fecha===undefined) return {codProg,subjects:[],filename:fname};
+  const subjects=[];
+  let cur=null, lastHorario=null;
+  for (let i=headerIdx+1; i<rows.length; i++) {
+    const r=rows[i]; if (!r) continue;
+    if (r.every(c=>c==null||c==='')) continue;
+    const fecha=rToDate(r[cols.fecha]); if (!fecha) continue;
+    const nVal=cols.nAsig!==undefined?r[cols.nAsig]:null;
+    const nAsig=(nVal!=null&&nVal!==''&&!isNaN(Number(nVal)))?Math.round(Number(nVal)):null;
+    const nombre=cols.nombreAsig!==undefined?String(r[cols.nombreAsig]||'').replace(/\n/g,' ').trim():'';
+    const diaVal=cols.dia!==undefined?String(r[cols.dia]||'').toLowerCase().trim():'';
+    const horario=cols.horario!==undefined?r[cols.horario]:null;
+    if (horario) lastHorario=horario;
+    if (nAsig!==null) {
+      if (cur) subjects.push(cur);
+      cur={num:nAsig,nombre,primerFecha:fecha,ultimaFecha:fecha,horario:lastHorario,dias:diaVal?[diaVal]:[]};
+    } else if (cur) {
+      cur.ultimaFecha=fecha;
+      if (diaVal&&!cur.dias.includes(diaVal)) cur.dias.push(diaVal);
+      if (horario&&!cur.horario) cur.horario=horario;
+    }
+  }
+  if (cur) subjects.push(cur);
+  return {codProg,subjects,filename:fname};
+}
+
+async function rParseCalZip(buf) {
+  const zip = await JSZip.loadAsync(buf);
+  const xlsxFiles=[];
+  zip.forEach((path,file)=>{
+    const base=path.split('/').pop();
+    if (!file.dir&&path.toLowerCase().endsWith('.xlsx')&&!path.includes('__MACOSX')&&!base.startsWith('~$'))
+      xlsxFiles.push({path,file});
+  });
+  rLog(`ZIP: ${xlsxFiles.length} archivos .xlsx`);
+  const calData={};
+  for (let i=0; i<xlsxFiles.length; i++) {
+    const {path,file}=xlsxFiles[i];
+    rSetProg(35+Math.round(i/xlsxFiles.length*35), `Calendario ${i+1}/${xlsxFiles.length}: ${path.split('/').pop()}`);
+    const arrBuf=await file.async('arraybuffer');
+    const res=rParseCalFile(arrBuf,path);
+    if (res&&res.codProg) {
+      if (!calData[res.codProg]) calData[res.codProg]=[];
+      calData[res.codProg].push(res);
+      rLog(`  ✓ ${path.split('/').pop()} → ${res.codProg} (${res.subjects.length} asig)`, 'ok');
+    } else if (res) {
+      rLog(`  ⚠ Sin código de programa: ${path.split('/').pop()}`, 'warn');
+    }
+  }
+  return calData;
+}
+
+// ─── Expected modules ───
+function rExpectedMods(dias, horarioTxt, modMap) {
+  const h=rParseHorario(String(horarioTxt||'')); if (!h) return null;
+  const result=[];
+  for (const dia of dias) {
+    const dn=rDayNum(dia); if (!dn) continue;
+    for (const [code,info] of Object.entries(modMap)) {
+      if (info.dayNum===dn && info.inicio>=h.start && info.inicio<h.end)
+        result.push(parseInt(code));
+    }
+  }
+  return result.sort((a,b)=>a-b);
+}
+
+// ─── Match subject ───
+function rMatchSubject(nombre, calSubjects) {
+  let best=null, bestScore=0;
+  for (const s of calSubjects) {
+    const sc=rWordOverlap(nombre,s.nombre);
+    if (sc>bestScore) { bestScore=sc; best=s; }
+  }
+  return bestScore>0.4 ? {subj:best,score:bestScore} : null;
+}
+
+// ─── Build results ───
+function rBuildResults(nrcSubjects, modMap, calData) {
+  const results=[];
+  const matchedCalKeys=new Set();
+  for (const [key,nrc] of Object.entries(nrcSubjects)) {
+    const {prog,codAsig,nombre,semanas,inicio,termino,modulos}=nrc;
+    const catEntry=CATALOGO[prog];
+    const catAsig=catEntry ? catEntry.asigs.find(a=>a.cod===codAsig) : null;
+    const nombreLargo=catAsig ? catAsig.nom : nombre;
+    const calPrograms=calData[prog]||[];
+    let calMatch=null, calScore=0, calFilename='';
+    for (const calProg of calPrograms) {
+      const m=rMatchSubject(nombreLargo||nombre, calProg.subjects);
+      if (m&&m.score>calScore) { calScore=m.score; calMatch=m.subj; calFilename=calProg.filename; }
+    }
+    if (calMatch) matchedCalKeys.add(calFilename+'::'+calMatch.num);
+    let fiOK=null,ftOK=null,modOK=null,expMods=null;
+    if (calMatch) {
+      fiOK=rSameDates(inicio,calMatch.primerFecha);
+      ftOK=rSameDates(termino,calMatch.ultimaFecha);
+      if (modMap&&calMatch.dias.length>0&&calMatch.horario) {
+        expMods=rExpectedMods(calMatch.dias,calMatch.horario,modMap);
+        if (expMods&&expMods.length>0) modOK=JSON.stringify(modulos)===JSON.stringify(expMods);
+      }
+    }
+    let status='none';
+    if (calMatch) {
+      const errs=[fiOK,ftOK,modOK].filter(v=>v===false).length;
+      status=errs===0?'ok':errs===1?'warn':'err';
+    }
+    if (calMatch) {
+      const msgs=[];
+      if (fiOK===false) msgs.push(`Inicio: ${rFmt(inicio)} vs Cal ${rFmt(calMatch.primerFecha)}`);
+      if (ftOK===false) msgs.push(`Término: ${rFmt(termino)} vs Cal ${rFmt(calMatch.ultimaFecha)}`);
+      if (modOK===false) msgs.push(`Bloques [${modulos}] vs Esperados [${expMods}]`);
+      if (msgs.length) rLog(`  ${status==='err'?'❌':'⚠'} ${prog} ${codAsig}: ${msgs.join(' | ')}`, status==='err'?'err':'warn');
+    } else {
+      rLog(`  — ${prog} ${codAsig}: sin calendario coincidente`, 'warn');
+    }
+    results.push({prog,codAsig,nombre,nombreLargo,semanas,inicio,termino,
+      calInicio:calMatch?.primerFecha, calTermino:calMatch?.ultimaFecha,
+      modulos,expMods,fiOK,ftOK,modOK,
+      matched:!!calMatch,calFilename,
+      calDias:calMatch?.dias||[], calHorario:calMatch?String(calMatch.horario||''):'',
+      calMatchScore:calScore,status});
+  }
+  const calNotInNrc=[];
+  for (const [codProg,calPrograms] of Object.entries(calData)) {
+    for (const calProg of calPrograms) {
+      for (const subj of calProg.subjects) {
+        if (!subj.nombre) continue;
+        const mk=calProg.filename+'::'+subj.num;
+        if (!matchedCalKeys.has(mk)) {
+          calNotInNrc.push({codProg,filename:calProg.filename,num:subj.num,nombre:subj.nombre,primerFecha:subj.primerFecha,ultimaFecha:subj.ultimaFecha});
+          rLog(`  📅 Cal sin Excel: ${codProg} · "${subj.nombre.slice(0,40)}"`, 'warn');
+        }
+      }
+    }
+  }
+  const nrcProgs=new Set(Object.values(nrcSubjects).map(x=>x.prog));
+  const calProgs=new Set(Object.keys(calData));
+  const onlyInNrc=[...nrcProgs].filter(p=>!calProgs.has(p));
+  const onlyInCal=[...calProgs].filter(p=>!nrcProgs.has(p));
+  return {results,calNotInNrc,nrcNotInCal:results.filter(r=>r.status==='none'),onlyInNrc,onlyInCal};
+}
+
+// ─── Render summary ───
+function rRenderSummary(results, calNotInNrc) {
+  const total=results.length;
+  const ok=results.filter(r=>r.status==='ok').length;
+  const err=results.filter(r=>r.status==='err').length;
+  const warn=results.filter(r=>r.status==='warn').length;
+  const none=results.filter(r=>r.status==='none').length;
+  const falt=calNotInNrc.length+none;
+  document.getElementById('rev-sum-grid').innerHTML=`
+    <div class="rev-sum-card rsn-total"><div class="rev-sum-n">${total}</div><div class="rev-sum-lbl">Total asignaturas</div></div>
+    <div class="rev-sum-card rsn-ok"><div class="rev-sum-n">${ok}</div><div class="rev-sum-lbl">✅ Sin errores</div></div>
+    <div class="rev-sum-card rsn-err"><div class="rev-sum-n">${err}</div><div class="rev-sum-lbl">❌ Con errores</div></div>
+    <div class="rev-sum-card rsn-warn"><div class="rev-sum-n">${warn}</div><div class="rev-sum-lbl">⚠ Advertencias</div></div>
+    <div class="rev-sum-card rsn-none"><div class="rev-sum-n">${none}</div><div class="rev-sum-lbl">— Sin calendario</div></div>`;
+  const progs=[...new Set(results.map(r=>r.prog))].sort();
+  document.getElementById('rf-prog').innerHTML='<option value="">Todos los programas</option>'+
+    progs.map(p=>`<option value="${p}">${p}</option>`).join('');
+  document.getElementById('rev-results').style.display='block';
+  if (falt>0) document.getElementById('rev-miss-sec').classList.add('vis');
+}
+
+// ─── Apply filters ───
+function revApplyFilters() {
+  const fE=document.getElementById('rf-estado').value;
+  const fP=document.getElementById('rf-prog').value;
+  const fT=document.getElementById('rf-tipo').value;
+  const fQ=document.getElementById('rf-q').value.toLowerCase();
+  revS.filtered=revS.results.filter(r=>{
+    if (fE&&r.status!==fE) return false;
+    if (fP&&r.prog!==fP) return false;
+    if (fT==='fi'&&r.fiOK!==false) return false;
+    if (fT==='ft'&&r.ftOK!==false) return false;
+    if (fT==='mod'&&r.modOK!==false) return false;
+    if (fQ) { const hay=(r.prog+' '+r.codAsig+' '+r.nombre+' '+r.nombreLargo).toLowerCase(); if(!hay.includes(fQ)) return false; }
+    return true;
+  });
+  document.getElementById('rf-count').textContent=`${revS.filtered.length} de ${revS.results.length}`;
+  rRenderTable(revS.filtered);
+}
+
+// ─── Render table ───
+function rRenderTable(res) {
+  const tbody=document.getElementById('rev-tbody');
+  if (!res.length) {
+    tbody.innerHTML='<tr><td colspan="14"><div class="rev-empty"><div class="rei">🔍</div><h3>Sin resultados</h3></div></td></tr>';
+    return;
+  }
+  let html='';
+  res.forEach((r,idx)=>{
+    const rc={ok:'rev-r-ok',err:'rev-r-err',warn:'rev-r-warn',none:'rev-r-none'}[r.status];
+    const sb={ok:'<span class="rev-b rev-b-ok">✅ OK</span>',err:'<span class="rev-b rev-b-err">❌ Error</span>',warn:'<span class="rev-b rev-b-warn">⚠ Revisar</span>',none:'<span class="rev-b rev-b-none">— Sin calendario</span>'}[r.status]||'';
+    const ni=rModsHtml(r.modulos,r.expMods,'nrc');
+    const ei=rModsHtml(r.modulos,r.expMods,'exp');
+    const nm=r.nombreLargo||r.nombre;
+    const nmS=nm.length>38?nm.slice(0,38)+'…':nm;
+    const ck=v=>v===true?'<span class="rev-chk-ok">✓</span>':v===false?'<span class="rev-chk-err">✗</span>':'<span class="rev-chk-na">—</span>';
+    html+=`<tr class="${rc}" data-rri="${idx}">
+      <td><button class="rev-exp-btn" onclick="rToggleDet(${idx})">▸</button></td>
+      <td><code style="font-size:11px;color:#1a5fa8">${rEsc(r.prog)}</code></td>
+      <td><code style="font-size:11px;color:#1a5fa8">${rEsc(r.codAsig)}</code></td>
+      <td title="${rEsc(nm)}">${rEsc(nmS)}</td>
+      <td>${rFmt(r.inicio)}</td>
+      <td>${r.matched?rFmt(r.calInicio):'<span style="color:#bbb">—</span>'}</td>
+      <td style="text-align:center">${ck(r.fiOK)}</td>
+      <td>${rFmt(r.termino)}</td>
+      <td>${r.matched?rFmt(r.calTermino):'<span style="color:#bbb">—</span>'}</td>
+      <td style="text-align:center">${ck(r.ftOK)}</td>
+      <td>${ni}</td><td>${ei}</td>
+      <td style="text-align:center">${ck(r.modOK)}</td>
+      <td>${sb}</td>
+    </tr>
+    <tr class="rev-det-row" id="rdet-${idx}">
+      <td colspan="14" class="rev-det-cell">
+        <div class="rev-det-grid">
+          <div class="rev-det-item"><label>Nombre completo</label><p>${rEsc(nm)}</p></div>
+          <div class="rev-det-item"><label>Semanas</label><p>${r.semanas||'—'}</p></div>
+          <div class="rev-det-item"><label>Archivo calendario</label><p style="font-size:11px;color:#888">${r.calFilename?r.calFilename.split('/').pop():'—'}</p></div>
+          <div class="rev-det-div"></div>
+          <div class="rev-det-item"><label>Días (calendario)</label><p>${r.calDias.map(d=>d.charAt(0).toUpperCase()+d.slice(1)).join(', ')||'—'}</p></div>
+          <div class="rev-det-item"><label>Horario (calendario)</label><p>${rEsc(r.calHorario)||'—'}</p></div>
+          <div class="rev-det-item"><label>Coincidencia (${Math.round(r.calMatchScore*100)||0}%)</label><p style="font-size:11px;color:#888">${r.calMatchScore>0?'✓ Encontrada':'✗ Sin coincidencia'}</p></div>
+          <div class="rev-det-item"><label>Bloques Excel</label><p style="font-family:monospace;font-size:12px">${r.modulos.join(', ')||'—'}</p></div>
+          <div class="rev-det-item"><label>Bloques esperados</label><p style="font-family:monospace;font-size:12px">${r.expMods?r.expMods.join(', '):'—'}</p></div>
+          <div class="rev-det-item"><label>Traducción bloques</label><p style="font-size:11px;color:#888">${rTranslateMods(r.modulos,revS.modMap)}</p></div>
+        </div>
+      </td>
+    </tr>`;
+  });
+  tbody.innerHTML=html;
+}
+
+function rModsHtml(nrcMods,expMods,which) {
+  if (which==='nrc') {
+    if (!nrcMods.length) return '<span style="color:#bbb">—</span>';
+    if (!expMods) return nrcMods.map(m=>`<span class="rev-mod rev-mod-plain">${m}</span>`).join('');
+    const expSet=new Set(expMods);
+    return nrcMods.map(m=>expSet.has(m)?`<span class="rev-mod rev-mod-ok">${m}</span>`:`<span class="rev-mod rev-mod-extra" title="Extra">${m}!</span>`).join('');
+  } else {
+    if (!expMods) return '<span style="color:#bbb">—</span>';
+    const nrcSet=new Set(nrcMods);
+    return expMods.map(m=>nrcSet.has(m)?`<span class="rev-mod rev-mod-ok">${m}</span>`:`<span class="rev-mod rev-mod-miss" title="Falta">${m}?</span>`).join('');
+  }
+}
+
+function rTranslateMods(mods,modMap) {
+  if (!modMap||!mods.length) return '—';
+  const groups={};
+  for (const m of mods) {
+    const info=modMap[m]; if (!info) continue;
+    if (!groups[info.dayName]) groups[info.dayName]=[];
+    groups[info.dayName].push(`${info.inicio}-${info.fin}`);
+  }
+  return Object.entries(groups).map(([d,h])=>`${d}: ${h.join(', ')}`).join(' | ')||'—';
+}
+
+function rToggleDet(idx) {
+  const row=document.getElementById('rdet-'+idx);
+  const btn=document.querySelector(`[data-rri="${idx}"] .rev-exp-btn`);
+  const vis=row.classList.toggle('vis');
+  if (btn) btn.textContent=vis?'▾':'▸';
+}
+
+function rEsc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ─── Render faltantes ───
+function rRenderFaltantes(calNotInNrc,nrcNotInCal,onlyInNrc,onlyInCal) {
+  document.getElementById('rcnt-cal').textContent=calNotInNrc.length;
+  document.getElementById('rcnt-nrc').textContent=nrcNotInCal.length;
+  const total=calNotInNrc.length+nrcNotInCal.length;
+  document.getElementById('rev-miss-info').innerHTML=
+    `<strong>${total} elemento(s) sin cruce</strong>: ${calNotInNrc.length} asignatura(s) del calendario sin entrada en el Excel · ${nrcNotInCal.length} asignatura(s) del Excel sin calendario asociado.`+
+    (onlyInNrc.length?`<br>Programas en Excel sin calendario: <strong>${onlyInNrc.join(', ')}</strong>.`:'')+
+    (onlyInCal.length?`<br>Programas con calendario pero sin Excel: <strong>${onlyInCal.join(', ')}</strong>.`:'')
+  ;
+  document.getElementById('rev-prog-grid-2').innerHTML=`
+    <div class="rev-prog-mini-card"><h4>🔴 Solo en Excel (sin calendario)</h4>${onlyInNrc.length?onlyInNrc.map(p=>`<span class="rev-pill rev-pill-miss">${p}</span>`).join(''):'<span style="color:#1d9e75;font-size:12px">✓ Todos tienen calendario</span>'}</div>
+    <div class="rev-prog-mini-card"><h4>🟡 Solo en Calendario (sin Excel)</h4>${onlyInCal.length?onlyInCal.map(p=>`<span class="rev-pill rev-pill-cal">${p}</span>`).join(''):'<span style="color:#1d9e75;font-size:12px">✓ Todos tienen entrada en Excel</span>'}</div>`;
+  const calBody=document.getElementById('rev-mcal-body');
+  calBody.innerHTML=calNotInNrc.length?calNotInNrc.map(r=>`<tr>
+    <td><code style="font-size:11px;color:#1a5fa8">${rEsc(r.codProg)}</code></td>
+    <td title="${rEsc(r.nombre)}">${rEsc(r.nombre.length>50?r.nombre.slice(0,50)+'…':r.nombre)}</td>
+    <td style="text-align:center">${r.num}</td>
+    <td>${rFmt(r.primerFecha)}</td><td>${rFmt(r.ultimaFecha)}</td>
+    <td style="font-size:11px;color:#888">${r.filename.split('/').pop()}</td></tr>`).join(''):
+    '<tr><td colspan="6"><div class="rev-empty"><div class="rei">✅</div><h3>Sin faltantes</h3></div></td></tr>';
+  const nrcBody=document.getElementById('rev-mnrc-body');
+  nrcBody.innerHTML=nrcNotInCal.length?nrcNotInCal.map(r=>`<tr>
+    <td><code style="font-size:11px;color:#1a5fa8">${rEsc(r.prog)}</code></td>
+    <td><code style="font-size:11px;color:#1a5fa8">${rEsc(r.codAsig)}</code></td>
+    <td title="${rEsc(r.nombreLargo||r.nombre)}">${rEsc((r.nombreLargo||r.nombre).slice(0,45))}</td>
+    <td>${rFmt(r.inicio)}</td><td>${rFmt(r.termino)}</td>
+    <td>${r.modulos.map(m=>`<span class="rev-mod rev-mod-plain">${m}</span>`).join('')||'—'}</td></tr>`).join(''):
+    '<tr><td colspan="6"><div class="rev-empty"><div class="rei">✅</div><h3>Sin faltantes</h3></div></td></tr>';
+}
+
+function revShowMissTab(id) {
+  ['cal','nrc'].forEach(t=>{
+    document.getElementById('rmtab-'+t).classList.toggle('active',t===id);
+    document.getElementById('rmpanel-'+t).classList.toggle('active',t===id);
+  });
+}
+
+// ─── Export CSV ───
+function exportRevCSV() {
+  const data=revS.filtered.length?revS.filtered:revS.results;
+  if (!data.length) return;
+  const hdr=['Programa','Cód. Asignatura','Nombre','Inicio Excel','Inicio Calendario','Inicio OK',
+    'Término Excel','Término Calendario','Término OK','Bloques Excel','Bloques Esperados','Bloques OK',
+    'Días Calendario','Horario Calendario','Estado','Archivo Calendario'];
+  const rows=data.map(r=>[
+    r.prog,r.codAsig,r.nombreLargo||r.nombre,
+    rFmt(r.inicio),rFmt(r.calInicio),r.fiOK===true?'OK':r.fiOK===false?'ERROR':'N/A',
+    rFmt(r.termino),rFmt(r.calTermino),r.ftOK===true?'OK':r.ftOK===false?'ERROR':'N/A',
+    r.modulos.join(';'),(r.expMods||[]).join(';'),r.modOK===true?'OK':r.modOK===false?'ERROR':'N/A',
+    r.calDias.join(';'),r.calHorario,
+    {ok:'OK',err:'ERROR',warn:'REVISAR',none:'SIN_CALENDARIO'}[r.status]||'',
+    r.calFilename.split('/').pop()
+  ]);
+  const csv=[hdr,...rows].map(row=>row.map(c=>`"${String(c||'').replace(/"/g,'""')}"`).join(',')).join('\r\n');
+  const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='revision_nrc.csv';a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ─── Main: runRevisor ───
+async function runRevisor() {
+  const btn=document.getElementById('rbtn-run');
+  btn.disabled=true; btn.textContent='⏳ Verificando...';
+  document.getElementById('rlog').innerHTML='';
+  document.getElementById('rev-results').style.display='none';
+  document.getElementById('rev-miss-sec').classList.remove('vis');
+  document.getElementById('rprog-fill').style.width='0%';
+  try {
+    rSetProg(5,'Leyendo módulos horarios...');
+    const modMap=rParseModulos(revS.modBuf);
+    revS.modMap=modMap;
+    rSetProg(18,'Leyendo Excel NRC...');
+    const nrcSubjects=rParseNRC(revS.nrcBuf);
+    rSetProg(30,'Procesando ZIP de calendarios...');
+    const calData=await rParseCalZip(revS.zipBuf);
+    rSetProg(75,'Validando...');
+    const {results,calNotInNrc,nrcNotInCal,onlyInNrc,onlyInCal}=rBuildResults(nrcSubjects,modMap,calData);
+    revS.results=results; revS.filtered=results; revS.calNotInNrc=calNotInNrc;
+    rSetProg(92,'Generando reporte...');
+    rRenderSummary(results,calNotInNrc);
+    revApplyFilters();
+    rRenderFaltantes(calNotInNrc,nrcNotInCal,onlyInNrc,onlyInCal);
+    const nErr=results.filter(r=>r.status==='err').length;
+    const nWarn=results.filter(r=>r.status==='warn').length;
+    const nFalt=calNotInNrc.length+nrcNotInCal.length;
+    rSetProg(100,`✅ Listo: ${results.length} asignaturas · ${nErr} errores · ${nWarn} advertencias · ${nFalt} faltantes`);
+    document.getElementById('rbtn-exp').style.display='inline-flex';
+  } catch(e) {
+    console.error(e);
+    rLog('ERROR: '+e.message,'err');
+    document.getElementById('rprog-lbl').textContent='❌ '+e.message;
+  }
+  btn.disabled=false; btn.textContent='▶ Verificar';
+}
 </script>
 </body>
 </html>
