@@ -4651,14 +4651,11 @@ function exportar(){
   const filas=generarFilas();
   if(!filas.length){alert('No hay filas para exportar.');return;}
   const hdr=[null,null,'Periodo','Responsable','Programa','Codigo Asignatura','Nombre Asignatura','Semanas duración','Fecha de inicio asignatura NRC   (DD-MM-AAAA)','Fecha de Término asignatura NRC  (DD-MM-AAAA)','Horario Clases (1 fila por cada módulo)','Observaciones'];
-  const data=[hdr,...filas.map(f=>[null,null,f[0],f[1],f[2],f[3],f[4],f[7]!==''?Number(f[7]):null,f[5],f[6],f[8],f[9]||null])];
+  const data=[hdr,...filas.map(f=>{
+    const fmtDate=s=>{if(!s)return'';const[y,m,d]=s.split('-');return`${d}-${m}-${y}`;};
+    return[null,null,f[0],f[1],f[2],f[3],f[4],f[7]!==''?Number(f[7]):null,fmtDate(f[5]),fmtDate(f[6]),f[8],f[9]||null];
+  })];
   const ws=XLSX.utils.aoa_to_sheet(data);
-  const fmtF='DD-MM-YYYY';
-  for(let r=1;r<data.length;r++){
-    const cI=XLSX.utils.encode_cell({r,c:8}),cF=XLSX.utils.encode_cell({r,c:9});
-    if(ws[cI]){ws[cI].t='d';ws[cI].z=fmtF;}
-    if(ws[cF]){ws[cF].t='d';ws[cF].z=fmtF;}
-  }
   ws['!cols']=[{wch:3},{wch:3},{wch:8},{wch:20},{wch:10},{wch:14},{wch:36},{wch:10},{wch:16},{wch:16},{wch:10},{wch:65}];
   const wb=XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb,ws,'Horarios');
