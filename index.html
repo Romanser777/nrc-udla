@@ -3977,24 +3977,8 @@ const CATALOGO = {
   }
 };
 
-// ─── MÓDULOS UDLA ───
-const MODS=[
-  {ini:510,fin:570,base:100},{ini:580,fin:640,base:200},{ini:650,fin:710,base:300},
-  {ini:720,fin:780,base:400},{ini:790,fin:850,base:500},{ini:860,fin:920,base:600},
-  {ini:930,fin:990,base:700},{ini:1000,fin:1060,base:800},{ini:1070,fin:1130,base:900},
-  {ini:1155,fin:1215,base:1000},{ini:1225,fin:1285,base:1100},{ini:1290,fin:1350,base:1200}
-];
 const DIAS=['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
 function toMin(t){const[h,m]=t.split(':').map(Number);return h*60+m;}
-function calcBloques(franjas){
-  const all=new Set();
-  franjas.forEach(f=>{
-    if(!f.diasIdx.length||!f.ini||!f.fin||f.ini>=f.fin)return;
-    const ini=toMin(f.ini),fin=toMin(f.fin);
-    MODS.forEach(mod=>{if(mod.ini<fin&&mod.fin>ini)f.diasIdx.forEach(di=>all.add((di+1)*100+mod.base/100));});
-  });
-  return[...all].sort((a,b)=>a-b);
-}
 
 // ─── ESTADO GLOBAL ───
 let session = { periodo: '', responsable: '' };
@@ -4634,14 +4618,12 @@ function renderResumen(){
 // ─── GENERAR FILAS ───
 function generarFilas(){
   const rows=[];
-  let progIdx=0;
   programas.forEach(prog=>{
     prog.asigs.forEach(a=>{
       a.bloques.forEach(b=>{
         rows.push([session.periodo,session.responsable,prog.codigo,a.sigla,a.nombre,a.ini,a.fin,a.semanas||'',b,a.obs||'',prog.codigo]);
       });
     });
-    progIdx++;
   });
   return rows;
 }
@@ -4665,11 +4647,6 @@ function exportar(){
 
 // ─── UTILS ───
 function fmt(s){if(!s)return'—';const[y,m,d]=s.split('-');return`${d}/${m}/${y}`;}
-
-// Fix alias
-function guardarDesdecat(){guardarDesdecat_real();}
-function guardarDesdeChat(){guardarDesdecat_real();}
-function guardarDesdeEl(){guardarDesdecat_real();}
 
 // ═══════════════════════════════════════════════════
 // REVISOR DE EXPORTACIÓN NRC
@@ -4832,9 +4809,10 @@ function rParseModulos(buf) {
 
 // ─── Parse Calendario ───
 function rParseCalFile(buf, fname) {
-  let wb;
-  try { wb = XLSX.read(buf, {type:'array', cellDates:true}); } catch(e) { return null; }
-  const wsName = wb.SheetNames.find(n=>n.toLowerCase().includes('calendario')) || wb.SheetNames[0];
+  try {
+    let wb;
+    try { wb = XLSX.read(buf, {type:'array', cellDates:true}); } catch(e) { throw new Error('No se pudo leer el archivo como Excel.'); }
+    const wsName = wb.SheetNames.find(n=>n.toLowerCase().includes('calendario')) || wb.SheetNames[0];
   const ws = wb.Sheets[wsName];
   const rows = XLSX.utils.sheet_to_json(ws, {header:1, raw:true, defval:null});
   let codProg=null;
@@ -4900,6 +4878,10 @@ function rParseCalFile(buf, fname) {
   }
   if (cur) subjects.push(cur);
   return {codProg,subjects,filename:fname};
+  } catch(e) {
+    rLog(`No se pudo leer el archivo "${fname}": formato no reconocido.`, 'error');
+    return null;
+  }
 }
 
 async function rParseCalZip(buf) {
